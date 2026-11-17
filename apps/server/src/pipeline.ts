@@ -288,10 +288,11 @@ export async function onStopHook(id: string, payload: HookPayload & { mode?: str
       return block(id, st, `src/Video.tsx does not compile, so Kane CLI could not look at it:\n${v.compileError}\nFix the error, then stop.`);
     }
     setPhase(id, 'verifying');
-    const targeted = await runRound(id, { version: v.n, kind: 'targeted', only: st.pending });
-    let failing = targeted.results.filter((r) => r.verdict !== 'pass');
-    let decided: VerifyRound = targeted;
-    if (!failing.length) {
+    // A revision has nothing pending yet: judge everything. A correction re-judges what failed first.
+    const first = await runRound(id, st.pending.length ? { version: v.n, kind: 'targeted', only: st.pending } : { version: v.n, kind: 'sweep' });
+    let failing = first.results.filter((r) => r.verdict !== 'pass');
+    let decided: VerifyRound = first;
+    if (!failing.length && first.kind === 'targeted') {
       // What was broken now holds. Make sure the fix broke nothing else.
       const reg = await runRound(id, { version: v.n, kind: 'regression' });
       failing = reg.results.filter((r) => r.verdict !== 'pass');
@@ -387,6 +388,63 @@ function allow(id: string, st: ReviewState, note: string) {
   st.active = false;
   bus.emit(id, 'hook.allow', { note, fixRounds: st.fixRounds });
   return { systemMessage: note };
+}
+
+/* ------------------------------------------------------------------ revise */
+
+/**
+ * Ask Claude for a change. Claude's own session resumes with the request; the
+ * Stop hook then runs a full Kane sweep before Claude may finish, so a change
+ * that breaks the storyboard (a caption pushed into the 9:16 UI band, a reveal
+ * moved past its timecode) comes straight back as Kane's findings.
+ */
+export function startRevise(id: string, request: string) {
+  const p0 = guard(id, 'revise');
+  bus.emit(id, 'busy', { busy: 'revise' });
+  void (async () => {
+    try {
+      if (!p0.versions.length) throw new Error('Generate a draft first');
+      if (!getProject(id)!.plan) await buildPlan(id);
+      const p = getProject(id)!;
+      setPhase(id, 'correcting');
+      reviews.set(id, { active: true, fixRounds: 0, pending: [], inHook: false });
+      watchLive(id);
+      // Passed exactly as the user wrote it. The storyboard is enforced by the
+      // Stop hook, not by reminding Claude in the prompt.
+      const prompt = request.trim();
+      bus.emit(id, 'revise.request', { request: request.trim() });
+      bus.emit(id, 'claude.start', { stage: 'revise', prompt, resume: p.claude.sessionId ?? null });
+      const run = runClaude({
+        cwd: ws(id),
+        prompt,
+        resume: p.claude.sessionId,
+        env: { DAILIES_PHASE: 'review', DAILIES_PROJECT: id, DAILIES_API: config.apiUrl },
+        onEvent: claudeRelay(id, 'revise'),
+      });
+      live.set(id, { ...live.get(id), child: run.child });
+      const res = await run.done;
+      updateProject(id, (pp) => {
+        pp.claude.sessionId = res.sessionId ?? pp.claude.sessionId;
+        pp.claude.costUsd += res.costUsd;
+        pp.claude.turns += res.turns;
+      });
+      const st = reviews.get(id);
+      reviews.delete(id);
+      if (liveDiffersFromLatest(id)) {
+        const v = await snapshot(id, 'fix', { summary: res.lastText.slice(0, 1200) });
+        await runRound(id, { version: v.n, kind: 'sweep' });
+      }
+      bus.emit(id, 'claude.end', { stage: 'revise', code: res.code, fixRounds: st?.fixRounds ?? 0 });
+      setPhase(id, 'reviewed');
+      release(id, res.code === 0 ? undefined : `Claude Code exited ${res.code}: ${res.lastText}`);
+    } catch (e) {
+      reviews.delete(id);
+      setPhase(id, 'error');
+      release(id, (e as Error).message);
+    } finally {
+      stopWatch(id);
+    }
+  })();
 }
 
 /* --------------------------------------------------------------------- seal */

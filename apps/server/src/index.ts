@@ -8,7 +8,7 @@ import { claudeVersion } from './claude.ts';
 import { compileComposition } from './compile.ts';
 import { config } from './config.ts';
 import { kaneIdentity, killAllKane } from './kane.ts';
-import { cancel, onStopHook, setGate, startDraft, startReview, startSeal } from './pipeline.ts';
+import { cancel, onStopHook, setGate, startDraft, startReview, startRevise, startSeal } from './pipeline.ts';
 import { createProject, getProject, listProjects, setStoryboard, updateProject, versionEntry, versionSource, ws } from './store.ts';
 
 const app = Fastify({ logger: { level: process.env.LOG_LEVEL ?? 'warn' }, bodyLimit: 2 * 1024 * 1024 });
@@ -90,6 +90,21 @@ for (const [route, fn] of [
     return { ok: true };
   });
 }
+
+app.post<{ Params: { id: string }; Body: { request?: string } }>('/api/projects/:id/revise', async (req, reply) => {
+  const p = project(req.params.id);
+  if (p.recorded) throw fail(403, 'This is a recorded run. Create a new project to run live.');
+  const request = String(req.body?.request ?? '').trim();
+  if (request.length < 4) throw fail(400, 'Describe the change you want');
+  try {
+    startRevise(p.id, request.slice(0, 2000));
+  } catch (e) {
+    const err = e as Error & { status?: number };
+    throw fail(err.status ?? 500, err.message);
+  }
+  reply.code(202);
+  return { ok: true };
+});
 
 app.post<{ Params: { id: string } }>('/api/projects/:id/cancel', async (req) => {
   cancel(project(req.params.id).id);
