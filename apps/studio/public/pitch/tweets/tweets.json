@@ -1,0 +1,46 @@
+[
+  {
+    "file": "tweet-1.png",
+    "url": "https://x.com/stephanlivera/status/2103315922098470926",
+    "author_name": "Stephan Livera",
+    "handle": "@stephanlivera",
+    "date": "2026-09-25",
+    "text": "Opus 5.5 on Max effort - \"make a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a résumé. go all out.\"",
+    "why_relevant": "The post that started the Opus 5.5 motion-graphics trend: a one-line prompt producing a 15-second showreel. 17.2K likes and 373 replies on the embed when captured.",
+    "mentions_opus_5_5": true,
+    "has_video_demo": true
+  },
+  {
+    "file": "tweet-2.png",
+    "url": "https://x.com/steventey/status/2103625902211088880",
+    "author_name": "Steven Tey",
+    "handle": "@steventey",
+    "date": "2026-09-26",
+    "text": "Claude Opus 5.5 feels like the first model to have truly solved video animation. We one-shotted this promo video for @dubdotco using Opus 5.5 High via @cursor_ai and it worked remarkably well 🤯 h/t @pedrooladeira for the 🔥 vid",
+    "why_relevant": "A founder (Dub) shipping a real product promo video one-shotted by Opus 5.5. Shows the model making launch videos for real products, not just demos. 416 likes.",
+    "mentions_opus_5_5": true,
+    "has_video_demo": true
+  },
+  {
+    "file": "tweet-3.png",
+    "url": "https://x.com/ajith_io/status/2103449416325890146",
+    "author_name": "Ajith",
+    "handle": "@ajith_io",
+    "date": "2026-09-25",
+    "text": "WTF? Made with claude OPUS 5.5 Prompt \"make a dynamic 15-second motion graphics video that shows what an incredible motion designer you are, like it's your showreel for a résumé. go all out.\" That's it..",
+    "why_relevant": "A viral reproduction of the one-prompt showreel that shows the result is repeatable. 4.2K likes and 159 replies.",
+    "mentions_opus_5_5": true,
+    "has_video_demo": true
+  },
+  {
+    "file": "tweet-4.png",
+    "url": "https://x.com/MengTo/status/2103122947133309311",
+    "author_name": "Meng To",
+    "handle": "@MengTo",
+    "date": "2026-09-24",
+    "text": "Opus 5.5 sculpted every part of this ship in code, including the dragon, sails, and architecture. I can't say it has bad taste anymore. But it still needs steering, so I tried a new way of prompting. Live site: ship.mengto.here.now I asked Opus to score every part of the… (truncated in embed, 'Show more')",
+    "why_relevant": "A well-known designer saying Opus 5.5 builds an animated 3D scene entirely in code, and also that it still needs steering. That supports the case for a tool that adds structure and verification. 1K likes, 65 replies.",
+    "mentions_opus_5_5": true,
+    "has_video_demo": true
+  }
+]
