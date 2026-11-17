@@ -9,7 +9,7 @@ import { CUT_RATIO, summarize, verdictMap, worstVersion } from '../lib/verdicts'
 import { AgentChips, Icon, TopBar } from '../components/Chrome';
 import { StagePlayer } from '../components/Stage';
 import { Timeline } from '../components/Timeline';
-import { AgentFeeds, CodeDiff, CriteriaList, Findings, GateCard, KaneEye, ProofPanel, RoundBoard, StoryboardPanel, corrections, type Correction } from '../components/Panels';
+import { AgentFeeds, CodeDiff, CriteriaList, Findings, GateCard, KaneEye, ProofPanel, RoundBoard, StoryboardPanel, corrections, sheetEvidence, type Correction } from '../components/Panels';
 
 type Tab = 'live' | 'findings' | 'criteria' | 'proof' | 'eye' | 'code';
 
@@ -109,7 +109,10 @@ export default function Studio() {
     setPick(version);
     setCut(x.cut);
     setFocus({ ac: x.ac, cut: x.cut });
-    const frame = frames.find((f) => x.history.find((h) => h.version === version)?.frames.includes(f.label)) ?? frames.find((f) => x.c && f.shot === x.c.shot);
+    const fail = x.history.find((h) => h.verdict !== 'pass');
+    const ev = fail && project ? (sheetEvidence(project, fail.round, x.cut, x.c?.text ?? '') ?? '') : '';
+    const named = [...(fail?.frames ?? []), ...[...ev.matchAll(/\bF\d+\b/g)].map((m) => m[0])];
+    const frame = frames.find((f) => named.includes(f.label)) ?? frames.find((f) => x.c && f.shot === x.c.shot);
     if (frame) setTimeout(() => playhead.seek(frame.frame), 80);
   };
 

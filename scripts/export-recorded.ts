@@ -11,6 +11,7 @@
  */
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { diffLines } from 'diff';
 import { compileComposition } from '../apps/server/src/compile.ts';
 import { bus } from '../apps/server/src/bus.ts';
@@ -36,8 +37,10 @@ for (const id of ids) {
   mkdirSync(dir, { recursive: true });
 
   const project = { ...p, recorded: true, busy: null };
-  writeFileSync(join(dir, 'project.json'), JSON.stringify(project));
-  writeFileSync(join(dir, 'events.json'), JSON.stringify(bus.history(id)));
+  // Kane's-eye screenshots ship as JPEG to keep the hosted replay light.
+  const toJpg = (json: string) => json.replace(/(eye\/[^"\\]+?)\.png/g, '$1.jpg');
+  writeFileSync(join(dir, 'project.json'), toJpg(JSON.stringify(project)));
+  writeFileSync(join(dir, 'events.json'), toJpg(JSON.stringify(bus.history(id))));
 
   for (const v of p.versions) {
     const vd = join(dir, `v${v.n}`);
@@ -63,7 +66,12 @@ for (const id of ids) {
       writeFileSync(join(dir, `diff-${a.n}-${b.n}.json`), JSON.stringify(parts));
     }
 
-  if (existsSync(ws(id, 'runs', 'eye'))) cpSync(ws(id, 'runs', 'eye'), join(dir, 'eye'), { recursive: true });
+  if (existsSync(ws(id, 'runs', 'eye'))) {
+    mkdirSync(join(dir, 'eye'), { recursive: true });
+    for (const f of readdirSync(ws(id, 'runs', 'eye')).filter((x) => x.endsWith('.png'))) {
+      execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', ws(id, 'runs', 'eye', f), '-q:v', '4', join(dir, 'eye', f.replace(/\.png$/, '.jpg'))]);
+    }
+  }
   const testsDir = ws(id, '.testmuai', 'tests');
   const tests = existsSync(testsDir)
     ? readdirSync(testsDir)
@@ -71,7 +79,7 @@ for (const id of ids) {
         .map((f) => ({ file: f, body: readFileSync(join(testsDir, f), 'utf8') }))
     : [];
   writeFileSync(join(dir, 'tests.json'), JSON.stringify(tests));
-  keep.unshift(project);
+  keep.unshift(JSON.parse(toJpg(JSON.stringify(project))));
   writeEvidence(id);
   console.log(`exported ${id}: ${p.versions.length} versions, ${p.rounds.length} rounds, ${tests.length} tests`);
 }

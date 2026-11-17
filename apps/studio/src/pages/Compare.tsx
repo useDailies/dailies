@@ -7,7 +7,7 @@ import { Playhead, useFrame, usePlaying } from '../lib/playhead';
 import { CUT_RATIO, summarize, verdictMap, worstVersion } from '../lib/verdicts';
 import { Icon, TopBar } from '../components/Chrome';
 import { StagePlayer } from '../components/Stage';
-import { corrections } from '../components/Panels';
+import { corrections, sheetEvidence } from '../components/Panels';
 
 /**
  * Draft vs final. The first draft Claude handed over, and the version Kane's
@@ -57,7 +57,10 @@ export default function Compare() {
     if (sought.current || !A.comp || !B.comp || !project) return;
     sought.current = true;
     const f = corrections(project).find((x) => x.fixedIn && x.cut === cut);
-    const fr = f?.c ? framesForCriterion(f.c, frames, sb)[0] ?? frames.find((x) => x.shot === f.c!.shot) : null;
+    // Prefer the frames Kane or the sheet named for the failure, then the criterion's own frames.
+    const firstFail = f?.history.find((h) => h.verdict !== 'pass');
+    const named = [...(firstFail?.frames ?? []), ...((f && firstFail ? sheetEvidence(project, firstFail.round, f.cut, f.c?.text ?? '') : '') ?? '').matchAll(/\bF\d+\b/g)].map((m) => (typeof m === 'string' ? m : m[0]));
+    const fr = frames.find((x) => named.includes(x.label)) ?? (f?.c ? framesForCriterion(f.c, frames, sb)[0] ?? frames.find((x) => x.shot === f.c!.shot) : null);
     setTimeout(() => playhead.seek(fr ? fr.frame : Math.floor(B.comp!.meta.durationInFrames * 0.2)), 150);
   }, [A.comp, B.comp, project, cut, frames, sb, playhead]);
 

@@ -330,7 +330,7 @@ export function Findings({
 }
 
 /** The line of the sheet's measured placement report that bears on this criterion. */
-function sheetEvidence(project: Project, roundId: string, cut: CutId, text: string): string | null {
+export function sheetEvidence(project: Project, roundId: string, cut: CutId, text: string): string | null {
   const report = project.rounds.find((r) => r.id === roundId)?.reports?.[cut];
   if (!report) return null;
   const lines = report.split('\n');
