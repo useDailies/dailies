@@ -287,6 +287,10 @@ export function Findings({
                 <span className="f-who">Kane · v{first.version}</span>
                 <p>{first.reason || 'Could not be judged'}</p>
                 {first.frames.length ? <span className="f-frames">{first.frames.join(' · ')}</span> : null}
+                {(() => {
+                  const ev = sheetEvidence(project, first.round, x.cut, x.c?.text ?? '');
+                  return ev ? <p className="f-evidence">Sheet it judged: {ev}</p> : null;
+                })()}
               </div>
               {fixV ? (
                 <div className="f-step claude">
@@ -323,6 +327,17 @@ export function Findings({
       })}
     </div>
   );
+}
+
+/** The line of the sheet's measured placement report that bears on this criterion. */
+function sheetEvidence(project: Project, roundId: string, cut: CutId, text: string): string | null {
+  const report = project.rounds.find((r) => r.id === roundId)?.reports?.[cut];
+  if (!report) return null;
+  const lines = report.split('\n');
+  const t = text.toLowerCase();
+  const pick = /bottom/.test(t) ? 'bottom' : /top/.test(t) ? 'top' : /side/.test(t) ? 'side' : /inside the frame|outside the frame|within the frame/.test(t) ? 'outside the frame' : null;
+  if (!pick) return null;
+  return lines.find((l) => l.toLowerCase().includes(pick)) ?? null;
 }
 
 function firstSentences(s?: string) {

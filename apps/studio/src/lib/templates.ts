@@ -29,7 +29,10 @@ Length 12 seconds at 30 fps. Deliver three cuts: 16:9 (1920x1080), 9:16 (1080x19
 - Headline reads exactly: Out 28 November
 - A button labelled exactly: Get early access, fully visible by 0:09.
 - The KESTREL wordmark is visible throughout shot 3.
+
+## Delivery rules
 - On the 9:16 cut, no text or button sits in the bottom 35% or the top 14% of the frame.
+- On the 9:16 cut, every piece of text is set at 48px or larger so it reads on a phone.
 - On every cut, all text stays fully inside the frame.
 `,
   },

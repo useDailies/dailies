@@ -261,7 +261,15 @@ export default function Studio() {
               />
             ) : (
               <div className="stage-empty">
-                {latest || state.claudeWorking ? (
+                {state.claudeWorking && !latest ? (
+                  <div className="empty-stage drafting">
+                    <span className="spinner big" />
+                    <h2>
+                      Claude Code is <em>composing.</em>
+                    </h2>
+                    <p>Kane CLI is reading the same storyboard and designing the tests this draft will have to pass.</p>
+                  </div>
+                ) : latest || state.claudeWorking ? (
                   <p>{compError ? `Composition error: ${compError}` : 'Loading composition…'}</p>
                 ) : (
                   <EmptyStage onGenerate={() => act('draft')} busy={Boolean(busy)} disabled={STATIC || Boolean(project.recorded)} />

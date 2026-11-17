@@ -1848,7 +1848,7 @@ kbd {
 /* ------------------------------------------------------------- timeline */
 .timeline {
   display: grid;
-  grid-template-columns: 112px 1fr;
+  grid-template-columns: 128px 1fr;
   user-select: none;
   position: relative;
   padding-bottom: 6px;
@@ -3450,6 +3450,7 @@ kbd {
 }
 .lane-all {
   margin-left: auto;
+  white-space: nowrap;
   font: 700 10px var(--mono);
   padding: 2px 6px;
   border-radius: 6px;
@@ -3643,4 +3644,51 @@ kbd {
 .gate-cmd span {
   font-size: 10.5px;
   color: var(--muted);
+}
+.empty-stage.drafting h2 em {
+  color: var(--claude);
+}
+.spinner.big {
+  width: 34px;
+  height: 34px;
+  border-width: 3px;
+  color: var(--claude);
+  margin-bottom: 18px;
+}
+.f-evidence {
+  color: var(--text-2) !important;
+  font-size: 11.5px !important;
+  font-family: var(--mono);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin-top: 6px !important;
+}
+.caught-report {
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--panel);
+  border: 1px solid rgba(255, 77, 106, 0.35);
+  color: #ffb2bf;
+  font-size: 12.5px;
+  white-space: pre-wrap;
+}
+.caught-eye {
+  margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line-2);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.9), 0 0 60px -30px var(--kane);
+}
+.caught-eye img {
+  width: 100%;
+  display: block;
+}
+.caught-eye figcaption {
+  padding: 10px 14px;
+  font-size: 12.5px;
+  color: var(--muted);
+  background: var(--panel);
 }

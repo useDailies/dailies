@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import type { Project } from '@dailies/shared';
-import { api } from '../lib/api';
+import { api, fileUrl } from '../lib/api';
 import { summarize, verdictMap } from '../lib/verdicts';
 import { corrections } from '../components/Panels';
 import { Logo } from '../components/Chrome';
@@ -57,6 +57,17 @@ export default function Pitch() {
       calls: rounds.reduce((n, r) => n + r.calls, 0),
       perCheck: conditions ? verifyCredits / conditions : 0,
       examples: fixes.filter((f) => f.fixedIn).slice(0, 4),
+      caught: (() => {
+        const r = rounds[0];
+        const failed = r.results.filter((x) => x.verdict !== 'pass');
+        const cut = failed[0]?.cut;
+        return {
+          cut,
+          eye: cut && r.eye[cut] ? fileUrl(showcase.id, r.eye[cut]!) : null,
+          report: cut ? (r.reports?.[cut] ?? '').split('\n').filter((l) => !/: none$/.test(l)) : [],
+          items: failed.map((x) => ({ ac: x.ac, cut: x.cut, text: showcase.plan?.criteria.find((c) => c.id === x.ac)?.text ?? x.ac })),
+        };
+      })(),
     };
   }, [showcase]);
 
@@ -145,7 +156,34 @@ export default function Pitch() {
     },
     {
       id: 'breaks',
-      node: (
+      node: stats?.caught.items.length ? (
+        <div className="s-split">
+          <div>
+            <p className="eyebrow">What Kane caught in Opus 5.5’s one-shot draft</p>
+            <h2 className="s-h">
+              It looked finished.
+              <br />
+              <em>It wasn’t.</em>
+            </h2>
+            <ul className="breaks">
+              {stats.caught.items.map((x) => (
+                <li key={x.ac + x.cut}>
+                  <b>{x.text}</b> <span className="muted">({x.cut.replace('x', ':')} cut)</span>
+                </li>
+              ))}
+            </ul>
+            {stats.caught.report.length ? (
+              <pre className="caught-report">{stats.caught.report.join('\n')}</pre>
+            ) : null}
+          </div>
+          {stats.caught.eye ? (
+            <figure className="caught-eye">
+              <img src={stats.caught.eye} alt="The contact sheet Kane CLI judged for the failing cut" />
+              <figcaption>The exact page Kane CLI judged — every storyboard timecode of the {stats.caught.cut?.replace('x', ':')} cut, measured in Chrome.</figcaption>
+            </figure>
+          ) : null}
+        </div>
+      ) : (
         <div className="s-split narrow">
           <div>
             <p className="eyebrow">What a one-shot gets wrong</p>
@@ -161,16 +199,13 @@ export default function Pitch() {
               <b>The call to action sits under the Reels buttons</b> on the 9:16 cut.
             </li>
             <li>
-              <b>The wordmark lands at 0:06</b> — the storyboard said fully visible by 0:05.
+              <b>The wordmark lands late</b> — the storyboard said fully visible by 0:05.
             </li>
             <li>
-              <b>“Out 28 Novmber”</b> — exact copy, one letter off.
+              <b>Exact copy, one letter off.</b>
             </li>
             <li>
               <b>The caption runs off the square frame</b> because it was laid out for 16:9.
-            </li>
-            <li>
-              <b>Shot 3 starts ten frames late</b> and the cut feels wrong to everyone.
             </li>
           </ul>
         </div>
