@@ -135,7 +135,9 @@ export function conditionFor(c: Criterion, cut: CutId, frames: SampleFrame[], sb
     );
   if (/visible|absent|appear|hidden|not shown|by \d|at \d/i.test(c.text) && !/inside the frame/i.test(c.text))
     parts.push('Whether a layer can be seen in a frame is in the facts table Visible column and in the picture.');
-  if (/fps|frames per second|seconds|lasts|duration|dimension|pixel|size|declares|shot at|occupies \d/i.test(c.text))
+  if (/\bpx\b|font|type size|legib|point size|text size|set at/i.test(c.text))
+    parts.push('Font sizes are in the facts table Font size column (px at full resolution) and in the report line for the smallest visible text.');
+  if (/fps|frames per second|seconds|lasts|duration|dimension|declares|shot at|occupies \d/i.test(c.text))
     parts.push('Duration, frame rate, pixel size and the declared shot timings are in the sheet header.');
   return parts.join(' ');
 }

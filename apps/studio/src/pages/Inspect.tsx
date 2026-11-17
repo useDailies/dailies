@@ -94,7 +94,21 @@ export default function Inspect() {
       }
     }
     const fmt = (m: Map<string, string[]>) => (m.size ? [...m.entries()].map(([k, v]) => `${k} at ${v.join(', ')}`).join('; ') : 'none');
-    return { outside: fmt(groups.outside), top: fmt(groups.top), bottom: fmt(groups.bottom), side: fmt(groups.side) };
+    let smallest: { key: string; px: number; frames: string[] } | null = null;
+    for (const f of frames)
+      for (const l of facts[f.label] ?? []) {
+        if (l.kind !== 'text' || !l.visible || !l.fontPx) continue;
+        const key = `${l.layer} “${l.text}”`;
+        if (!smallest || l.fontPx < smallest.px) smallest = { key, px: l.fontPx, frames: [f.label] };
+        else if (l.fontPx === smallest.px && smallest.key === key && !smallest.frames.includes(f.label)) smallest.frames.push(f.label);
+      }
+    return {
+      outside: fmt(groups.outside),
+      top: fmt(groups.top),
+      bottom: fmt(groups.bottom),
+      side: fmt(groups.side),
+      smallest: smallest ? `${smallest.key} at ${smallest.px}px (${smallest.frames.join(', ')})` : 'none',
+    };
   }, [facts, frames]);
 
   return (
@@ -165,6 +179,9 @@ export default function Inspect() {
           <span>
             Visible text in the side {spec.safe.left}% bands{vertical ? '' : ' (title-safe margin)'}: <em data-fact="side-band">{report.side}</em>
           </span>
+          <span>
+            Smallest visible text (font size at {spec.width}x{spec.height}): <em data-fact="smallest-text">{report.smallest}</em>
+          </span>
         </section>
       ) : null}
 
@@ -220,6 +237,7 @@ export default function Inspect() {
               <th>Touches top band</th>
               <th>Touches bottom band</th>
               <th>Touches side band</th>
+              <th>Font size (px)</th>
               <th>Box (x, y, w, h %)</th>
             </tr>
           </thead>
@@ -239,6 +257,7 @@ export default function Inspect() {
                       <td>{l.bands.top ? 'yes' : 'no'}</td>
                       <td>{l.bands.bottom ? 'yes' : 'no'}</td>
                       <td>{l.bands.side ? 'yes' : 'no'}</td>
+                      <td>{l.fontPx}</td>
                     </>
                   ) : (
                     <>
@@ -246,6 +265,7 @@ export default function Inspect() {
                       <td>—</td>
                       <td>—</td>
                       <td>—</td>
+                      <td>{l.fontPx || '—'}</td>
                     </>
                   )}
                   <td className="n">

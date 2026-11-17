@@ -157,8 +157,10 @@ export function sampleFrames(sb: Storyboard, max = 12): SampleFrame[] {
   // Merge picks closer than 4 frames apart (keeps the earlier, named one).
   frames = frames.filter((f, i) => i === 0 || f[0] - frames[i - 1][0] >= 4);
   if (frames.length > max) {
-    const named = frames.filter((f) => f[1] === 'named in storyboard');
-    const rest = frames.filter((f) => f[1] !== 'named in storyboard');
+    // Keep what the storyboard names and where each shot opens and closes; thin the middles.
+    const must = (r: string) => r === 'named in storyboard' || / (opens|closes)$/.test(r);
+    const named = frames.filter((f) => must(f[1]));
+    const rest = frames.filter((f) => !must(f[1]));
     const room = Math.max(0, max - named.length);
     const step = rest.length / Math.max(1, room);
     const kept = Array.from({ length: room }, (_, i) => rest[Math.floor(i * step)]);
