@@ -43,7 +43,7 @@ for (const id of ids) {
     const vd = join(dir, `v${v.n}`);
     mkdirSync(vd, { recursive: true });
     const c = await compileComposition(versionEntry(id, v.n));
-    if (!c.ok) throw new Error(`v${v.n} does not compile: ${c.error}`);
+    if (!c.ok) throw new Error(`v${v.n} does not compile`);
     writeFileSync(join(vd, 'module.js'), c.code);
     writeFileSync(join(vd, 'Video.tsx'), versionSource(id, v.n) ?? '');
   }
@@ -72,7 +72,53 @@ for (const id of ids) {
     : [];
   writeFileSync(join(dir, 'tests.json'), JSON.stringify(tests));
   keep.unshift(project);
+  writeEvidence(id);
   console.log(`exported ${id}: ${p.versions.length} versions, ${p.rounds.length} rounds, ${tests.length} tests`);
 }
 
 writeFileSync(join(OUT, 'index.json'), JSON.stringify(keep));
+
+/** docs/kane-runs/<id>/: the Kane evidence of a run, readable on GitHub. */
+function writeEvidence(id: string) {
+  const p = getProject(id)!;
+  const out = join(ROOT, 'docs/kane-runs', id);
+  rmSync(out, { recursive: true, force: true });
+  mkdirSync(join(out, 'rounds'), { recursive: true });
+  for (const r of p.rounds) writeFileSync(join(out, 'rounds', `${r.id}.json`), JSON.stringify(r, null, 2));
+  const events = bus.history(id);
+  const calls = events.filter((e) => e.type === 'round.kane.call');
+  writeFileSync(join(out, 'kane-conditions.json'), JSON.stringify(calls.map((e) => e.data), null, 2));
+  writeFileSync(join(out, 'storyboard.md'), p.storyboard);
+  if (p.plan) writeFileSync(join(out, 'criteria.json'), JSON.stringify(p.plan, null, 2));
+  if (p.seal) writeFileSync(join(out, 'seal.json'), JSON.stringify(p.seal, null, 2));
+  const prompts = events.filter((e) => e.type === 'claude.start' || e.type === 'hook.block').map((e) => `### ${e.type === 'claude.start' ? 'Prompt to Claude Code' : 'Stop hook block reason'}\n\n\`\`\`text\n${String((e.data as Record<string, unknown>).prompt ?? (e.data as Record<string, unknown>).reason ?? '')}\n\`\`\`\n`);
+  const rows = p.rounds
+    .map((r) => {
+      const pass = r.results.filter((x) => x.verdict === 'pass').length;
+      return `| ${r.id} | ${r.kind} | v${r.version} | ${pass}/${r.results.length} | ${r.calls} | ${r.conditions} | ${r.credits.toFixed(1)} | ${(r.durationMs / 1000).toFixed(0)}s |`;
+    })
+    .join('\n');
+  const fails = p.rounds
+    .flatMap((r) => r.results.filter((x) => x.verdict !== 'pass').map((x) => `- **${r.id} · v${r.version} · ${x.ac} @ ${x.cut}** — ${x.reason}`))
+    .join('\n');
+  const md = `# ${p.title} — Kane CLI evidence
+
+Recorded run \`${id}\`. Claude Code model: \`${p.claude.model ?? '?'}\` · Claude cost $${p.claude.costUsd.toFixed(2)} · Kane credits: design ${p.credits.plan.toFixed(1)}, judge ${p.credits.verify.toFixed(1)}, seal ${p.credits.seal.toFixed(1)}.
+
+## Rounds
+
+| Round | Kind | Version | Pass | Kane calls | Conditions | Credits | Time |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+${rows}
+
+## Every check Kane failed
+
+${fails || 'none'}
+
+## What Claude Code was told
+
+${prompts.join('\n')}
+Files: \`rounds/*.json\` (every verdict and Kane's reason), \`kane-conditions.json\` (the exact \`--condition\` strings), \`criteria.json\` (Kane's plan), \`seal.json\`.
+`;
+  writeFileSync(join(out, 'README.md'), md);
+}
