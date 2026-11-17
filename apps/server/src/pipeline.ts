@@ -5,7 +5,7 @@ import { bus } from './bus.ts';
 import { runClaude, type ClaudeEvent } from './claude.ts';
 import { compileComposition } from './compile.ts';
 import { config } from './config.ts';
-import { kane } from './kane.ts';
+import { kane, killKaneIn } from './kane.ts';
 import { buildPlan, setSheetUrl } from './plan.ts';
 import { getProject, liveDiffersFromLatest, snapshotVersion, updateProject, versionEntry, ws } from './store.ts';
 import { correctionPrompt, draftPrompt, type FailedCheck, type SheetEvidence } from './templates.ts';
@@ -467,6 +467,7 @@ export function startSeal(id: string) {
 
 export function cancel(id: string) {
   live.get(id)?.child?.kill('SIGTERM');
+  killKaneIn(ws(id));
   reviews.delete(id);
   stopWatch(id);
   release(id, 'Cancelled');

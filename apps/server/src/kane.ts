@@ -18,10 +18,15 @@ export interface KaneResult {
   durationMs: number;
 }
 
-const running = new Set<ChildProcess>();
+const running = new Map<ChildProcess, string>();
 
 export function killAllKane() {
-  for (const c of running) c.kill('SIGTERM');
+  for (const c of running.keys()) c.kill('SIGTERM');
+}
+
+/** Stop every Kane process started for one project (its workspace is the cwd). */
+export function killKaneIn(cwd: string) {
+  for (const [c, dir] of running) if (dir === cwd) c.kill('SIGTERM');
 }
 
 export function kane(
@@ -35,7 +40,7 @@ export function kane(
       env: { ...process.env, KANE_CLI_USER_AGENT: 'dailies', NO_COLOR: '1' },
       stdio: ['ignore', 'pipe', 'pipe'],
     });
-    running.add(child);
+    running.set(child, opts.cwd);
     const events: any[] = [];
     let end: any = null;
     let credits = 0;
