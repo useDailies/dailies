@@ -1,0 +1,310 @@
+[
+  {
+    "id": "r1-7470",
+    "cut": "9x16",
+    "lane": 0,
+    "cmd": "kane-cli run --analyzer-only --agent --cdp-endpoint http://127.0.0.1:9342 --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition …",
+    "conditions": [
+      {
+        "ac": "ac-1",
+        "text": "[ac-1] Each delivered cut has a duration of 12 seconds. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-2",
+        "text": "[ac-2] Each delivered cut runs at 30 frames per second. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Whether a layer can be seen in a frame is in the facts table Visible column and in the picture. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-4",
+        "text": "[ac-4] The 9:16 cut measures 1080x1920 pixels. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-6",
+        "text": "[ac-6] Each cut declares shot 1 from 0:00 to 0:03. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F5 (0:03). Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-7",
+        "text": "[ac-7] Each cut declares shot 2 from 0:03 to 0:07. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F5 (0:03). Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-8",
+        "text": "[ac-8] Each cut declares shot 3 from 0:07 to 0:12. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F10 (0:07.2), F11 (0:09), F12 (0:09.5). Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-9",
+        "text": "[ac-9] In shot 1 a teal running shoe with orange sole slides in from the left over a dark night-city background. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F1 (0:00.2), F2 (0:01), F3 (0:01.5), F4 (0:02.8)."
+      },
+      {
+        "ac": "ac-10",
+        "text": "[ac-10] The shot 1 shoe is fully inside the frame by 0:01. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F2 (0:01). Decide position from the Text placement report above the frames (it lists every visible text layer that leaves the frame or touches a reserved band; \"none\" means none) and the per-frame flags under each frame."
+      },
+      {
+        "ac": "ac-11",
+        "text": "[ac-11] The shot 1 caption reads exactly 'Run the city'. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F1 (0:00.2), F2 (0:01), F3 (0:01.5), F4 (0:02.8). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-12",
+        "text": "[ac-12] The shot 1 caption is fully visible by 0:01. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F2 (0:01). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-13",
+        "text": "[ac-13] Shot 2 shows a close-up of the orange sole in the same teal and orange colourway as shot 1. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F5 (0:03), F6 (0:04), F7 (0:05), F8 (0:06), F9 (0:06.8)."
+      },
+      {
+        "ac": "ac-14",
+        "text": "[ac-14] The KESTREL wordmark is absent at 0:03. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F5 (0:03). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-15",
+        "text": "[ac-15] The KESTREL wordmark is fully visible by 0:05. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F7 (0:05). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-16",
+        "text": "[ac-16] The shot 2 price tag reads exactly '€149'. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F5 (0:03), F6 (0:04), F7 (0:05), F8 (0:06), F9 (0:06.8). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      }
+    ]
+  },
+  {
+    "id": "r1-7470",
+    "cut": "9x16",
+    "lane": 1,
+    "cmd": "kane-cli run --analyzer-only --agent --cdp-endpoint http://127.0.0.1:9352 --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition …",
+    "conditions": [
+      {
+        "ac": "ac-17",
+        "text": "[ac-17] The price tag is visible at 0:04. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F6 (0:04). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-18",
+        "text": "[ac-18] The price tag is visible at 0:06. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F8 (0:06). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-19",
+        "text": "[ac-19] The shot 3 headline reads exactly 'Out 28 November'. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F10 (0:07.2), F11 (0:09), F12 (0:09.5). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-20",
+        "text": "[ac-20] The shot 3 button reads exactly 'Get early access'. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F10 (0:07.2), F11 (0:09), F12 (0:09.5). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-21",
+        "text": "[ac-21] The shot 3 button is fully visible by 0:09. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F11 (0:09). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-22",
+        "text": "[ac-22] The KESTREL wordmark is visible throughout shot 3. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F10 (0:07.2), F11 (0:09), F12 (0:09.5). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-23",
+        "text": "[ac-23] On the 9:16 cut, no text or button occupies the top 14% of the frame. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Decide position from the Text placement report above the frames (it lists every visible text layer that leaves the frame or touches a reserved band; \"none\" means none) and the per-frame flags under each frame."
+      },
+      {
+        "ac": "ac-24",
+        "text": "[ac-24] On the 9:16 cut, no text or button occupies the bottom 35% of the frame. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Decide position from the Text placement report above the frames (it lists every visible text layer that leaves the frame or touches a reserved band; \"none\" means none) and the per-frame flags under each frame."
+      },
+      {
+        "ac": "ac-25",
+        "text": "[ac-25] All text remains fully inside the frame on each cut. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Decide position from the Text placement report above the frames (it lists every visible text layer that leaves the frame or touches a reserved band; \"none\" means none) and the per-frame flags under each frame."
+      }
+    ]
+  },
+  {
+    "id": "r1-7470",
+    "cut": "16x9",
+    "lane": 0,
+    "cmd": "kane-cli run --analyzer-only --agent --cdp-endpoint http://127.0.0.1:9341 --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition …",
+    "conditions": [
+      {
+        "ac": "ac-1",
+        "text": "[ac-1] Each delivered cut has a duration of 12 seconds. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-2",
+        "text": "[ac-2] Each delivered cut runs at 30 frames per second. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Whether a layer can be seen in a frame is in the facts table Visible column and in the picture. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-3",
+        "text": "[ac-3] The 16:9 cut measures 1920x1080 pixels. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-6",
+        "text": "[ac-6] Each cut declares shot 1 from 0:00 to 0:03. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F5 (0:03). Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-7",
+        "text": "[ac-7] Each cut declares shot 2 from 0:03 to 0:07. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F5 (0:03). Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-8",
+        "text": "[ac-8] Each cut declares shot 3 from 0:07 to 0:12. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F10 (0:07.2), F11 (0:09), F12 (0:09.5). Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-9",
+        "text": "[ac-9] In shot 1 a teal running shoe with orange sole slides in from the left over a dark night-city background. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F1 (0:00.2), F2 (0:01), F3 (0:01.5), F4 (0:02.8)."
+      },
+      {
+        "ac": "ac-10",
+        "text": "[ac-10] The shot 1 shoe is fully inside the frame by 0:01. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F2 (0:01). Decide position from the Text placement report above the frames (it lists every visible text layer that leaves the frame or touches a reserved band; \"none\" means none) and the per-frame flags under each frame."
+      },
+      {
+        "ac": "ac-11",
+        "text": "[ac-11] The shot 1 caption reads exactly 'Run the city'. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F1 (0:00.2), F2 (0:01), F3 (0:01.5), F4 (0:02.8). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-12",
+        "text": "[ac-12] The shot 1 caption is fully visible by 0:01. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F2 (0:01). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-13",
+        "text": "[ac-13] Shot 2 shows a close-up of the orange sole in the same teal and orange colourway as shot 1. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F5 (0:03), F6 (0:04), F7 (0:05), F8 (0:06), F9 (0:06.8)."
+      },
+      {
+        "ac": "ac-14",
+        "text": "[ac-14] The KESTREL wordmark is absent at 0:03. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F5 (0:03). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-15",
+        "text": "[ac-15] The KESTREL wordmark is fully visible by 0:05. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F7 (0:05). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-16",
+        "text": "[ac-16] The shot 2 price tag reads exactly '€149'. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F5 (0:03), F6 (0:04), F7 (0:05), F8 (0:06), F9 (0:06.8). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      }
+    ]
+  },
+  {
+    "id": "r1-7470",
+    "cut": "16x9",
+    "lane": 1,
+    "cmd": "kane-cli run --analyzer-only --agent --cdp-endpoint http://127.0.0.1:9351 --condition … --condition … --condition … --condition … --condition … --condition … --condition …",
+    "conditions": [
+      {
+        "ac": "ac-17",
+        "text": "[ac-17] The price tag is visible at 0:04. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F6 (0:04). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-18",
+        "text": "[ac-18] The price tag is visible at 0:06. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F8 (0:06). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-19",
+        "text": "[ac-19] The shot 3 headline reads exactly 'Out 28 November'. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F10 (0:07.2), F11 (0:09), F12 (0:09.5). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-20",
+        "text": "[ac-20] The shot 3 button reads exactly 'Get early access'. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F10 (0:07.2), F11 (0:09), F12 (0:09.5). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-21",
+        "text": "[ac-21] The shot 3 button is fully visible by 0:09. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F11 (0:09). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-22",
+        "text": "[ac-22] The KESTREL wordmark is visible throughout shot 3. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F10 (0:07.2), F11 (0:09), F12 (0:09.5). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-25",
+        "text": "[ac-25] All text remains fully inside the frame on each cut. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Decide position from the Text placement report above the frames (it lists every visible text layer that leaves the frame or touches a reserved band; \"none\" means none) and the per-frame flags under each frame."
+      }
+    ]
+  },
+  {
+    "id": "r1-7470",
+    "cut": "1x1",
+    "lane": 1,
+    "cmd": "kane-cli run --analyzer-only --agent --cdp-endpoint http://127.0.0.1:9353 --condition … --condition … --condition … --condition … --condition … --condition … --condition …",
+    "conditions": [
+      {
+        "ac": "ac-17",
+        "text": "[ac-17] The price tag is visible at 0:04. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F6 (0:04). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-18",
+        "text": "[ac-18] The price tag is visible at 0:06. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F8 (0:06). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-19",
+        "text": "[ac-19] The shot 3 headline reads exactly 'Out 28 November'. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F10 (0:07.2), F11 (0:09), F12 (0:09.5). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-20",
+        "text": "[ac-20] The shot 3 button reads exactly 'Get early access'. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F10 (0:07.2), F11 (0:09), F12 (0:09.5). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-21",
+        "text": "[ac-21] The shot 3 button is fully visible by 0:09. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F11 (0:09). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-22",
+        "text": "[ac-22] The KESTREL wordmark is visible throughout shot 3. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F10 (0:07.2), F11 (0:09), F12 (0:09.5). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-25",
+        "text": "[ac-25] All text remains fully inside the frame on each cut. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Decide position from the Text placement report above the frames (it lists every visible text layer that leaves the frame or touches a reserved band; \"none\" means none) and the per-frame flags under each frame."
+      }
+    ]
+  },
+  {
+    "id": "r1-7470",
+    "cut": "1x1",
+    "lane": 0,
+    "cmd": "kane-cli run --analyzer-only --agent --cdp-endpoint http://127.0.0.1:9343 --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition …",
+    "conditions": [
+      {
+        "ac": "ac-1",
+        "text": "[ac-1] Each delivered cut has a duration of 12 seconds. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-2",
+        "text": "[ac-2] Each delivered cut runs at 30 frames per second. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Whether a layer can be seen in a frame is in the facts table Visible column and in the picture. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-5",
+        "text": "[ac-5] The 1:1 cut measures 1080x1080 pixels. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-6",
+        "text": "[ac-6] Each cut declares shot 1 from 0:00 to 0:03. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F5 (0:03). Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-7",
+        "text": "[ac-7] Each cut declares shot 2 from 0:03 to 0:07. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F5 (0:03). Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-8",
+        "text": "[ac-8] Each cut declares shot 3 from 0:07 to 0:12. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F10 (0:07.2), F11 (0:09), F12 (0:09.5). Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-9",
+        "text": "[ac-9] In shot 1 a teal running shoe with orange sole slides in from the left over a dark night-city background. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F1 (0:00.2), F2 (0:01), F3 (0:01.5), F4 (0:02.8)."
+      },
+      {
+        "ac": "ac-10",
+        "text": "[ac-10] The shot 1 shoe is fully inside the frame by 0:01. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F2 (0:01). Decide position from the Text placement report above the frames (it lists every visible text layer that leaves the frame or touches a reserved band; \"none\" means none) and the per-frame flags under each frame."
+      },
+      {
+        "ac": "ac-11",
+        "text": "[ac-11] The shot 1 caption reads exactly 'Run the city'. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F1 (0:00.2), F2 (0:01), F3 (0:01.5), F4 (0:02.8). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-12",
+        "text": "[ac-12] The shot 1 caption is fully visible by 0:01. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F2 (0:01). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-13",
+        "text": "[ac-13] Shot 2 shows a close-up of the orange sole in the same teal and orange colourway as shot 1. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F5 (0:03), F6 (0:04), F7 (0:05), F8 (0:06), F9 (0:06.8)."
+      },
+      {
+        "ac": "ac-14",
+        "text": "[ac-14] The KESTREL wordmark is absent at 0:03. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F5 (0:03). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-15",
+        "text": "[ac-15] The KESTREL wordmark is fully visible by 0:05. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F7 (0:05). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-16",
+        "text": "[ac-16] The shot 2 price tag reads exactly '€149'. This sheet shows only the 1:1 cut (1080x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F5 (0:03), F6 (0:04), F7 (0:05), F8 (0:06), F9 (0:06.8). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      }
+    ]
+  }
+]

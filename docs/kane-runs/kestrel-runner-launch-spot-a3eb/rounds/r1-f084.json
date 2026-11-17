@@ -1,0 +1,513 @@
+{
+  "id": "r1-f084",
+  "version": 1,
+  "kind": "sweep",
+  "startedAt": "2026-11-17T22:20:41.311Z",
+  "cuts": [
+    "16x9",
+    "9x16",
+    "1x1"
+  ],
+  "acs": [
+    "ac-1",
+    "ac-2",
+    "ac-3",
+    "ac-4",
+    "ac-5",
+    "ac-6",
+    "ac-7",
+    "ac-8",
+    "ac-9",
+    "ac-10",
+    "ac-11",
+    "ac-12",
+    "ac-13",
+    "ac-14",
+    "ac-15",
+    "ac-16",
+    "ac-17",
+    "ac-18",
+    "ac-19",
+    "ac-21",
+    "ac-20",
+    "ac-23",
+    "ac-24",
+    "ac-22"
+  ],
+  "results": [
+    {
+      "ac": "ac-15",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the Shot 3 headline text across the relevant frames: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-16",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the Shot 3 button label across the relevant frames: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-17",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking early-access button visibility at F11: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F11"
+      ]
+    },
+    {
+      "ac": "ac-18",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking KESTREL wordmark visibility across Shot 3: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-19",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the text placement report for frame-safe text: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-21",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the measured size of the 16:9 cut: value: '1920×1080 pixels' -> '1920×1080 pixels' after ['strip']; equals '1920×1080 pixels' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-15",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking Shot 3 headline text in the facts table: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-16",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking Shot 3 button labels in the facts table: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-17",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking early-access button visibility at F11: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F11"
+      ]
+    },
+    {
+      "ac": "ac-18",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking KESTREL wordmark visibility in Shot 3: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-19",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the text placement report for text outside the frame: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-20",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the measured 9:16 cut dimensions: value: '1080×1920 pixels' -> '1080×1920 pixels'; equals '1080×1920 pixels' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-23",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the text placement report for top-band text: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-24",
+      "cut": "9x16",
+      "verdict": "fail",
+      "reason": "Checking the text placement report for bottom-band text: value: 'false' -> 'false'; equals 'true' -> FAIL",
+      "frames": []
+    },
+    {
+      "ac": "ac-1",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the declared cut duration: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-2",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the declared frame rate: value: '30 fps' -> '30 fps' after ['strip']; equals '30 fps' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-3",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the declared Shot 1 timing: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-4",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the declared Shot 2 timing: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-5",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the declared Shot 3 timing: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-6",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the Shot 1 shoe animation and background: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-7",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the product position at 0:01: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-8",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the Shot 1 caption text: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-9",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking caption visibility at 0:01: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-10",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the Shot 2 sole close-up and colourway: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-11",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking wordmark visibility at 0:03: value: 'false' -> 'false'; equals 'false' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-12",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking wordmark visibility at 0:05: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-13",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the price-tag text: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-14",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking price-tag visibility at 0:04 and 0:06: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-1",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the delivered cut duration: value: '12 seconds' -> '12 seconds' after ['strip']; equals '12 seconds' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-2",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the delivered cut frame rate: value: '30 frames per second' -> '30 frames per second' after ['strip']; equals '30 frames per second' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-3",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the Shot 1 timing from the sheet header: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-4",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the Shot 2 timing from the sheet header: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-5",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the Shot 3 timing from the sheet header: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-6",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the Shot 1 product imagery: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-7",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the shoe position in F2: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F2"
+      ]
+    },
+    {
+      "ac": "ac-8",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the Shot 1 caption text: value: 'Run the city' -> 'Run the city' after ['strip']; equals 'Run the city' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-9",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking caption visibility in F2: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F2"
+      ]
+    },
+    {
+      "ac": "ac-10",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the Shot 2 product close-up: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-11",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking wordmark visibility in F4: value: 'false' -> 'false'; equals 'false' -> PASS",
+      "frames": [
+        "F4"
+      ]
+    },
+    {
+      "ac": "ac-12",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking wordmark visibility in F7: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F7"
+      ]
+    },
+    {
+      "ac": "ac-13",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the price tag text: value: '€149' -> '€149' after ['strip']; equals '€149' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-14",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking price tag visibility in F6 and F8: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F6",
+        "F8"
+      ]
+    },
+    {
+      "ac": "ac-15",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Reading the Shot 3 headline text from the facts table: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-16",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Reading the Shot 3 button label from the facts table: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-17",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking early-access button visibility at F11: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F11"
+      ]
+    },
+    {
+      "ac": "ac-18",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking KESTREL wordmark visibility across Shot 3: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-19",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking text placement within the frame: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-22",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Reading the measured dimensions of the 1:1 cut: value: '1080×1080 pixels' -> '1080×1080 pixels'; equals '1080×1080 pixels' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-1",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking the cut duration in the sheet header: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-2",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking the frame rate in the sheet header: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-3",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking the declared Shot 1 timing: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-4",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking the declared Shot 2 timing: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-5",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking the declared Shot 3 timing: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-6",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking the Shot 1 shoe entrance imagery: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-7",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking the product position in frame F2: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F2"
+      ]
+    },
+    {
+      "ac": "ac-8",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Reading the Shot 1 caption text: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-9",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking caption visibility in frame F2: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F2"
+      ]
+    },
+    {
+      "ac": "ac-10",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking the Shot 2 sole close-up imagery: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-11",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking wordmark visibility in frame F4: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F4"
+      ]
+    },
+    {
+      "ac": "ac-12",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking wordmark visibility in frame F7: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F7"
+      ]
+    },
+    {
+      "ac": "ac-13",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Reading the price tag text: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-14",
+      "cut": "1x1",
+      "verdict": "pass",
+      "reason": "Checking price tag visibility at 0:04 and 0:06: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    }
+  ],
+  "credits": 64.38146,
+  "calls": 6,
+  "conditions": 62,
+  "durationMs": 39895,
+  "eye": {
+    "1x1": "eye/r1-f084-1x1.png",
+    "16x9": "eye/r1-f084-16x9.png",
+    "9x16": "eye/r1-f084-9x16.png"
+  },
+  "reports": {
+    "1x1": "Visible text outside the frame: none\nVisible text in the top 5% band (title-safe margin): price “€149” at F5\nVisible text in the bottom 5% band (title-safe margin): none\nVisible text in the side 5% bands (title-safe margin): none\nSmallest visible text (font size at 1080x1080): wordmark “KESTREL” at 38px (F10, F11, F12)",
+    "16x9": "Visible text outside the frame: none\nVisible text in the top 5% band (title-safe margin): none\nVisible text in the bottom 5% band (title-safe margin): none\nVisible text in the side 5% bands (title-safe margin): none\nSmallest visible text (font size at 1920x1080): wordmark “KESTREL” at 44px (F10, F11, F12)",
+    "9x16": "Visible text outside the frame: none\nVisible text in the top 14% band: none\nVisible text in the bottom 35% band: wordmark “KESTREL” at F6, F7, F8, F9\nVisible text in the side 6% bands: none\nSmallest visible text (font size at 1080x1920): wordmark “KESTREL” at 40px (F10, F11, F12)"
+  },
+  "endedAt": "2026-11-17T22:21:21.206Z"
+}

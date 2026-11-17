@@ -1,0 +1,166 @@
+[
+  {
+    "id": "r1-d15c",
+    "cut": "16x9",
+    "lane": 0,
+    "cmd": "kane-cli run --analyzer-only --agent --cdp-endpoint http://127.0.0.1:9341 --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition …",
+    "conditions": [
+      {
+        "ac": "ac-1",
+        "text": "[ac-1] Each cut has a total duration of 10 seconds. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-2",
+        "text": "[ac-2] Each cut runs at 30 frames per second. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Whether a layer can be seen in a frame is in the facts table Visible column and in the picture. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-3",
+        "text": "[ac-3] Shot 1 spans 0:00–0:03 in each cut. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F4 (0:03)."
+      },
+      {
+        "ac": "ac-4",
+        "text": "[ac-4] Shot 2 spans 0:03–0:07 in each cut. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F4 (0:03)."
+      },
+      {
+        "ac": "ac-5",
+        "text": "[ac-5] Shot 3 spans 0:07–0:10 in each cut. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F12 (0:09.8)."
+      },
+      {
+        "ac": "ac-6",
+        "text": "[ac-6] Shot 1 title in each cut reads exactly “Exports in one click”. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F1 (0:00.2), F2 (0:01.5), F3 (0:02.8). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-7",
+        "text": "[ac-7] Shot 1 background in each cut is dark navy. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F1 (0:00.2), F2 (0:01.5), F3 (0:02.8)."
+      },
+      {
+        "ac": "ac-8",
+        "text": "[ac-8] Shot 1 in each cut has exactly one lime accent line drawn left to right. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F1 (0:00.2), F2 (0:01.5), F3 (0:02.8). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-9",
+        "text": "[ac-9] Shot 2 in each cut shows a white app card. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F4 (0:03), F5 (0:03.2), F6 (0:05), F7 (0:06), F8 (0:06.8)."
+      },
+      {
+        "ac": "ac-10",
+        "text": "[ac-10] The app card table in each cut has three rows. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts."
+      },
+      {
+        "ac": "ac-11",
+        "text": "[ac-11] Shot 2 in each cut shows a lime “Export CSV” button. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F4 (0:03), F5 (0:03.2), F6 (0:05), F7 (0:06), F8 (0:06.8)."
+      },
+      {
+        "ac": "ac-12",
+        "text": "[ac-12] The counter in each cut reads 0 at 0:03. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F4 (0:03). Read exact wording from the facts table Text column (the rendered text), not from the pixels. Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-13",
+        "text": "[ac-13] The counter in each cut reads exactly 10,000 rows by 0:06. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F7 (0:06). Read exact wording from the facts table Text column (the rendered text), not from the pixels. Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-14",
+        "text": "[ac-14] Shot 3 text in each cut reads exactly “Live today for every plan”. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F9 (0:07.2), F10 (0:08), F11 (0:08.5), F12 (0:09.8). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      }
+    ]
+  },
+  {
+    "id": "r1-d15c",
+    "cut": "9x16",
+    "lane": 1,
+    "cmd": "kane-cli run --analyzer-only --agent --cdp-endpoint http://127.0.0.1:9352 --condition … --condition … --condition …",
+    "conditions": [
+      {
+        "ac": "ac-15",
+        "text": "[ac-15] ledgerline.app remains visible in each cut from 0:08 through the end. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F10 (0:08). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-16",
+        "text": "[ac-16] No content occupies the bottom 35% of any frame in the 9:16 cut. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Decide position from the Text placement report above the frames (it lists every visible text layer that leaves the frame or touches a reserved band; \"none\" means none) and the per-frame flags under each frame."
+      },
+      {
+        "ac": "ac-17",
+        "text": "[ac-17] The 9:16 cut measures 1080×1920 pixels. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      }
+    ]
+  },
+  {
+    "id": "r1-d15c",
+    "cut": "9x16",
+    "lane": 0,
+    "cmd": "kane-cli run --analyzer-only --agent --cdp-endpoint http://127.0.0.1:9342 --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition … --condition …",
+    "conditions": [
+      {
+        "ac": "ac-1",
+        "text": "[ac-1] Each cut has a total duration of 10 seconds. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-2",
+        "text": "[ac-2] Each cut runs at 30 frames per second. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Whether a layer can be seen in a frame is in the facts table Visible column and in the picture. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      },
+      {
+        "ac": "ac-3",
+        "text": "[ac-3] Shot 1 spans 0:00–0:03 in each cut. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F4 (0:03)."
+      },
+      {
+        "ac": "ac-4",
+        "text": "[ac-4] Shot 2 spans 0:03–0:07 in each cut. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F4 (0:03)."
+      },
+      {
+        "ac": "ac-5",
+        "text": "[ac-5] Shot 3 spans 0:07–0:10 in each cut. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F12 (0:09.8)."
+      },
+      {
+        "ac": "ac-6",
+        "text": "[ac-6] Shot 1 title in each cut reads exactly “Exports in one click”. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F1 (0:00.2), F2 (0:01.5), F3 (0:02.8). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-7",
+        "text": "[ac-7] Shot 1 background in each cut is dark navy. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F1 (0:00.2), F2 (0:01.5), F3 (0:02.8)."
+      },
+      {
+        "ac": "ac-8",
+        "text": "[ac-8] Shot 1 in each cut has exactly one lime accent line drawn left to right. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F1 (0:00.2), F2 (0:01.5), F3 (0:02.8). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      },
+      {
+        "ac": "ac-9",
+        "text": "[ac-9] Shot 2 in each cut shows a white app card. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F4 (0:03), F5 (0:03.2), F6 (0:05), F7 (0:06), F8 (0:06.8)."
+      },
+      {
+        "ac": "ac-10",
+        "text": "[ac-10] The app card table in each cut has three rows. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts."
+      },
+      {
+        "ac": "ac-11",
+        "text": "[ac-11] Shot 2 in each cut shows a lime “Export CSV” button. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F4 (0:03), F5 (0:03.2), F6 (0:05), F7 (0:06), F8 (0:06.8)."
+      },
+      {
+        "ac": "ac-12",
+        "text": "[ac-12] The counter in each cut reads 0 at 0:03. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F4 (0:03). Read exact wording from the facts table Text column (the rendered text), not from the pixels. Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-13",
+        "text": "[ac-13] The counter in each cut reads exactly 10,000 rows by 0:06. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F7 (0:06). Read exact wording from the facts table Text column (the rendered text), not from the pixels. Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-14",
+        "text": "[ac-14] Shot 3 text in each cut reads exactly “Live today for every plan”. This sheet shows only the 9:16 cut (1080x1920). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frames: F9 (0:07.2), F10 (0:08), F11 (0:08.5), F12 (0:09.8). Read exact wording from the facts table Text column (the rendered text), not from the pixels."
+      }
+    ]
+  },
+  {
+    "id": "r1-d15c",
+    "cut": "16x9",
+    "lane": 1,
+    "cmd": "kane-cli run --analyzer-only --agent --cdp-endpoint http://127.0.0.1:9351 --condition … --condition …",
+    "conditions": [
+      {
+        "ac": "ac-15",
+        "text": "[ac-15] ledgerline.app remains visible in each cut from 0:08 through the end. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Relevant frame: F10 (0:08). Whether a layer can be seen in a frame is in the facts table Visible column and in the picture."
+      },
+      {
+        "ac": "ac-18",
+        "text": "[ac-18] The 16:9 cut measures 1920×1080 pixels. This sheet shows only the 16:9 cut (1920x1080). Judge only what the criterion requires of this cut; ignore any part about other cuts. Duration, frame rate, pixel size and the declared shot timings are in the sheet header."
+      }
+    ]
+  }
+]

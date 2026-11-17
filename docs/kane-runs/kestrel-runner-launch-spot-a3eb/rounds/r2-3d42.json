@@ -1,0 +1,32 @@
+{
+  "id": "r2-3d42",
+  "version": 2,
+  "kind": "targeted",
+  "startedAt": "2026-11-17T22:21:43.269Z",
+  "cuts": [
+    "9x16"
+  ],
+  "acs": [
+    "ac-24"
+  ],
+  "results": [
+    {
+      "ac": "ac-24",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the 9:16 cut's bottom reserved band: value: 'false' -> 'false'; equals 'false' -> PASS",
+      "frames": []
+    }
+  ],
+  "credits": 5.5862,
+  "calls": 1,
+  "conditions": 1,
+  "durationMs": 20866,
+  "eye": {
+    "9x16": "eye/r2-3d42-9x16.png"
+  },
+  "reports": {
+    "9x16": "Visible text outside the frame: none\nVisible text in the top 14% band: none\nVisible text in the bottom 35% band: none\nVisible text in the side 6% bands: none\nSmallest visible text (font size at 1080x1920): wordmark “KESTREL” at 40px (F10, F11, F12)"
+  },
+  "endedAt": "2026-11-17T22:22:04.135Z"
+}

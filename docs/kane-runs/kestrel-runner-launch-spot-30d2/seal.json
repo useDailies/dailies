@@ -1,0 +1,258 @@
+{
+  "startedAt": "2026-11-17T21:42:13.034Z",
+  "version": 1,
+  "credits": 399.4747425,
+  "tests": [
+    {
+      "id": "t-3",
+      "file": "inspect-the-1-1-launch-cut_test.md",
+      "title": "Inspect the 1:1 launch cut",
+      "status": "passed",
+      "credits": 92.9342025,
+      "share": "https://test-manager.lambdatest.com/projects/01M7NNVPZ81DMNX31Y7P96Z29J/test-cases/01M7NQBTBB3TW3FDAGGSV5QZR0/dashboard/share/US_GLYNYDBYIF4E6Y1JGFIKBYPSOQM191Z1MEIW3ORE5OIL8B8T911QLVANESYNXVCN?type=summary&agentView=true&fqdn=summary-page",
+      "pack": "~/.testmuai/kaneai/sessions/c2a96a78-cf3d-47fc-9762-b200cb370ef7/evidence/8ad4df39-814e-4b91-9e73-ad6a3ae57369.evidence"
+    },
+    {
+      "id": "t-2",
+      "file": "inspect-the-16-9-launch-cut_test.md",
+      "title": "Inspect the 16:9 launch cut",
+      "status": "passed",
+      "credits": 110.98922999999999,
+      "share": "https://test-manager.lambdatest.com/projects/01M7NNVPZ81DMNX31Y7P96Z29J/test-cases/01M7NQKY2HFHWFNYA3AHF7NKAJ/dashboard/share/US_HIKO3MBK4JOD4FFOTZWU1LDHNWI0FEVRSE03MBTXGWHPQ6W5JN7LE87YBJRSUFEM?type=summary&agentView=true&fqdn=summary-page",
+      "pack": "~/.testmuai/kaneai/sessions/00bd1410-1b64-4448-af50-3457972fce42/evidence/a22b45b2-9d7d-4ce8-b7f8-6c97a4d04cc6.evidence"
+    },
+    {
+      "id": "t-1",
+      "file": "inspect-the-9-16-launch-cut_test.md",
+      "title": "Inspect the 9:16 launch cut",
+      "status": "passed",
+      "credits": 93.06684999999999,
+      "share": "https://test-manager.lambdatest.com/projects/01M7NNVPZ81DMNX31Y7P96Z29J/test-cases/01M7NQTT32AG8SNKPX3X4M7R9M/dashboard/share/US_Q2COZ386PC439DA34TVXJI8QCVCR48MQVJ4FO1ISCKWY80AY4KS2XH8LWJP5DW85?type=summary&agentView=true&fqdn=summary-page",
+      "pack": "~/.testmuai/kaneai/sessions/cda1a3ef-8bdf-4e86-897a-7c15589f2d2f/evidence/71118ceb-6844-475b-bb62-41d95d321785.evidence"
+    },
+    {
+      "id": "t-4",
+      "file": "keep-vertical-text-and-button-clear-of-reserved-bands_test.md",
+      "title": "Keep vertical text and button clear of reserved bands",
+      "status": "passed",
+      "credits": 35.85965,
+      "share": "https://test-manager.lambdatest.com/projects/01M7NNVPZ81DMNX31Y7P96Z29J/test-cases/01M7NR28Q1GGTWT446K6TXS6MQ/dashboard/share/US_Q14YB6MAYA8KK0BE5DG7T90RIDJMONBO8UYJUTAA98J7LTG49N68LIQT4R19RG5Y?type=summary&agentView=true&fqdn=summary-page",
+      "pack": "~/.testmuai/kaneai/sessions/b15889de-9979-4c0b-b21d-ebd7919ce3d4/evidence/d3355ec4-3c25-4a75-adde-8a2e95a41e8c.evidence"
+    },
+    {
+      "id": "t-7",
+      "file": "reject-premature-kestrel-wordmark-in-1-1_test.md",
+      "title": "Reject premature KESTREL wordmark in 1:1",
+      "status": "passed",
+      "credits": 22.260459999999995,
+      "share": "https://test-manager.lambdatest.com/projects/01M7NNVPZ81DMNX31Y7P96Z29J/test-cases/01M7NR5FF9QVW6S46M1WWKKFQS/dashboard/share/US_8CP6HFH8SPJH8WZPGR06QGFIV2C5MG2MSRU1TWSSLKNDFAU1C5H7WYXK4ZCP07ZZ?type=summary&agentView=true&fqdn=summary-page",
+      "pack": "~/.testmuai/kaneai/sessions/aec93b8b-e83f-463b-b3ba-9c93557a4d6c/evidence/2ae22d6a-1fbe-4938-82e2-ca2d7feaff5b.evidence"
+    },
+    {
+      "id": "t-6",
+      "file": "reject-premature-kestrel-wordmark-in-16-9_test.md",
+      "title": "Reject premature KESTREL wordmark in 16:9",
+      "status": "passed",
+      "credits": 21.09028,
+      "share": "https://test-manager.lambdatest.com/projects/01M7NNVPZ81DMNX31Y7P96Z29J/test-cases/01M7NR7QQ45Y8PJSA45E4NC6XZ/dashboard/share/US_NLP56I0VVGD6L87A1VXPSBGMO2MZNTX0HB6LFZJJUM95RT0GG5KP6TILOKUWP1LE?type=summary&agentView=true&fqdn=summary-page",
+      "pack": "~/.testmuai/kaneai/sessions/89b26c1a-fe0c-4a8e-81a3-09ae3aafb550/evidence/a494a0d2-5d5a-409a-8399-690806cdac36.evidence"
+    },
+    {
+      "id": "t-5",
+      "file": "reject-premature-kestrel-wordmark-in-9-16_test.md",
+      "title": "Reject premature KESTREL wordmark in 9:16",
+      "status": "passed",
+      "credits": 23.27407,
+      "share": "https://test-manager.lambdatest.com/projects/01M7NNVPZ81DMNX31Y7P96Z29J/test-cases/01M7NR9YZ9FMCZBQZJGG8W3S11/dashboard/share/US_IE0I9AOW9B3UPMSP4K4FHUK03MKULH8Z4KJOGNOP204JM29E7FKR08JHB7IZWFEO?type=summary&agentView=true&fqdn=summary-page",
+      "pack": "~/.testmuai/kaneai/sessions/4461f4cf-b605-4219-9db3-3e0f2684dcd4/evidence/c82c37a4-6e03-444f-9211-b2482956cdc2.evidence"
+    }
+  ],
+  "coverage": {
+    "source": "project",
+    "coverage_version": 2,
+    "scope": "project",
+    "config": {
+      "rule": "newest_counted_verdict",
+      "weighting": "risk",
+      "weights": {
+        "high": 1.25,
+        "med": 1,
+        "low": 0.75,
+        "unknown": 1
+      }
+    },
+    "pct": 55.55555555555556,
+    "usecases": {
+      "total": 2,
+      "proven": 1,
+      "partial": 0,
+      "failing": 0,
+      "not_run": 0,
+      "not_designed": 0,
+      "no_criteria": 1
+    },
+    "criteria": {
+      "total": 25,
+      "proven": 25
+    },
+    "perUc": [
+      {
+        "id": "uc-1",
+        "title": "Deliver the Kestrel Runner launch spot",
+        "risk": "high",
+        "weight": 1.25,
+        "state": "proven",
+        "pct": 100,
+        "criteria": 25,
+        "proven": 25,
+        "manual_runs": 0,
+        "stale": false
+      },
+      {
+        "id": "uc-2",
+        "title": "Inspect each storyboard cut in a browser",
+        "risk": "med",
+        "weight": 1,
+        "state": "no_criteria",
+        "pct": 0,
+        "criteria": 0,
+        "proven": 0,
+        "manual_runs": 0,
+        "stale": false
+      }
+    ],
+    "perAc": {
+      "ac-1": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-2": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-3": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "a22b45b2-9d7d-4ce8-b7f8-6c97a4d04cc6"
+      },
+      "ac-4": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-5": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "8ad4df39-814e-4b91-9e73-ad6a3ae57369"
+      },
+      "ac-6": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-7": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-8": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-9": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-10": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-11": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-12": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-13": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-14": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "c82c37a4-6e03-444f-9211-b2482956cdc2"
+      },
+      "ac-15": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-16": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-17": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-18": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-19": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-20": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-21": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-22": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "71118ceb-6844-475b-bb62-41d95d321785"
+      },
+      "ac-23": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "d3355ec4-3c25-4a75-adde-8a2e95a41e8c"
+      },
+      "ac-24": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "d3355ec4-3c25-4a75-adde-8a2e95a41e8c"
+      },
+      "ac-25": {
+        "state": "proven",
+        "uc": "uc-1",
+        "deciding_run": "d3355ec4-3c25-4a75-adde-8a2e95a41e8c"
+      }
+    },
+    "flags": {
+      "stale_sources": 0,
+      "sources_not_fully_extracted": [],
+      "orphaned_usecases": 0
+    }
+  },
+  "endedAt": "2026-11-17T22:00:03.341Z"
+}

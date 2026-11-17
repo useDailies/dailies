@@ -1,0 +1,545 @@
+{
+  "createdAt": "2026-11-17T21:38:28.016Z",
+  "storyboardHash": "63296315fdf7e6e7",
+  "usecases": [
+    {
+      "id": "uc-2",
+      "title": "Inspect a storyboard cut in a browser contact sheet",
+      "anchors": [
+        "surface#L3-L4",
+        "surface#L8-L8",
+        "surface#L7-L7",
+        "surface#L3-L4",
+        "surface#L8-L8",
+        "surface#L9-L9",
+        "surface#L10-L10",
+        "surface#L11-L11",
+        "surface#L12-L12",
+        "surface#L13-L13"
+      ]
+    },
+    {
+      "id": "uc-1",
+      "title": "Produce an Instant Exports promotional video",
+      "anchors": [
+        "storyboard#L1-L3",
+        "storyboard#L9-L15",
+        "storyboard#L3-L3",
+        "storyboard#L5-L7",
+        "storyboard#L9-L11",
+        "storyboard#L13-L15",
+        "storyboard#L16-L16"
+      ]
+    }
+  ],
+  "criteria": [
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": 10
+      },
+      "id": "ac-1",
+      "text": "Each cut has a total duration of 10 seconds.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": null,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": 30
+      },
+      "id": "ac-2",
+      "text": "Each cut runs at 30 frames per second.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": null,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": "0:00–0:03"
+      },
+      "id": "ac-3",
+      "text": "Shot 1 spans 0:00–0:03 in each cut.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [
+        0,
+        3
+      ],
+      "shot": 1,
+      "line": null,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": "0:03–0:07"
+      },
+      "id": "ac-4",
+      "text": "Shot 2 spans 0:03–0:07 in each cut.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [
+        3,
+        7
+      ],
+      "shot": 2,
+      "line": 11,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": "0:07–0:10"
+      },
+      "id": "ac-5",
+      "text": "Shot 3 spans 0:07–0:10 in each cut.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [
+        7,
+        10
+      ],
+      "shot": 3,
+      "line": null,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": "Exports in one click"
+      },
+      "id": "ac-6",
+      "text": "Shot 1 title in each cut reads exactly “Exports in one click”.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": 1,
+      "line": 6,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "exists",
+        "operand": "dark navy background in shot 1"
+      },
+      "id": "ac-7",
+      "text": "Shot 1 background in each cut is dark navy.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": 1,
+      "line": 7,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": 1
+      },
+      "id": "ac-8",
+      "text": "Shot 1 in each cut has exactly one lime accent line drawn left to right.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": 1,
+      "line": 7,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "exists",
+        "operand": "white app card in shot 2"
+      },
+      "id": "ac-9",
+      "text": "Shot 2 in each cut shows a white app card.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": 2,
+      "line": 10,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": 3
+      },
+      "id": "ac-10",
+      "text": "The app card table in each cut has three rows.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 10,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "exists",
+        "operand": "lime Export CSV button in shot 2"
+      },
+      "id": "ac-11",
+      "text": "Shot 2 in each cut shows a lime “Export CSV” button.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": 2,
+      "line": 10,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": "0"
+      },
+      "id": "ac-12",
+      "text": "The counter in each cut reads 0 at 0:03.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [
+        3
+      ],
+      "shot": null,
+      "line": 11,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": "10,000 rows"
+      },
+      "id": "ac-13",
+      "text": "The counter in each cut reads exactly 10,000 rows by 0:06.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [
+        6
+      ],
+      "shot": null,
+      "line": 11,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": "Live today for every plan"
+      },
+      "id": "ac-14",
+      "text": "Shot 3 text in each cut reads exactly “Live today for every plan”.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": 3,
+      "line": 14,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "forall",
+        "operand": "ledgerline.app visible in every inspected frame from 0:08 through 0:10"
+      },
+      "id": "ac-15",
+      "text": "ledgerline.app remains visible in each cut from 0:08 through the end.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [
+        8
+      ],
+      "shot": null,
+      "line": 15,
+      "tests": [
+        "t-3",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "exists",
+        "operand": "any rendered content in the bottom 35% of any portrait frame"
+      },
+      "id": "ac-16",
+      "text": "No content occupies the bottom 35% of any frame in the 9:16 cut.",
+      "cuts": [
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 16,
+      "tests": [
+        "t-1"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": "1080×1920 pixels"
+      },
+      "id": "ac-17",
+      "text": "The 9:16 cut measures 1080×1920 pixels.",
+      "cuts": [
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": null,
+      "tests": [
+        "t-2"
+      ]
+    },
+    {
+      "risk": "low",
+      "expected": {
+        "operator": "equals",
+        "operand": "1920×1080 pixels"
+      },
+      "id": "ac-18",
+      "text": "The 16:9 cut measures 1920×1080 pixels.",
+      "cuts": [
+        "16x9"
+      ],
+      "times": [],
+      "shot": null,
+      "line": null,
+      "tests": [
+        "t-3"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "t-3",
+      "file": "landscape-contact-sheet-matches-all-three-instant-exports_test.md",
+      "title": "Landscape contact sheet matches all three Instant Exports shots",
+      "summary": "On the landscape contact sheet, inspect measured dimensions, duration, frame rate and all three shots, including exact titles, counter endpoints and sustained URL visibility.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [
+            "ac-18",
+            "ac-1",
+            "ac-2",
+            "ac-3",
+            "ac-4",
+            "ac-5"
+          ],
+          "body": "Open {{sheet_url}}?cut=16x9 in the browser and inspect the Ledgerline landscape contact-sheet header after it reads “ready”, then assert it measures 1920×1080 pixels, reports a duration of 10 seconds and 30 fps, and declares shots at 0:00–0:03, 0:03–0:07 and 0:07–0:10."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-6",
+            "ac-7",
+            "ac-8"
+          ],
+          "body": "In the landscape sheet’s labelled shot-1 frames and layer facts table for 0:00–0:03, inspect the hook, then assert the title is exactly “Exports in one click” on dark navy with exactly one lime accent line drawn left to right."
+        },
+        {
+          "heading": "Step 3",
+          "verifies": [
+            "ac-9",
+            "ac-10",
+            "ac-11",
+            "ac-12",
+            "ac-13"
+          ],
+          "body": "In the landscape sheet’s labelled shot-2 frames and layer facts table for 0:03–0:07, inspect the proof card at the specified timecodes, then assert a white app card contains a three-row table and a lime “Export CSV” button, with the counter reading 0 at 0:03 and exactly 10,000 rows by 0:06."
+        },
+        {
+          "heading": "Step 4",
+          "verifies": [
+            "ac-14",
+            "ac-15"
+          ],
+          "body": "In the landscape sheet’s labelled shot-3 frames and layer facts table for 0:07–0:10, inspect the call to action and every labelled frame from 0:08 through the final frame, then assert the text reads exactly “Live today for every plan” and ledgerline.app is visible in each frame from 0:08 to the end."
+        }
+      ]
+    },
+    {
+      "id": "t-1",
+      "file": "portrait-contact-sheet-has-no-content-in-the-bottom-35_test.md",
+      "title": "Portrait contact sheet has no content in the bottom 35%",
+      "summary": "On the portrait contact sheet, inspect all frames for any content in the bottom 35% of the image; detect prohibited occupancy, not merely show the safe-zone overlay.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [],
+          "body": "Open {{sheet_url}}?cut=9x16 in the browser and reach the Ledgerline portrait contact sheet once its header reads “ready”."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-16"
+          ],
+          "body": "On the portrait contact sheet, turn on “Show safe zones” and inspect every labelled storyboard frame against the shaded bottom 35% band, then assert no rendered content occupies that bottom band in any frame."
+        }
+      ]
+    },
+    {
+      "id": "t-2",
+      "file": "portrait-contact-sheet-matches-all-three-instant-exports_test.md",
+      "title": "Portrait contact sheet matches all three Instant Exports shots",
+      "summary": "On the portrait contact sheet, inspect measured dimensions, duration, frame rate and all three shots, including exact titles, counter endpoints and sustained URL visibility.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [
+            "ac-17",
+            "ac-1",
+            "ac-2",
+            "ac-3",
+            "ac-4",
+            "ac-5"
+          ],
+          "body": "Open {{sheet_url}}?cut=9x16 in the browser and inspect the Ledgerline portrait contact-sheet header after it reads “ready”, then assert it measures 1080×1920 pixels, reports a duration of 10 seconds and 30 fps, and declares shots at 0:00–0:03, 0:03–0:07 and 0:07–0:10."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-6",
+            "ac-7",
+            "ac-8"
+          ],
+          "body": "In the portrait sheet’s labelled shot-1 frames and layer facts table for 0:00–0:03, inspect the hook, then assert the title is exactly “Exports in one click” on dark navy with exactly one lime accent line drawn left to right."
+        },
+        {
+          "heading": "Step 3",
+          "verifies": [
+            "ac-9",
+            "ac-10",
+            "ac-11",
+            "ac-12",
+            "ac-13"
+          ],
+          "body": "In the portrait sheet’s labelled shot-2 frames and layer facts table for 0:03–0:07, inspect the proof card at the specified timecodes, then assert a white app card contains a three-row table and a lime “Export CSV” button, with the counter reading 0 at 0:03 and exactly 10,000 rows by 0:06."
+        },
+        {
+          "heading": "Step 4",
+          "verifies": [
+            "ac-14",
+            "ac-15"
+          ],
+          "body": "In the portrait sheet’s labelled shot-3 frames and layer facts table for 0:07–0:10, inspect the call to action and every labelled frame from 0:08 through the final frame, then assert the text reads exactly “Live today for every plan” and ledgerline.app is visible in each frame from 0:08 to the end."
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "sc-1",
+      "title": "Check the 9:16 cut’s forbidden bottom band"
+    },
+    {
+      "id": "sc-3",
+      "title": "Inspect the complete 16:9 Instant Exports cut"
+    },
+    {
+      "id": "sc-2",
+      "title": "Inspect the complete 9:16 Instant Exports cut"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "gap-1",
+      "title": "Contact sheet URL"
+    }
+  ],
+  "credits": 20.26
+}

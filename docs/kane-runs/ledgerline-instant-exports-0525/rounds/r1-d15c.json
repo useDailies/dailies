@@ -1,0 +1,288 @@
+{
+  "id": "r1-d15c",
+  "version": 1,
+  "kind": "sweep",
+  "startedAt": "2026-11-17T21:39:15.307Z",
+  "cuts": [
+    "16x9",
+    "9x16"
+  ],
+  "acs": [
+    "ac-1",
+    "ac-2",
+    "ac-3",
+    "ac-4",
+    "ac-5",
+    "ac-6",
+    "ac-7",
+    "ac-8",
+    "ac-9",
+    "ac-10",
+    "ac-11",
+    "ac-12",
+    "ac-13",
+    "ac-14",
+    "ac-15",
+    "ac-18",
+    "ac-16",
+    "ac-17"
+  ],
+  "results": [
+    {
+      "ac": "ac-15",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking ledgerline.app visibility from F10 through the end: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F10"
+      ]
+    },
+    {
+      "ac": "ac-16",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the bottom reserved-band placement report: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-17",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the measured dimensions of the 9:16 cut: value: '1080×1920 pixels' -> '1080×1920 pixels'; equals '1080×1920 pixels' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-15",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking visibility of ledgerline.app from 0:08 through the end: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-18",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the measured dimensions of the 16:9 cut: value: '1920×1080 pixels' -> '1920×1080 pixels'; equals '1920×1080 pixels' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-1",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the cut duration from the sheet header: value: '10.0 s · 300 frames' -> '10' after ['extract_number']; equals '10' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-2",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the cut frame rate from the sheet header: value: '30 fps' -> '30' after ['extract_number']; equals '30' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-3",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the Shot 1 timing in the sheet header: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-4",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the Shot 2 timing in the sheet header: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-5",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the Shot 3 timing in the sheet header: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-6",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the Shot 1 headline text from the facts table: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-7",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the Shot 1 background appearance: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-8",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the Shot 1 lime accent line: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-9",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the Shot 2 app card appearance: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-10",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Counting visible app card table rows at frame F4: value: '3' -> '3'; equals '3' -> PASS",
+      "frames": [
+        "F4"
+      ]
+    },
+    {
+      "ac": "ac-11",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the Shot 2 export button appearance: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-12",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the counter text at frame F4: value: '0 rows' -> '0' after ['extract_number']; equals '0' -> PASS",
+      "frames": [
+        "F4"
+      ]
+    },
+    {
+      "ac": "ac-13",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the counter text at frame F7: value: '10,000 rows' -> '10,000 rows' after ['strip']; equals '10,000 rows' -> PASS",
+      "frames": [
+        "F7"
+      ]
+    },
+    {
+      "ac": "ac-14",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the Shot 3 headline text from the facts table: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-1",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the declared sheet duration: value: '10.0 s · 300 frames' -> '10' after ['extract_number']; equals '10' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-2",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the declared frame rate: value: '30 fps' -> '30' after ['extract_number']; equals '30' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-3",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the declared Shot 1 timing: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-4",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the declared Shot 2 timing: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-5",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the declared Shot 3 timing: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-6",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the Shot 1 headline text: value: 'Exports in one click' -> 'Exports in one click' after ['strip']; equals 'Exports in one click' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-7",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the Shot 1 background color: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-8",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the Shot 1 accent lines: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-9",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the Shot 2 app card: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-10",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the app card table row count: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-11",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the Shot 2 export button: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-12",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the counter at frame F4: value: '0 rows' -> '0' after ['extract_number']; equals '0' -> PASS",
+      "frames": [
+        "F4"
+      ]
+    },
+    {
+      "ac": "ac-13",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the counter at frame F7: value: '10,000 rows' -> '10,000 rows' after ['strip']; equals '10,000 rows' -> PASS",
+      "frames": [
+        "F7"
+      ]
+    },
+    {
+      "ac": "ac-14",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the Shot 3 headline text: value: 'Live today for every plan' -> 'Live today for every plan' after ['strip']; equals 'Live today for every plan' -> PASS",
+      "frames": []
+    }
+  ],
+  "credits": 50.29114,
+  "calls": 4,
+  "conditions": 33,
+  "durationMs": 54335,
+  "eye": {
+    "16x9": "eye/r1-d15c-16x9.png",
+    "9x16": "eye/r1-d15c-9x16.png"
+  },
+  "reports": {
+    "16x9": "Visible text outside the frame: none\nVisible text in the top 5% band (title-safe margin): none\nVisible text in the bottom 5% band (title-safe margin): none\nVisible text in the side 5% bands (title-safe margin): none",
+    "9x16": "Visible text outside the frame: none\nVisible text in the top 14% band: none\nVisible text in the bottom 35% band: none\nVisible text in the side 6% bands: none"
+  },
+  "endedAt": "2026-11-17T21:40:09.642Z"
+}

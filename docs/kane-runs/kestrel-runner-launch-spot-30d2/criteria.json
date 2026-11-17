@@ -1,0 +1,887 @@
+{
+  "createdAt": "2026-11-17T21:38:50.100Z",
+  "storyboardHash": "4171d303e203374d",
+  "usecases": [
+    {
+      "id": "uc-1",
+      "title": "Deliver the Kestrel Runner launch spot",
+      "anchors": [
+        "storyboard#L3-L3",
+        "storyboard#L5-L9",
+        "storyboard#L11-L14",
+        "storyboard#L16-L21",
+        "storyboard#L3-L3",
+        "storyboard#L3-L3",
+        "storyboard#L5-L7",
+        "storyboard#L8-L9",
+        "storyboard#L11-L12",
+        "storyboard#L13-L13",
+        "storyboard#L14-L14",
+        "storyboard#L16-L17",
+        "storyboard#L18-L18",
+        "storyboard#L19-L19",
+        "storyboard#L20-L20",
+        "storyboard#L21-L21"
+      ]
+    },
+    {
+      "id": "uc-2",
+      "title": "Inspect each storyboard cut in a browser",
+      "anchors": [
+        "surface#L3-L4",
+        "surface#L8-L8",
+        "surface#L7-L7",
+        "surface#L8-L8",
+        "surface#L9-L9",
+        "surface#L10-L10",
+        "surface#L11-L11",
+        "surface#L12-L12",
+        "surface#L13-L13"
+      ]
+    }
+  ],
+  "criteria": [
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": 12
+      },
+      "id": "ac-1",
+      "text": "Each delivered cut has a duration of 12 seconds.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [],
+      "shot": null,
+      "line": null,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": 30
+      },
+      "id": "ac-2",
+      "text": "Each delivered cut runs at 30 frames per second.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [],
+      "shot": null,
+      "line": null,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "1920x1080 pixels"
+      },
+      "id": "ac-3",
+      "text": "The 16:9 cut measures 1920x1080 pixels.",
+      "cuts": [
+        "16x9"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 3,
+      "tests": [
+        "t-2"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "1080x1920 pixels"
+      },
+      "id": "ac-4",
+      "text": "The 9:16 cut measures 1080x1920 pixels.",
+      "cuts": [
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 3,
+      "tests": [
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "1080x1080 pixels"
+      },
+      "id": "ac-5",
+      "text": "The 1:1 cut measures 1080x1080 pixels.",
+      "cuts": [
+        "1x1"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 3,
+      "tests": [
+        "t-3"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "shot 1: 0:00–0:03"
+      },
+      "id": "ac-6",
+      "text": "Each cut declares shot 1 from 0:00 to 0:03.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [
+        0,
+        3
+      ],
+      "shot": 1,
+      "line": null,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "shot 2: 0:03–0:07"
+      },
+      "id": "ac-7",
+      "text": "Each cut declares shot 2 from 0:03 to 0:07.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [
+        3,
+        7
+      ],
+      "shot": 2,
+      "line": 13,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "shot 3: 0:07–0:12"
+      },
+      "id": "ac-8",
+      "text": "Each cut declares shot 3 from 0:07 to 0:12.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [
+        7,
+        12
+      ],
+      "shot": 3,
+      "line": null,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "teal running shoe with orange sole sliding in from the left over a dark night-city background"
+      },
+      "id": "ac-9",
+      "text": "In shot 1 a teal running shoe with orange sole slides in from the left over a dark night-city background.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [],
+      "shot": 1,
+      "line": 6,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "shoe fully inside frame at 0:01"
+      },
+      "id": "ac-10",
+      "text": "The shot 1 shoe is fully inside the frame by 0:01.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [
+        1
+      ],
+      "shot": 1,
+      "line": 7,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "Run the city"
+      },
+      "id": "ac-11",
+      "text": "The shot 1 caption reads exactly 'Run the city'.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [],
+      "shot": 1,
+      "line": 8,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "caption fully visible at 0:01"
+      },
+      "id": "ac-12",
+      "text": "The shot 1 caption is fully visible by 0:01.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [
+        1
+      ],
+      "shot": 1,
+      "line": 9,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "orange sole close-up in the same teal and orange colourway as shot 1"
+      },
+      "id": "ac-13",
+      "text": "Shot 2 shows a close-up of the orange sole in the same teal and orange colourway as shot 1.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [],
+      "shot": 2,
+      "line": 12,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "visible KESTREL wordmark at 0:03"
+      },
+      "id": "ac-14",
+      "text": "The KESTREL wordmark is absent at 0:03.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [
+        3
+      ],
+      "shot": null,
+      "line": 13,
+      "tests": [
+        "t-7",
+        "t-6",
+        "t-5"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "fully visible KESTREL wordmark at 0:05"
+      },
+      "id": "ac-15",
+      "text": "The KESTREL wordmark is fully visible by 0:05.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [
+        5
+      ],
+      "shot": null,
+      "line": 13,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "€149"
+      },
+      "id": "ac-16",
+      "text": "The shot 2 price tag reads exactly '€149'.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [],
+      "shot": 2,
+      "line": 14,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "visible €149 price tag at 0:04"
+      },
+      "id": "ac-17",
+      "text": "The price tag is visible at 0:04.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [
+        4
+      ],
+      "shot": null,
+      "line": 14,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "visible €149 price tag at 0:06"
+      },
+      "id": "ac-18",
+      "text": "The price tag is visible at 0:06.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [
+        6
+      ],
+      "shot": null,
+      "line": 14,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "Out 28 November"
+      },
+      "id": "ac-19",
+      "text": "The shot 3 headline reads exactly 'Out 28 November'.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [],
+      "shot": 3,
+      "line": 17,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "Get early access"
+      },
+      "id": "ac-20",
+      "text": "The shot 3 button reads exactly 'Get early access'.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [],
+      "shot": 3,
+      "line": 18,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "fully visible Get early access button at 0:09"
+      },
+      "id": "ac-21",
+      "text": "The shot 3 button is fully visible by 0:09.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [
+        9
+      ],
+      "shot": 3,
+      "line": 18,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "forall",
+        "operand": "KESTREL wordmark visible in each frame from 0:07 to 0:12"
+      },
+      "id": "ac-22",
+      "text": "The KESTREL wordmark is visible throughout shot 3.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [],
+      "shot": 3,
+      "line": 19,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "text or button overlapping the top 14% of the 9:16 frame"
+      },
+      "id": "ac-23",
+      "text": "On the 9:16 cut, no text or button occupies the top 14% of the frame.",
+      "cuts": [
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 20,
+      "tests": [
+        "t-1",
+        "t-4"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "text or button overlapping the bottom 35% of the 9:16 frame"
+      },
+      "id": "ac-24",
+      "text": "On the 9:16 cut, no text or button occupies the bottom 35% of the frame.",
+      "cuts": [
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 20,
+      "tests": [
+        "t-1",
+        "t-4"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "forall",
+        "operand": "every rendered text layer fully inside its cut's frame"
+      },
+      "id": "ac-25",
+      "text": "All text remains fully inside the frame on each cut.",
+      "cuts": [
+        "16x9",
+        "9x16",
+        "1x1"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 21,
+      "tests": [
+        "t-3",
+        "t-2",
+        "t-1",
+        "t-4"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "t-3",
+      "file": "inspect-the-1-1-launch-cut_test.md",
+      "title": "Inspect the 1:1 launch cut",
+      "summary": "Validate the square cut's duration, frame rate, dimensions, timed hero, price and CTA, and text containment.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [
+            "ac-1",
+            "ac-2",
+            "ac-5",
+            "ac-6",
+            "ac-7",
+            "ac-8"
+          ],
+          "body": "Open {{sheet_url}}?cut=1x1 in the browser, wait for the contact sheet header to read ready, and inspect the composition header for this square cut, then assert its dimensions are 1080x1080 pixels, its frame rate is 30 fps, its duration is 12 seconds, and its declared shots run 0:00–0:03, 0:03–0:07, and 0:07–0:12."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-9",
+            "ac-10",
+            "ac-11",
+            "ac-12"
+          ],
+          "body": "In the 1:1 contact sheet's shot 1 frames and facts table, inspect the product hero and caption through 0:01, then assert a teal shoe with orange sole slides in from the left over a dark night-city background, the shoe is fully inside the frame at 0:01, and the exact caption 'Run the city' is fully visible at 0:01."
+        },
+        {
+          "heading": "Step 3",
+          "verifies": [
+            "ac-13",
+            "ac-15",
+            "ac-16",
+            "ac-17",
+            "ac-18"
+          ],
+          "body": "In the 1:1 shot 2 frames and named-layer facts at 0:04, 0:05 and 0:06, inspect the sole, KESTREL wordmark and price tag, then assert the orange sole close-up retains shot 1's teal-and-orange colourway, KESTREL is fully visible at 0:05, and the exact price '€149' is visible at both 0:04 and 0:06."
+        },
+        {
+          "heading": "Step 4",
+          "verifies": [
+            "ac-19",
+            "ac-20",
+            "ac-21",
+            "ac-22"
+          ],
+          "body": "In the 1:1 shot 3 frames and named-layer facts through 0:09 and the displayed remainder of shot 3, inspect the release headline, early-access button and KESTREL wordmark, then assert the headline reads exactly 'Out 28 November', the button reads exactly 'Get early access' and is fully visible by 0:09, and the wordmark is visible in every displayed shot 3 frame."
+        },
+        {
+          "heading": "Step 5",
+          "verifies": [
+            "ac-25"
+          ],
+          "body": "Across the 1:1 contact sheet's displayed frames, inspect every rendered text layer and its fully-inside-frame fact, then assert all displayed text layers are fully inside the 1:1 frame."
+        }
+      ]
+    },
+    {
+      "id": "t-2",
+      "file": "inspect-the-16-9-launch-cut_test.md",
+      "title": "Inspect the 16:9 launch cut",
+      "summary": "Validate the landscape cut's duration, frame rate, dimensions, timed hero, price and CTA, and text containment.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [
+            "ac-1",
+            "ac-2",
+            "ac-3",
+            "ac-6",
+            "ac-7",
+            "ac-8"
+          ],
+          "body": "Open {{sheet_url}}?cut=16x9 in the browser, wait for the contact sheet header to read ready, and inspect the composition header for this landscape cut, then assert its dimensions are 1920x1080 pixels, its frame rate is 30 fps, its duration is 12 seconds, and its declared shots run 0:00–0:03, 0:03–0:07, and 0:07–0:12."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-9",
+            "ac-10",
+            "ac-11",
+            "ac-12"
+          ],
+          "body": "In the 16:9 contact sheet's shot 1 frames and facts table, inspect the product hero and caption through 0:01, then assert a teal shoe with orange sole slides in from the left over a dark night-city background, the shoe is fully inside the frame at 0:01, and the exact caption 'Run the city' is fully visible at 0:01."
+        },
+        {
+          "heading": "Step 3",
+          "verifies": [
+            "ac-13",
+            "ac-15",
+            "ac-16",
+            "ac-17",
+            "ac-18"
+          ],
+          "body": "In the 16:9 shot 2 frames and named-layer facts at 0:04, 0:05 and 0:06, inspect the sole, KESTREL wordmark and price tag, then assert the orange sole close-up retains shot 1's teal-and-orange colourway, KESTREL is fully visible at 0:05, and the exact price '€149' is visible at both 0:04 and 0:06."
+        },
+        {
+          "heading": "Step 4",
+          "verifies": [
+            "ac-19",
+            "ac-20",
+            "ac-21",
+            "ac-22"
+          ],
+          "body": "In the 16:9 shot 3 frames and named-layer facts through 0:09 and the displayed remainder of shot 3, inspect the release headline, early-access button and KESTREL wordmark, then assert the headline reads exactly 'Out 28 November', the button reads exactly 'Get early access' and is fully visible by 0:09, and the wordmark is visible in every displayed shot 3 frame."
+        },
+        {
+          "heading": "Step 5",
+          "verifies": [
+            "ac-25"
+          ],
+          "body": "Across the 16:9 contact sheet's displayed frames, inspect every rendered text layer and its fully-inside-frame fact, then assert all displayed text layers are fully inside the 16:9 frame."
+        }
+      ]
+    },
+    {
+      "id": "t-1",
+      "file": "inspect-the-9-16-launch-cut_test.md",
+      "title": "Inspect the 9:16 launch cut",
+      "summary": "Validate the vertical cut's duration, frame rate, dimensions, timed hero, price and CTA, and text containment.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [
+            "ac-1",
+            "ac-2",
+            "ac-4",
+            "ac-6",
+            "ac-7",
+            "ac-8"
+          ],
+          "body": "Open {{sheet_url}}?cut=9x16 in the browser, wait for the contact sheet header to read ready, and inspect the composition header for this vertical cut, then assert its dimensions are 1080x1920 pixels, its frame rate is 30 fps, its duration is 12 seconds, and its declared shots run 0:00–0:03, 0:03–0:07, and 0:07–0:12."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-9",
+            "ac-10",
+            "ac-11",
+            "ac-12"
+          ],
+          "body": "In the 9:16 contact sheet's shot 1 frames and facts table, inspect the product hero and caption through 0:01, then assert a teal shoe with orange sole slides in from the left over a dark night-city background, the shoe is fully inside the frame at 0:01, and the exact caption 'Run the city' is fully visible at 0:01."
+        },
+        {
+          "heading": "Step 3",
+          "verifies": [
+            "ac-13",
+            "ac-15",
+            "ac-16",
+            "ac-17",
+            "ac-18"
+          ],
+          "body": "In the 9:16 contact sheet's shot 2 frames and named-layer facts at 0:04, 0:05 and 0:06, inspect the sole, KESTREL wordmark and price tag, then assert the orange sole close-up retains shot 1's teal-and-orange colourway, KESTREL is fully visible at 0:05, and the exact price '€149' is visible at both 0:04 and 0:06."
+        },
+        {
+          "heading": "Step 4",
+          "verifies": [
+            "ac-19",
+            "ac-20",
+            "ac-21",
+            "ac-22"
+          ],
+          "body": "In the 9:16 shot 3 frames and named-layer facts through 0:09 and the displayed remainder of shot 3, inspect the release headline, early-access button and KESTREL wordmark, then assert the headline reads exactly 'Out 28 November', the button reads exactly 'Get early access' and is fully visible by 0:09, and the wordmark is visible in every displayed shot 3 frame."
+        },
+        {
+          "heading": "Step 5",
+          "verifies": [
+            "ac-23",
+            "ac-24",
+            "ac-25"
+          ],
+          "body": "In the 9:16 contact sheet, enable Show safe zones and inspect text and button layers across the displayed frames against the shaded bands and each text layer's frame-containment facts, then assert no text or button overlaps the top 14% or bottom 35% and every displayed text layer is fully inside the frame."
+        }
+      ]
+    },
+    {
+      "id": "t-4",
+      "file": "keep-vertical-text-and-button-clear-of-reserved-bands_test.md",
+      "title": "Keep vertical text and button clear of reserved bands",
+      "summary": "Across the 9:16 contact sheet check text and button do not overlap the top 14% or bottom 35% of the frame.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [],
+          "body": "Open {{sheet_url}}?cut=9x16 in the browser and wait until the vertical contact sheet header reads ready."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-23",
+            "ac-24",
+            "ac-25"
+          ],
+          "body": "On the 9:16 sheet, enable Show safe zones and compare every displayed frame's text and button placement with the shaded top 14% and bottom 35% bands and the text-layer frame-containment facts, then assert no text or button overlaps either restricted band and every displayed text layer is fully inside the frame."
+        }
+      ]
+    },
+    {
+      "id": "t-7",
+      "file": "reject-premature-kestrel-wordmark-in-1-1_test.md",
+      "title": "Reject premature KESTREL wordmark in 1:1",
+      "summary": "At 0:03 prove the square cut does not yet display the KESTREL wordmark.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [
+            "ac-14"
+          ],
+          "body": "Open {{sheet_url}}?cut=1x1 in the browser, wait for the square contact sheet header to read ready, and inspect the shot 2 frame labelled 0:03 and its KESTREL layer fact, then assert the KESTREL wordmark is not visible at 0:03."
+        }
+      ]
+    },
+    {
+      "id": "t-6",
+      "file": "reject-premature-kestrel-wordmark-in-16-9_test.md",
+      "title": "Reject premature KESTREL wordmark in 16:9",
+      "summary": "At 0:03 prove the landscape cut does not yet display the KESTREL wordmark.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [
+            "ac-14"
+          ],
+          "body": "Open {{sheet_url}}?cut=16x9 in the browser, wait for the landscape contact sheet header to read ready, and inspect the shot 2 frame labelled 0:03 and its KESTREL layer fact, then assert the KESTREL wordmark is not visible at 0:03."
+        }
+      ]
+    },
+    {
+      "id": "t-5",
+      "file": "reject-premature-kestrel-wordmark-in-9-16_test.md",
+      "title": "Reject premature KESTREL wordmark in 9:16",
+      "summary": "At 0:03 prove the vertical cut does not yet display the KESTREL wordmark.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [
+            "ac-14"
+          ],
+          "body": "Open {{sheet_url}}?cut=9x16 in the browser, wait for the vertical contact sheet header to read ready, and inspect the shot 2 frame labelled 0:03 and its KESTREL layer fact, then assert the KESTREL wordmark is not visible at 0:03."
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "sc-3",
+      "title": "Inspect the 1:1 launch cut"
+    },
+    {
+      "id": "sc-2",
+      "title": "Inspect the 16:9 launch cut"
+    },
+    {
+      "id": "sc-1",
+      "title": "Inspect the 9:16 launch cut"
+    },
+    {
+      "id": "sc-7",
+      "title": "Keep vertical text and button clear of reserved bands"
+    },
+    {
+      "id": "sc-6",
+      "title": "Reject premature KESTREL wordmark in 1:1"
+    },
+    {
+      "id": "sc-5",
+      "title": "Reject premature KESTREL wordmark in 16:9"
+    },
+    {
+      "id": "sc-4",
+      "title": "Reject premature KESTREL wordmark in 9:16"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "gap-1",
+      "title": "Contact sheet URL"
+    },
+    {
+      "id": "gap-2",
+      "title": "Continuous frame coverage"
+    }
+  ],
+  "credits": 25.310000000000002
+}
