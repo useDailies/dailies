@@ -4,7 +4,7 @@ import { checkKey, CUTS, formatTimecode, parseStoryboard, sampleFrames, framesFo
 import { api } from '../lib/api';
 import { useComposition } from '../lib/composition';
 import { Playhead, useFrame, usePlaying } from '../lib/playhead';
-import { CUT_RATIO, summarize, verdictMap } from '../lib/verdicts';
+import { CUT_RATIO, summarize, verdictMap, worstVersion } from '../lib/verdicts';
 import { Icon, TopBar } from '../components/Chrome';
 import { StagePlayer } from '../components/Stage';
 import { corrections } from '../components/Panels';
@@ -39,7 +39,8 @@ export default function Compare() {
     setCut(best ?? (project.cuts.includes('9x16') ? '9x16' : project.cuts[0]));
   }, [project]);
 
-  const a = project?.versions[0]?.n ?? null;
+  // "Before" is the version Kane scored lowest (a one-shot draft, or a revision that broke the storyboard).
+  const a = worstVersion(project) ?? project?.versions[0]?.n ?? null;
   const b = project?.versions.at(-1)?.n ?? null;
   const A = useComposition(id, a);
   const B = useComposition(id, b);
@@ -94,7 +95,7 @@ export default function Compare() {
       <section className="cmp-hero">
         <div className="cmp-score">
           <div className="cs draft">
-            <span>First draft · v{a}</span>
+            <span>Before Kane · v{a}</span>
             <b>
               {sa.pass}
               <small>/{sa.total}</small>
@@ -175,13 +176,13 @@ export default function Compare() {
                   <Icon name="fwd" size={12} />
                 </span>
               </div>
-              <span className="wipe-tag l">Draft v{a}</span>
+              <span className="wipe-tag l">Before Kane v{a}</span>
               <span className="wipe-tag r">After Kane v{b}</span>
             </div>
           ) : (
             <div className="side">
               <figure>
-                <figcaption>Draft v{a}</figcaption>
+                <figcaption>Before Kane v{a}</figcaption>
                 <StagePlayer comp={A.comp} cut={cut} playhead={playhead} zones={zones} follower maxHeight={tall ? 600 : 360} />
               </figure>
               <figure>
@@ -203,7 +204,7 @@ export default function Compare() {
         <div className="ct">
           <div className="ct-h">
             <span>Criterion</span>
-            <span>Draft v{a}</span>
+            <span>Before v{a}</span>
             <span>Final v{b}</span>
           </div>
           {rows.map(({ c, b: x, a: y }) => {

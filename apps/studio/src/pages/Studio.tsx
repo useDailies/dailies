@@ -5,7 +5,7 @@ import { api, STATIC } from '../lib/api';
 import { useComposition } from '../lib/composition';
 import { Playhead, useFrame, usePlaying } from '../lib/playhead';
 import { useProjectStream } from '../lib/stream';
-import { CUT_RATIO, summarize, verdictMap } from '../lib/verdicts';
+import { CUT_RATIO, summarize, verdictMap, worstVersion } from '../lib/verdicts';
 import { AgentChips, Icon, TopBar } from '../components/Chrome';
 import { StagePlayer } from '../components/Stage';
 import { Timeline } from '../components/Timeline';
@@ -137,8 +137,8 @@ export default function Studio() {
 
   const busy = state.busy ?? project.busy ?? null;
   const reviewed = project.rounds.length > 0;
-  const firstRound = project.rounds[0];
-  const firstScore = firstRound ? summarize(verdictMap(project, firstRound.version).values()) : null;
+  const worstV = worstVersion(project);
+  const firstScore = worstV ? summarize(verdictMap(project, worstV).values()) : null;
 
   return (
     <div className={`studio ${busy ? 'is-busy' : ''}`}>
@@ -289,6 +289,21 @@ export default function Studio() {
             <PrimaryAction busy={busy} hasDraft={Boolean(latest)} reviewed={reviewed} sealed={Boolean(project.seal?.endedAt)} hasTests={Boolean(project.plan?.tests.length)} onAct={act} disabled={STATIC || Boolean(project.recorded)} />
             {actionError || project.error ? <p className="err">{actionError ?? project.error}</p> : null}
             <CreditMeter project={project} />
+            {!STATIC && !project.recorded && latest && !busy && project.plan ? (
+              <ReviseBox
+                onSend={async (text) => {
+                  setActionError(null);
+                  try {
+                    await api.revise(project.id, text);
+                    setTab('live');
+                    setPick(null);
+                    refetch();
+                  } catch (e) {
+                    setActionError((e as Error).message);
+                  }
+                }}
+              />
+            ) : null}
             {!STATIC && !project.recorded && latest ? (
               <GateCard
                 project={project}
@@ -397,7 +412,17 @@ function PrimaryAction({
       <div className="action-row">
         <div className="action-busy">
           <span className="spinner" />
-          {busy === 'draft' ? 'Claude is drafting · Kane is designing tests' : busy === 'plan' ? 'Kane is finishing the test plan' : busy === 'review' ? 'Kane review loop running' : 'Sealing evidence'}
+          {busy === 'draft'
+            ? 'Claude is drafting · Kane is designing tests'
+            : busy === 'plan'
+              ? 'Kane is finishing the test plan'
+              : busy === 'review'
+                ? 'Kane review loop running'
+                : busy === 'revise'
+                  ? 'Claude is making your change · Kane gates it'
+                  : busy === 'gate'
+                    ? 'Kane is judging your Claude Code session'
+                    : 'Sealing evidence'}
         </div>
         <button type="button" className="btn ghost sm" onClick={() => onAct('cancel')}>
           <Icon name="stop" size={12} /> Stop
@@ -565,5 +590,47 @@ function CodeStream({ typing }: { typing: { file: string; chars: number; tail: s
         <span className="caret" />
       </pre>
     </div>
+  );
+}
+
+const SUGGESTIONS = [
+  'Make the caption a big, bold lower-third subtitle near the bottom of the frame, like social video captions.',
+  'Make shot 1 punchier: the shoe slams in from the left with more overshoot.',
+  'Put the price tag in a glowing pill in the bottom-right corner.',
+];
+
+function ReviseBox({ onSend }: { onSend: (text: string) => Promise<void> }) {
+  const [text, setText] = useState('');
+  const [sending, setSending] = useState(false);
+  return (
+    <form
+      className="revise"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        if (text.trim().length < 4) return;
+        setSending(true);
+        await onSend(text.trim());
+        setSending(false);
+        setText('');
+      }}
+    >
+      <label htmlFor="revise-text">
+        <b>Ask Claude for a change</b>
+        <span>Kane re-judges the whole spot before Claude may stop.</span>
+      </label>
+      <textarea id="revise-text" value={text} onChange={(e) => setText(e.target.value)} rows={2} placeholder="e.g. make the caption a big lower-third subtitle" />
+      <div className="revise-row">
+        <div className="sugs">
+          {SUGGESTIONS.map((s) => (
+            <button key={s} type="button" onClick={() => setText(s)} title={s}>
+              {s.split(':')[0].split(',')[0].slice(0, 34)}…
+            </button>
+          ))}
+        </div>
+        <button type="submit" className="btn sm" disabled={sending || text.trim().length < 4}>
+          {sending ? 'Sending…' : 'Send'}
+        </button>
+      </div>
+    </form>
   );
 }

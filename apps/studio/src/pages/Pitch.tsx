@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import type { Project } from '@dailies/shared';
 import { api, fileUrl } from '../lib/api';
-import { summarize, verdictMap } from '../lib/verdicts';
+import { summarize, verdictMap, worstVersion } from '../lib/verdicts';
 import { corrections } from '../components/Panels';
 import { Logo } from '../components/Chrome';
 
@@ -35,7 +35,7 @@ export default function Pitch() {
   const showcase = useShowcase();
   const stats = useMemo(() => {
     if (!showcase?.rounds.length) return null;
-    const first = summarize(verdictMap(showcase, showcase.rounds[0].version).values());
+    const first = summarize(verdictMap(showcase, worstVersion(showcase)).values());
     const last = summarize(verdictMap(showcase, showcase.versions.at(-1)?.n ?? null).values());
     const fixes = corrections(showcase);
     const rounds = showcase.rounds;
@@ -58,13 +58,13 @@ export default function Pitch() {
       perCheck: conditions ? verifyCredits / conditions : 0,
       examples: fixes.filter((f) => f.fixedIn).slice(0, 4),
       caught: (() => {
-        const r = rounds[0];
+        const r = rounds.find((x) => x.results.some((y) => y.verdict !== 'pass')) ?? rounds[0];
         const failed = r.results.filter((x) => x.verdict !== 'pass');
         const cut = failed[0]?.cut;
         return {
           cut,
           eye: cut && r.eye[cut] ? fileUrl(showcase.id, r.eye[cut]!) : null,
-          report: cut ? (r.reports?.[cut] ?? '').split('\n').filter((l) => !/: none$/.test(l)) : [],
+          report: cut ? (r.reports?.[cut] ?? '').split('\n').filter((l) => l.trim() && !/: none$/.test(l)) : [],
           items: failed.map((x) => ({ ac: x.ac, cut: x.cut, text: showcase.plan?.criteria.find((c) => c.id === x.ac)?.text ?? x.ac })),
         };
       })(),
@@ -159,7 +159,7 @@ export default function Pitch() {
       node: stats?.caught.items.length ? (
         <div className="s-split">
           <div>
-            <p className="eyebrow">What Kane caught in Opus 5.5’s one-shot draft</p>
+            <p className="eyebrow">What Kane caught</p>
             <h2 className="s-h">
               It looked finished.
               <br />
@@ -351,7 +351,7 @@ export default function Pitch() {
                     {stats.first.pass}
                     <small>/{stats.first.total}</small>
                   </b>
-                  <span>Claude’s one-shot draft</span>
+                  <span>before Kane</span>
                 </div>
                 <i>→</i>
                 <div className="ok">

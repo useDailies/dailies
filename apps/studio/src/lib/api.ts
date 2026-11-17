@@ -25,6 +25,7 @@ export const api = {
   projects: () => (STATIC ? j<Project[]>('/recorded/index.json') : j<Project[]>('/api/projects')),
   project: (id: string) => (STATIC ? j<Project>(`/recorded/${id}/project.json`) : j<Project>(`/api/projects/${id}`)),
   create: (storyboard: string, title?: string) => j<Project>('/api/projects', { method: 'POST', body: JSON.stringify({ storyboard, title }) }),
+  revise: (id: string, request: string) => j<{ ok: true }>(`/api/projects/${id}/revise`, { method: 'POST', body: JSON.stringify({ request }) }),
   patch: (id: string, body: { title?: string; gate?: boolean }) => j<Project>(`/api/projects/${id}`, { method: 'PATCH', body: JSON.stringify(body) }),
   saveStoryboard: (id: string, storyboard: string) => j<Project>(`/api/projects/${id}/storyboard`, { method: 'PUT', body: JSON.stringify({ storyboard }) }),
   action: (id: string, action: 'draft' | 'review' | 'seal' | 'cancel') => j<{ ok: true }>(`/api/projects/${id}/${action}`, { method: 'POST', body: '{}' }),

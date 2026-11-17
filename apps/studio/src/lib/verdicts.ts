@@ -43,3 +43,14 @@ export function cellsForCut(map: Map<string, Cell>, cut: CutId) {
 }
 
 export const CUT_RATIO: Record<string, string> = { '16x9': '16:9', '9x16': '9:16', '1x1': '1:1', '4x5': '4:5' };
+
+/** The judged version Kane scored lowest — "before Kane" on compare views. */
+export function worstVersion(project: Project | null): number | null {
+  if (!project?.rounds.length) return null;
+  let worst: { v: number; pass: number } | null = null;
+  for (const v of [...new Set(project.rounds.map((r) => r.version))]) {
+    const s = summarize(verdictMap(project, v).values());
+    if (!worst || s.pass < worst.pass) worst = { v, pass: s.pass };
+  }
+  return worst?.v ?? null;
+}

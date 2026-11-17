@@ -75,7 +75,16 @@ function feedFor(e: DailiesEvent): FeedItem | null {
   const base = { seq: e.seq, ts: e.ts };
   switch (e.type) {
     case 'claude.start':
-      return { ...base, who: 'claude', kind: 'start', tone: 'info', text: d.stage === 'draft' ? 'Drafting from the storyboard' : 'Resuming the draft session with Kane’s findings', detail: d.prompt };
+      return {
+        ...base,
+        who: 'claude',
+        kind: 'start',
+        tone: 'info',
+        text: d.stage === 'draft' ? 'Drafting from the storyboard' : d.stage === 'revise' ? 'Resuming the session with your change request' : 'Resuming the draft session with Kane’s findings',
+        detail: d.prompt,
+      };
+    case 'revise.request':
+      return { ...base, who: 'dailies', kind: 'request', tone: 'warn', text: `You asked: “${d.request}”` };
     case 'claude.init':
       return { ...base, who: 'claude', kind: 'init', tone: 'muted', text: `session ${String(d.sessionId).slice(0, 8)} · ${d.model}` };
     case 'claude.text':

@@ -4,7 +4,7 @@ import { Thumbnail } from '@remotion/player';
 import { CUTS, type Project } from '@dailies/shared';
 import { api, STATIC } from '../lib/api';
 import { useComposition } from '../lib/composition';
-import { summarize, verdictMap } from '../lib/verdicts';
+import { summarize, verdictMap, worstVersion } from '../lib/verdicts';
 import { Icon, TopBar } from '../components/Chrome';
 import { corrections } from '../components/Panels';
 
@@ -66,7 +66,7 @@ function Card({ p }: { p: Project }) {
   const first = p.versions[0]?.n ?? null;
   const { comp } = useComposition(latest ? p.id : undefined, latest);
   const final = summarize(verdictMap(p, latest).values());
-  const draft = first && p.rounds.length ? summarize(verdictMap(p, p.rounds[0].version).values()) : null;
+  const draft = first && p.rounds.length ? summarize(verdictMap(p, worstVersion(p)).values()) : null;
   const fixes = corrections(p);
   const spec = CUTS['16x9'];
   return (
@@ -97,7 +97,7 @@ function Card({ p }: { p: Project }) {
           <div className="card-score">
             {draft && draft.pass !== final.pass ? (
               <span className="from">
-                draft {draft.pass}/{draft.total}
+                before {draft.pass}/{draft.total}
               </span>
             ) : null}
             <span className={final.fail ? 'bad' : 'ok'}>
