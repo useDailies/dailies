@@ -1,0 +1,16 @@
+node_modules/
+.env
+.env.*
+!.env.example
+dist/
+.DS_Store
+*.log
+/workspaces/*/.context/
+/workspaces/*/node_modules/
+/.data/
+/out/
+/spike/
+/workspaces/*
+!/workspaces/.gitkeep
+.dev.log
+apps/server/*.mjs
