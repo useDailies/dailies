@@ -21,6 +21,7 @@ Everyone used Kane to test their code. I’m a designer, and I used it to test w
 - [Lane](#lane)
 - [Important links](#important-links)
 - [How to demo (3 minutes)](#how-to-demo-3-minutes)
+- [Use dailies from your own Claude Code or Cursor (MCP)](#use-dailies-from-your-own-claude-code-or-cursor-mcp)
 - [Built with](#built-with)
 - [Prerequisites](#prerequisites)
 - [Quick start](#quick-start)
@@ -168,6 +169,30 @@ From the terminal, the same pipeline runs headless against a running server:
 scripts/run-pipeline.sh            # demo storyboard: draft + Kane review
 scripts/run-pipeline.sh --seal     # …and seal
 ```
+
+## Use dailies from your own Claude Code or Cursor (MCP)
+
+dailies also runs inside **your** agent session. Your agent writes the video in your own repository, dailies sends every cut to Kane CLI, and the run is saved to your dailies account. Full docs: [`docs/MCP.md`](docs/MCP.md), also published at [`/docs/mcp`](https://daohbofm7o9ia.cloudfront.net/docs/mcp).
+
+```bash
+# Claude Code: the plugin bundles the MCP server, the Kane-gated Stop hook and /dailies:video
+claude plugin marketplace add <path-or-github-of-this-repo>
+claude plugin install dailies@dailies
+node plugins/dailies/bin/dailies.mjs login      # or ask Claude to "sign in to dailies"
+claude "/dailies:video"                         # composes video/storyboard.md; Kane judges it
+
+# Cursor (or Claude Code without the plugin)
+node plugins/dailies/bin/dailies.mjs init --cursor   # .cursor/mcp.json, hooks.json (stop → followup), rules
+```
+
+| Piece | What it is |
+| --- | --- |
+| **Accounts** | Sign up at `/login`. `dailies login` uses a device code (`/device?code=…`), so the agent receives a revocable personal token, never your password. Your spots and connected agents are at `/account` |
+| **MCP server** (`dailies mcp`) | `dailies_login`, `dailies_start`, `dailies_criteria`, `dailies_review` (verdicts, Kane's reasons, measured placement and the contact sheet *as an image*), `dailies_status`, `dailies_seal`, `dailies_whoami`, plus the `make_video` prompt |
+| **Stop hook** (`dailies hook stop`) | In a linked repo, every attempt to stop triggers the same Kane review. Claude Code gets `{"decision":"block"}` and Cursor gets a `followup_message` until the cut passes. Anywhere else it does nothing, and it fails open |
+| **Privacy** | Agent spots are private to their owner. Kane's inspection browsers read them through a per-spot read-only key in the sheet URL |
+
+Source: [`packages/cli`](packages/cli) (bundled into [`plugins/dailies/bin/dailies.mjs`](plugins/dailies/bin/dailies.mjs)), [`apps/server/src/agent.ts`](apps/server/src/agent.ts), [`apps/server/src/auth.ts`](apps/server/src/auth.ts). Tests: `node apps/server/test/accounts.e2e.mjs` (16 account and privacy checks) and `node packages/cli/test/mcp.e2e.mjs <email> <password>` (12 MCP protocol checks, including the device login).
 
 ## Built with
 
@@ -542,6 +567,8 @@ apps/studio            React studio, contact sheet (sheet.css), before/after, pi
 packages/shared        Storyboard parser, frame sampling, criterion mapping, Kane condition builder (+ tests)
 packages/hook          Claude Code Stop hook (stop.mjs)
 scripts                export-recorded.ts, run-pipeline.sh, deploy.sh
+packages/cli           dailies CLI: device login, MCP server, Stop hook adapters (Claude Code, Cursor), init
+plugins/dailies        Claude Code plugin: MCP server + Stop hook + /dailies:video skill (.claude-plugin/marketplace.json at the root)
 brand                  Logo, wordmark and social assets (generated: src/build.mjs, src/social.mjs)
 video                  The film: script, voiceover, recordings, Remotion edit, renderer
 infra/deployer         Lambda that unpacks site bundles into S3 and invalidates CloudFront
