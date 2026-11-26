@@ -50,7 +50,7 @@ export function AgentChips({ claudeActive, kaneActive }: { claudeActive?: boolea
       <span className={`avatar kane ${kaneActive ? 'active' : ''}`} title={h?.kane.version ? `kane-cli ${h.kane.version} · ${h.kane.user}` : 'Kane CLI'}>
         <Face who="kane" />
         Kane CLI
-        <em>{h?.kane.credits != null ? `${Math.round(h.kane.credits).toLocaleString()} cr` : h ? 'logged out' : '…'}</em>
+        <em>{h?.kane.credits != null ? `${Math.round(h.kane.credits).toLocaleString()} cr` : h?.kane.ready ? 'hosted' : h ? 'logged out' : '…'}</em>
       </span>
     </div>
   );
@@ -133,8 +133,8 @@ export function SiteHeader({ onDemo, demoLabel = 'Try the demo', busy }: { onDem
             <span className="site-agents" title={`Claude Code ${h?.claude.version ?? ''} · Kane CLI ${h?.kane.version ?? ''}`}>
               <Face who="claude" size={18} />
               <Face who="kane" size={18} />
-              <i className={`dot ${h?.claude.installed && h?.kane.user ? 'ok' : h ? 'bad' : ''}`} />
-              <span>{h ? (h.claude.installed && h.kane.user ? 'agents ready' : 'agent missing') : 'checking'}</span>
+              <i className={`dot ${(h?.drafting === false ? h?.kane.ready : h?.claude.installed && h?.kane.user) ? 'ok' : h ? 'bad' : ''}`} />
+              <span>{h ? (h.drafting === false ? (h.kane.ready ? 'Kane CLI ready' : 'Kane offline') : h.claude.installed && h.kane.user ? 'agents ready' : 'agent missing') : 'checking'}</span>
             </span>
           ) : null}
           <AccountMenu />

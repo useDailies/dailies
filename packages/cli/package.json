@@ -1,10 +1,16 @@
 {
-  "name": "dailies-cli",
-  "version": "0.1.0",
+  "name": "@usedailies/cli",
+  "version": "0.2.0",
   "description": "dailies for your own coding agent: an MCP server, a Kane-gated Stop hook and device login. Claude Code or Cursor writes the video; Kane CLI proves every frame.",
   "type": "module",
-  "bin": { "dailies": "dist/dailies.mjs" },
-  "files": ["dist"],
+  "bin": {
+    "dailies": "dist/dailies.mjs"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "node build.mjs",
     "typecheck": "tsc --noEmit -p ."
@@ -17,5 +23,31 @@
     "esbuild": "^0.24.0",
     "@types/node": "^22.10.0"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/useDailies/dailies.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://daohbofm7o9ia.cloudfront.net/docs/mcp",
+  "bugs": {
+    "url": "https://github.com/useDailies/dailies/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "claude-code",
+    "cursor",
+    "kane-cli",
+    "remotion",
+    "video",
+    "testing",
+    "motion-design"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -56,11 +56,18 @@ export async function review(root: string, trigger: 'mcp' | 'hook' | 'cli', clie
   const dir = join(root, l.dir);
   if (!existsSync(join(dir, 'Video.tsx'))) throw new Error(`No composition yet: write ${l.dir}/Video.tsx first.`);
   const files = collectComposition(dir);
-  const result = await call<JudgeResult>(`/api/agent/spots/${l.spot}/submit`, {
+  // Kane takes about a minute; run it as a job and poll, so no proxy times the request out.
+  const { job } = await call<{ job: string }>(`/api/agent/spots/${l.spot}/submit?async=1`, {
     method: 'POST',
     body: JSON.stringify({ files, trigger: trigger === 'cli' ? 'mcp' : trigger, client, summary }),
-    timeoutMs: 590_000,
   });
+  let result: JudgeResult | undefined;
+  const deadline = Date.now() + 580_000;
+  while (!result && Date.now() < deadline) {
+    const r = await call<{ done: boolean; result?: JudgeResult }>(`/api/agent/jobs/${job}?wait=20`, { timeoutMs: 40_000 });
+    if (r.done) result = r.result;
+  }
+  if (!result) throw new Error('Kane CLI is still judging after 10 minutes; check the studio link.');
   // Bring the contact sheets Kane judged next to the code, so the agent can look at them.
   const images: { cut: string; ratio: string; path: string; bytes: Buffer }[] = [];
   let feedback = result.feedback;

@@ -329,7 +329,7 @@ function KaneScene({ sc }: { sc: Scene }) {
               )}
             </div>
             <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 10, font: `500 22px ${F.mono}`, color: lit ? '#9cc0ff' : 'rgba(255,255,255,.6)' }}>
-              {lit ? <Face who="kane" size={24} /> : null} {t.label}
+              {lit ? <Face who="kane" size={24} color="#9cc0ff" /> : null} {t.label}
             </div>
           </div>
         );

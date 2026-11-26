@@ -1,3 +1,4 @@
+import { LOGOS, LOGO_COLORS } from '@dailies/shared';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 /** Lucide-style line icons (16px, 1.6 stroke). */
@@ -134,8 +135,29 @@ export function VMark({ state, size }: { state: string; size?: number }) {
   );
 }
 
-export function Face({ who, size = 22 }: { who: 'claude' | 'kane' | 'fail' | 'pass'; size?: number }) {
-  const letter = who === 'claude' ? 'C' : who === 'kane' ? 'K' : who === 'pass' ? '✓' : '!';
+/** The real agent logos: the Claude spark (clay) and the Kane CLI mark (cobalt, or `color`). */
+export function AgentLogo({ who, size = 18, color }: { who: 'claude' | 'kane'; size?: number; color?: string }) {
+  const l = LOGOS[who];
+  const c = color ?? LOGO_COLORS[who];
+  return l.stroke ? (
+    <svg width={size} height={size} viewBox={l.viewBox} fill="none" aria-hidden className={`agent-logo ${who}`}>
+      <path d={l.d} stroke={c} strokeWidth={1.25} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ) : (
+    <svg width={size} height={size} viewBox={l.viewBox} aria-hidden className={`agent-logo ${who}`}>
+      <path d={l.d} fill={c} />
+    </svg>
+  );
+}
+
+export function Face({ who, size = 22, color }: { who: 'claude' | 'kane' | 'fail' | 'pass'; size?: number; color?: string }) {
+  if (who === 'claude' || who === 'kane')
+    return (
+      <span className={`face logo ${who}`} style={{ width: size, height: size }} aria-hidden>
+        <AgentLogo who={who} size={Math.round(size * (who === 'claude' ? 0.92 : 0.96))} color={color} />
+      </span>
+    );
+  const letter = who === 'pass' ? '✓' : '!';
   return (
     <span className={`face ${who}`} style={{ width: size, height: size, fontSize: size * 0.48 }} aria-hidden>
       {letter}

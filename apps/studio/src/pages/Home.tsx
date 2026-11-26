@@ -10,6 +10,7 @@ import { SiteHeader } from '../components/Chrome';
 import { corrections } from '../components/Panels';
 import { Face, Icon, VMark } from '../components/ui';
 import { useMe } from '../lib/session';
+import { useHealth } from '../components/Chrome';
 
 const FILM = import.meta.env.VITE_FILM_URL as string | undefined;
 
@@ -19,6 +20,9 @@ export default function Home() {
   const [creating, setCreating] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const me = useMe();
+  const health = useHealth();
+  // MCP-only server (the hosted one): your own agent composes; there is no server-side draft.
+  const mcpOnly = STATIC || health?.drafting === false;
   useEffect(() => {
     api.projects().then(setProjects).catch(() => setProjects([]));
   }, [me?.user?.id]);
@@ -49,7 +53,7 @@ export default function Home() {
 
   return (
     <div className="page">
-      <SiteHeader onDemo={tryDemo} demoLabel={STATIC ? 'Watch the demo' : 'Try the demo'} busy={creating} />
+      <SiteHeader onDemo={mcpOnly && !STATIC ? () => nav('/docs/mcp') : tryDemo} demoLabel={STATIC ? 'Watch the demo' : mcpOnly ? 'Get started' : 'Try the demo'} busy={creating} />
       <section className="hero">
         <div>
           <span className="eyebrow">
@@ -63,10 +67,16 @@ export default function Home() {
           </h1>
           <p className="lede">Agents write motion design as code now. dailies hands your storyboard to Claude Code to compose, and to Kane CLI to turn into tests. Kane judges every cut, frame by frame, in a real browser. Claude can’t call it done until the storyboard holds.</p>
           <div className="hero-cta">
-            <button type="button" className="btn ink lg" onClick={tryDemo} disabled={creating}>
-              {creating ? <span className="spinner" /> : <Icon name="spark" />} {STATIC ? 'Watch the demo run' : 'Try the demo storyboard'}
-            </button>
-            {!STATIC ? (
+            {mcpOnly && !STATIC ? (
+              <Link to="/docs/mcp" className="btn ink lg">
+                <Face who="claude" size={16} color="#fff" /> Connect your Claude Code
+              </Link>
+            ) : (
+              <button type="button" className="btn ink lg" onClick={tryDemo} disabled={creating}>
+                {creating ? <span className="spinner" /> : <Icon name="spark" />} {STATIC ? 'Watch the demo run' : 'Try the demo storyboard'}
+              </button>
+            )}
+            {!mcpOnly ? (
               <Link to="/new" className="btn lg">
                 <Icon name="plus" /> New spot
               </Link>
@@ -76,13 +86,24 @@ export default function Home() {
                 <Icon name="play" /> Watch the film · 2 min
               </a>
             ) : null}
-            {showcase && !STATIC ? (
+            {showcase && mcpOnly && !STATIC ? (
+              <Link to={`/p/${showcase.id}?replay=1`} className="btn lg">
+                <Icon name="replay" /> Watch a recorded run
+              </Link>
+            ) : null}
+            {showcase && !STATIC && !mcpOnly ? (
               <Link to={`/p/${showcase.id}?replay=1`} className="btn lg ghost">
                 <Icon name="replay" /> Replay a recorded run
               </Link>
             ) : null}
           </div>
-          <p className="hero-note">{STATIC ? 'A recorded run, replayed with its real timing.' : 'One click: creates the demo spot and starts Claude Code and Kane CLI. About 4 minutes to a reviewed cut.'}</p>
+          <p className="hero-note">
+            {STATIC
+              ? 'A recorded run, replayed with its real timing.'
+              : mcpOnly
+                ? 'Install the dailies plugin, sign in, and ask Claude to make the video. Kane CLI judges it here; every run is saved to your account.'
+                : 'One click: creates the demo spot and starts Claude Code and Kane CLI. About 4 minutes to a reviewed cut.'}
+          </p>
           {err ? <p className="err">{err}</p> : null}
         </div>
         <DemoCard project={showcase ?? null} />

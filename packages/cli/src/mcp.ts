@@ -83,10 +83,10 @@ export async function runMcp() {
     async (a) => {
       try {
         const l = linked(root());
-        const r = await call<{ ready: boolean; status?: string; criteria?: { id: string; text: string; cuts: string[]; atSeconds: number[]; storyboardLine: number | null }[]; tests?: { id: string; title: string }[] }>(
-          `/api/agent/spots/${l.spot}/criteria?wait=${a.wait_seconds ?? 240}`,
-          { timeoutMs: ((a.wait_seconds ?? 240) + 30) * 1000 },
-        );
+        type Crit = { ready: boolean; status?: string; criteria?: { id: string; text: string; cuts: string[]; atSeconds: number[]; storyboardLine: number | null }[]; tests?: { id: string; title: string }[] };
+        const until = Date.now() + (a.wait_seconds ?? 240) * 1000;
+        let r: Crit = await call<Crit>(`/api/agent/spots/${l.spot}/criteria?wait=${Math.min(20, a.wait_seconds ?? 240)}`, { timeoutMs: 45_000 });
+        while (!r.ready && Date.now() < until) r = await call<Crit>(`/api/agent/spots/${l.spot}/criteria?wait=20`, { timeoutMs: 45_000 });
         if (!r.ready) return text(`Kane CLI has not finished designing the criteria yet: ${r.status}`);
         return text(
           [

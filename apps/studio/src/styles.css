@@ -546,13 +546,15 @@ kbd,
   flex: none;
   position: relative;
 }
-.face.claude,
-.avatar.claude .face {
-  background: var(--claude);
+.face.logo {
+  background: none;
+  border-radius: 0;
 }
-.face.kane,
-.avatar.kane .face {
-  background: var(--kane);
+.face.logo .agent-logo {
+  display: block;
+}
+.agent-logo {
+  flex: none;
 }
 .avatar em {
   font-style: normal;
@@ -1593,6 +1595,10 @@ kbd,
 .sglyph.kane {
   background: var(--kane);
   font: 700 9.5px var(--display);
+}
+.sglyph.logo {
+  background: var(--panel);
+  border: 1px solid var(--line);
 }
 .sglyph.seal {
   background: var(--seal);
@@ -4295,4 +4301,182 @@ kbd,
   .docs-toc {
     display: none;
   }
+}
+
+/* ------------------------------------------------ spacing system (v2)
+   One content column (1112px + 24px gutters) and one vertical rhythm:
+   page top 64 · between sections 64 · section head → content 16 · card gaps 20. */
+:root {
+  --col: 1112px;
+  --gutter: 24px;
+  --sec: 64px;
+}
+.site-header-wrap {
+  padding: 14px var(--gutter) 0;
+}
+.site-header {
+  max-width: calc(var(--col) + 24px);
+  padding: 0 8px 0 14px;
+}
+.site-agents {
+  gap: 6px;
+}
+.site-agents .face + .face {
+  margin-left: 0;
+  box-shadow: none;
+}
+.hero,
+.how,
+.gallery,
+.acct-page,
+.docs-hero,
+.docs,
+.bk-hero,
+.bk-grid,
+.bk-sec {
+  max-width: calc(var(--col) + 2 * var(--gutter));
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+.hero {
+  padding-top: var(--sec);
+  padding-bottom: var(--sec);
+  gap: 56px;
+}
+.how {
+  padding-top: 0;
+  padding-bottom: var(--sec);
+  gap: 20px;
+}
+.how-step {
+  padding: 20px;
+  gap: 10px;
+}
+.gallery {
+  padding-top: 0;
+  padding-bottom: var(--sec);
+}
+.gallery:last-child {
+  padding-bottom: 96px;
+}
+.gallery-head {
+  margin-bottom: 16px;
+  align-items: center;
+}
+.gallery-head .muted {
+  font-size: 13px;
+}
+.cards {
+  gap: 20px;
+}
+.empty-spots {
+  margin-bottom: 0;
+  padding: 20px 24px;
+}
+/* account */
+.acct-page {
+  padding-top: var(--sec);
+  padding-bottom: 96px;
+}
+.acct-top {
+  grid-template-columns: minmax(0, 1fr) 480px;
+  gap: 56px;
+  margin-bottom: var(--sec);
+  align-items: center;
+}
+.acct-top h1 {
+  margin: 12px 0 12px;
+}
+.acct-top .lede {
+  margin: 0;
+}
+.acct-connect {
+  padding: 20px;
+  gap: 10px;
+}
+.acct-connect p {
+  margin: 6px 0 0;
+}
+.acct-section + .acct-section {
+  margin-top: var(--sec);
+}
+.tokens {
+  margin-bottom: 0;
+  gap: 10px;
+}
+.token-row {
+  padding: 14px 16px;
+}
+/* docs */
+.docs-hero {
+  padding-top: var(--sec);
+  padding-bottom: 40px;
+}
+.docs-quick {
+  margin-top: 24px;
+  gap: 12px;
+}
+.docs {
+  padding-top: 8px;
+  padding-bottom: 96px;
+  gap: 56px;
+}
+/* auth */
+.auth-card {
+  padding: 32px;
+  gap: 16px;
+}
+.auth-card .btn.lg {
+  justify-content: center;
+}
+/* brand */
+.bk-hero {
+  padding-top: var(--sec);
+  padding-bottom: 40px;
+}
+.bk-grid {
+  gap: 20px;
+  padding-bottom: var(--sec);
+}
+.bk-sec {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.bk-files {
+  gap: 20px;
+}
+@media (max-width: 900px) {
+  :root {
+    --sec: 44px;
+    --gutter: 16px;
+  }
+  .acct-top {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+.mcp-note {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: var(--r-lg);
+  background: var(--app);
+  border: 1px solid var(--line);
+}
+.mcp-note b {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 650 14px var(--font);
+}
+.mcp-note span {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.acct-top {
+  grid-template-columns: minmax(0, 1fr) 540px;
+}
+.cmd {
+  font-size: 12.5px;
 }

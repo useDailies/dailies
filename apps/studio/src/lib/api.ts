@@ -23,8 +23,10 @@ async function j<T>(url: string, init?: RequestInit): Promise<T> {
 export interface Health {
   ok: boolean;
   claude: { installed: boolean; version: string | null; model: string };
-  kane: { version: string | null; user: string | null; credits: number | null };
+  kane: { version: string | null; user: string | null; credits: number | null; ready?: boolean };
   studioUrl: string;
+  /** false on an MCP-only (hosted) server: agents compose, the server only judges */
+  drafting?: boolean;
 }
 
 export interface Me {

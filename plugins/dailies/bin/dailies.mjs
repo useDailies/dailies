@@ -7263,8 +7263,8 @@ import { join as join2, relative } from "node:path";
 import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-var VERSION = "0.1.1";
-var DEFAULT_SERVER = process.env.DAILIES_SERVER ?? "http://localhost:5173";
+var VERSION = "0.2.0";
+var DEFAULT_SERVER = (process.env.DAILIES_SERVER ?? "https://daohbofm7o9ia.cloudfront.net").replace(/\/$/, "");
 var HOME = process.env.DAILIES_HOME ?? join(homedir(), ".dailies");
 var CRED = join(HOME, "credentials.json");
 function loadCredentials() {
@@ -7402,11 +7402,17 @@ async function review(root, trigger, client, summary2) {
   const dir = join3(root, l.dir);
   if (!existsSync2(join3(dir, "Video.tsx"))) throw new Error(`No composition yet: write ${l.dir}/Video.tsx first.`);
   const files = collectComposition(dir);
-  const result = await call(`/api/agent/spots/${l.spot}/submit`, {
+  const { job } = await call(`/api/agent/spots/${l.spot}/submit?async=1`, {
     method: "POST",
-    body: JSON.stringify({ files, trigger: trigger === "cli" ? "mcp" : trigger, client, summary: summary2 }),
-    timeoutMs: 59e4
+    body: JSON.stringify({ files, trigger: trigger === "cli" ? "mcp" : trigger, client, summary: summary2 })
   });
+  let result;
+  const deadline = Date.now() + 58e4;
+  while (!result && Date.now() < deadline) {
+    const r = await call(`/api/agent/jobs/${job}?wait=20`, { timeoutMs: 4e4 });
+    if (r.done) result = r.result;
+  }
+  if (!result) throw new Error("Kane CLI is still judging after 10 minutes; check the studio link.");
   const images = [];
   let feedback = result.feedback;
   for (const s of result.sheets) {
@@ -7516,6 +7522,9 @@ function mergeJson(file, fn) {
 function init(root, opts) {
   const done = [];
   const cli = opts.cli;
+  const viaPackage = /[\\/](_npx|node_modules)[\\/]/.test(cli);
+  const mcpServer = viaPackage ? { command: "npx", args: ["-y", "@usedailies/cli", "mcp"] } : { command: "node", args: [cli, "mcp"] };
+  const hookCmd = (extra = "") => viaPackage ? `npx -y @usedailies/cli hook stop${extra}` : `node "${cli}" hook stop${extra}`;
   const sb = join5(root, opts.dir, "storyboard.md");
   if (!existsSync4(sb)) {
     mkdirSync2(dirname2(sb), { recursive: true });
@@ -7532,11 +7541,11 @@ function init(root, opts) {
   if (opts.agents.includes("claude") && !opts.plugin) {
     mergeJson(join5(root, ".mcp.json"), (j) => {
       j.mcpServers ??= {};
-      j.mcpServers.dailies = { command: "node", args: [cli, "mcp"] };
+      j.mcpServers.dailies = mcpServer;
     });
     mergeJson(join5(root, ".claude", "settings.json"), (j) => {
       j.hooks ??= {};
-      const cmd = `node "${cli}" hook stop`;
+      const cmd = hookCmd();
       const list = j.hooks.Stop ??= [];
       if (!list.some((g) => g.hooks?.some((h) => String(h.command).includes("hook stop") && String(h.command).includes("dailies")))) {
         list.push({ hooks: [{ type: "command", command: cmd, timeout: 600 }] });
@@ -7548,13 +7557,13 @@ function init(root, opts) {
   if (opts.agents.includes("cursor")) {
     mergeJson(join5(root, ".cursor", "mcp.json"), (j) => {
       j.mcpServers ??= {};
-      j.mcpServers.dailies = { command: "node", args: [cli, "mcp"], env: { DAILIES_PROJECT_DIR: "${workspaceFolder}" } };
+      j.mcpServers.dailies = { ...mcpServer, env: { DAILIES_PROJECT_DIR: "${workspaceFolder}" } };
     });
     mergeJson(join5(root, ".cursor", "hooks.json"), (j) => {
       j.version ??= 1;
       j.hooks ??= {};
       const list = j.hooks.stop ??= [];
-      if (!list.some((h) => String(h.command).includes("hook stop"))) list.push({ command: `node "${cli}" hook stop --cursor`, timeout: 600, loop_limit: 4 });
+      if (!list.some((h) => String(h.command).includes("hook stop"))) list.push({ command: hookCmd(" --cursor"), timeout: 600, loop_limit: 4 });
     });
     mkdirSync2(join5(root, ".cursor", "rules"), { recursive: true });
     writeFileSync3(join5(root, ".cursor", "rules", "dailies.mdc"), CURSOR_RULE);
@@ -28035,10 +28044,9 @@ async function runMcp() {
     async (a) => {
       try {
         const l = linked(root());
-        const r = await call(
-          `/api/agent/spots/${l.spot}/criteria?wait=${a.wait_seconds ?? 240}`,
-          { timeoutMs: ((a.wait_seconds ?? 240) + 30) * 1e3 }
-        );
+        const until = Date.now() + (a.wait_seconds ?? 240) * 1e3;
+        let r = await call(`/api/agent/spots/${l.spot}/criteria?wait=${Math.min(20, a.wait_seconds ?? 240)}`, { timeoutMs: 45e3 });
+        while (!r.ready && Date.now() < until) r = await call(`/api/agent/spots/${l.spot}/criteria?wait=20`, { timeoutMs: 45e3 });
         if (!r.ready) return text(`Kane CLI has not finished designing the criteria yet: ${r.status}`);
         return text(
           [

@@ -140,6 +140,18 @@ export default function Studio() {
     [project, fixes],
   );
 
+  // Open on a representative frame (the cards' poster frame), not on frame 0,
+  // which in most spots is still the empty opening.
+  const postered = useRef(false);
+  useEffect(() => {
+    if (!comp || postered.current) return;
+    postered.current = true;
+    const t = setTimeout(() => {
+      if (!playhead.playing && playhead.frame === 0) playhead.seek(Math.floor(comp.meta.durationInFrames * 0.28));
+    }, 120);
+    return () => clearTimeout(t);
+  }, [comp, playhead]);
+
   const showCorrection = (x: Correction, version: number) => {
     setPick(version);
     setCut(x.cut);

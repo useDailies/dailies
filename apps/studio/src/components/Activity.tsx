@@ -3,7 +3,7 @@ import { checkKey } from '@dailies/shared';
 import { fileUrl } from '../lib/api';
 import { dur, type Entry, type RoundRun } from '../lib/activity';
 import { CUT_RATIO } from '../lib/verdicts';
-import { Coll, Icon, VMark } from './ui';
+import { AgentLogo, Coll, Icon, VMark } from './ui';
 
 const ROUND_LABEL: Record<string, string> = { sweep: 'Full sweep', targeted: 'Targeted re-check', regression: 'Regression sweep' };
 const STAGE_LABEL: Record<string, string> = { draft: 'Drafted from the storyboard', review: 'Corrected Kane’s findings', revise: 'Made your change' };
@@ -23,7 +23,7 @@ export function EntryView({ e, projectId, defaultOpen = false, onZoom }: { e: En
       return (
         <Coll
           defaultOpen={defaultOpen}
-          icon={<span className="sglyph claude">C</span>}
+          icon={<span className="sglyph logo"><AgentLogo who="claude" size={13} /></span>}
           title={e.status === 'running' ? <Running text={label} /> : label}
           sub={`${e.model ?? 'Claude Code'}${e.resume ? ' · resumed session' : ''} · ${edits.length} edit${edits.length === 1 ? '' : 's'}${added ? ` · +${added} −${removed}` : ''}`}
           meta={e.status === 'running' ? '' : [e.durationMs ? dur(e.durationMs) : '', e.costUsd ? `$${e.costUsd.toFixed(2)}` : ''].filter(Boolean).join(' · ')}
@@ -83,7 +83,7 @@ export function EntryView({ e, projectId, defaultOpen = false, onZoom }: { e: En
       return (
         <Coll
           defaultOpen={defaultOpen}
-          icon={<span className="sglyph kane">K</span>}
+          icon={<span className="sglyph logo"><AgentLogo who="kane" size={13} /></span>}
           title={e.status === 'running' ? <Running text={label} /> : label}
           sub={e.result ? `${e.result.criteria} criteria · ${e.result.scenarios} scenarios · ${e.result.tests} tests` : e.error ?? `${e.steps.length} Kane commands`}
           meta={e.result?.credits ? `${e.result.credits.toFixed(1)} cr` : ''}

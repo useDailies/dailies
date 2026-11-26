@@ -45,6 +45,14 @@ export const config = {
     maxConditionsPerCall: num(process.env.DAILIES_MAX_CONDITIONS, 14),
     analyzeTimeoutSec: num(process.env.DAILIES_ANALYZE_TIMEOUT, 300),
   },
+  /** Hosted (MCP-only) mode: no server-side Claude Code drafting; external agents only. */
+  drafting: process.env.DAILIES_DRAFTING !== '0',
+  /** Bind address: 127.0.0.1 locally, 0.0.0.0 behind a proxy. */
+  host: process.env.DAILIES_HOST ?? '127.0.0.1',
+  /** Built studio to serve from this process (production); unset in dev (Vite serves it). */
+  studioDist: process.env.DAILIES_STUDIO_DIST,
+  /** Per-account daily caps, so open sign-ups cannot drain the Kane account. */
+  limits: { spotsPerDay: num(process.env.DAILIES_SPOTS_PER_DAY, 12), reviewsPerDay: num(process.env.DAILIES_REVIEWS_PER_DAY, 80), sealsPerDay: num(process.env.DAILIES_SEALS_PER_DAY, 1) },
   /** Stop-hook rounds before dailies hands the shot back to a human. */
   maxFixRounds: num(process.env.DAILIES_MAX_FIX_ROUNDS, 4),
 };

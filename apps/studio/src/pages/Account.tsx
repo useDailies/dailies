@@ -66,18 +66,19 @@ export default function Account() {
             <h3>
               <Face who="claude" size={18} /> Connect Claude Code
             </h3>
-            <Cmd>claude plugin marketplace add &lt;dailies repo&gt;</Cmd>
+            <Cmd>claude plugin marketplace add useDailies/dailies</Cmd>
             <Cmd>claude plugin install dailies@dailies</Cmd>
-            <Cmd>dailies login</Cmd>
+            <Cmd>npx @usedailies/cli login</Cmd>
             <p className="muted">
               Then ask Claude: <i>“make the video in video/storyboard.md with dailies”</i>. Cursor, Codex and others: see the <Link to="/docs/mcp">MCP docs</Link>.
             </p>
           </div>
         </div>
 
+        <section className="acct-section">
         <div className="gallery-head">
           <h2>Your spots</h2>
-          <span className="muted">{spots?.length ?? ''}</span>
+          <span className="muted">{spots ? `${spots.length} spot${spots.length === 1 ? '' : 's'}` : ''}</span>
         </div>
         {spots && !spots.length ? (
           <div className="empty-spots">
@@ -93,10 +94,14 @@ export default function Account() {
         ) : (
           <div className="cards">{spots?.map((p) => <Card key={p.id} p={p} />)}</div>
         )}
+        </section>
 
+        <section className="acct-section">
         <div className="gallery-head">
           <h2>Connected agents</h2>
-          <span className="muted">tokens issued by `dailies login`</span>
+          <span className="muted">
+            tokens issued by <code>dailies login</code>
+          </span>
         </div>
         <div className="tokens">
           {tokens?.length ? (
@@ -119,6 +124,7 @@ export default function Account() {
             <p className="muted">No agents connected yet. Run <code>dailies login</code> in a terminal.</p>
           )}
         </div>
+        </section>
       </section>
     </div>
   );

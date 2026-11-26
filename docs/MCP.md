@@ -57,19 +57,19 @@ agent stops ─────────── Stop hook ─────▶ same 
 **1. Install the plugin.** It bundles the MCP server, the Kane-gated Stop hook and the `/dailies:video` skill.
 
 ```bash
-claude plugin marketplace add <path-or-github-of-this-repo>   # e.g. ./dailies or yourname/dailies
+claude plugin marketplace add useDailies/dailies
 claude plugin install dailies@dailies
 ```
 
 **2. Sign in.** Either ask Claude (*“sign in to dailies”*: the `dailies_login` tool returns a link and a code to approve in your browser), or run this in a terminal:
 
 ```bash
-npx dailies-cli login          # or, from this repo: node plugins/dailies/bin/dailies.mjs login
+npx @usedailies/cli login
 ```
 
 The command opens `…/device?code=ABCD-EFGH`. Sign in or create an account, check that the code matches, and press **Approve**. The token is saved to `~/.dailies/credentials.json`.
 
-**3. Write a storyboard** at `video/storyboard.md`. `npx dailies-cli init --plugin` writes a template, or see [Writing a storyboard](#writing-a-storyboard).
+**3. Write a storyboard** at `video/storyboard.md`. `npx @usedailies/cli init --plugin` writes a template, or see [Writing a storyboard](#writing-a-storyboard).
 
 **4. Ask Claude:**
 
@@ -85,13 +85,13 @@ You can also just say *“make the video in video/storyboard.md with dailies”*
 
 Watch it all live from the studio link that `dailies_start` returns.
 
-**Without the plugin:** `npx dailies-cli init --claude` writes a project `.mcp.json` (the dailies MCP server) and a Stop hook in `.claude/settings.json`.
+**Without the plugin:** `npx @usedailies/cli init --claude` writes a project `.mcp.json` (the dailies MCP server) and a Stop hook in `.claude/settings.json`.
 
 ## Quickstart: Cursor
 
 ```bash
-npx dailies-cli init --cursor
-npx dailies-cli login
+npx @usedailies/cli init --cursor
+npx @usedailies/cli login
 ```
 
 This writes:
@@ -109,7 +109,7 @@ Any client that speaks MCP over stdio works (Codex, Windsurf, Zed, VS Code and o
 ```json
 {
   "mcpServers": {
-    "dailies": { "command": "npx", "args": ["-y", "dailies-cli", "mcp"], "env": { "DAILIES_PROJECT_DIR": "/path/to/your/repo" } }
+    "dailies": { "command": "npx", "args": ["-y", "@usedailies/cli", "mcp"], "env": { "DAILIES_PROJECT_DIR": "/path/to/your/repo" } }
   }
 }
 ```

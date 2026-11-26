@@ -32,6 +32,8 @@ body{width:100vw;height:100vh;overflow:hidden;font-family:G,sans-serif;color:#17
 .face{width:20px;height:20px;border-radius:50%;display:inline-grid;place-items:center;font:700 10px B;color:#fff}
 </style>`;
 
+const KANE = readFileSync(join(ROOT, 'svg/agent-kane-cli.svg'), 'utf8').replace(/width="16" height="16"/, 'width="20" height="20"').replace('stroke="#111111"', 'stroke="#2563EB" stroke-width="1.25"');
+const CLAUDE = readFileSync(join(ROOT, 'svg/agent-claude.svg'), 'utf8').replace('<svg ', '<svg width="19" height="19" ');
 const shoeFrame = (hue, w, h, verdict) => `<div class="frame" style="width:${w}px;height:${h}px;background:linear-gradient(160deg,#0b1220 0%,#111a2e 48%,${hue} 49%,#f07c3e 72%,#2a1a14 73%)">${
   verdict ? `<span class="v ${verdict}">${verdict === 'pass' ? '✓' : '✕'}</span>` : ''
 }</div>`;
@@ -49,7 +51,7 @@ const pages = {
       <div>
         <img src="${svg('lockup.svg')}" style="height:92px;display:block">
         <div style="font:700 54px/1.02 B;letter-spacing:-.04em;margin-top:30px">Every frame, <span class="grad">proven.</span></div>
-        <div style="margin-top:18px;display:flex;gap:10px"><span class="chip"><span class="face" style="background:#D97757">C</span>Claude Code writes it</span><span class="chip"><span class="face" style="background:#3B82F6">K</span>Kane CLI proves it</span></div>
+        <div style="margin-top:18px;display:flex;gap:10px"><span class="chip">${CLAUDE}Claude Code writes it</span><span class="chip">${KANE}Kane CLI proves it</span></div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(3,170px);gap:14px;transform:rotate(-4deg)">
         ${shoeFrame('#14b8a6', 170, 96, 'pass')}${shoeFrame('#0d9488', 170, 96, 'pass')}${shoeFrame('#14b8a6', 170, 96, 'fail')}

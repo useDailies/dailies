@@ -1,6 +1,7 @@
 import React from 'react';
 import { AbsoluteFill, Easing, Img as RImg, OffthreadVideo, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { BRAND } from '../../packages/shared/src/brand';
+import { LOGOS, LOGO_COLORS } from '../../packages/shared/src/logos';
 
 export const C = {
   ink: '#17161A',
@@ -97,11 +98,23 @@ export function Bg({ dark, children }: { dark?: boolean; children?: React.ReactN
   );
 }
 
-export function Face({ who, size = 28 }: { who: 'claude' | 'kane' | 'pass' | 'fail'; size?: number }) {
-  const bg = who === 'claude' ? C.claude : who === 'kane' ? C.kane : who === 'pass' ? C.pass : C.fail;
+/** Agent logos (the Claude spark, the Kane CLI mark); pass/fail stay verdict circles. */
+export function Face({ who, size = 28, color }: { who: 'claude' | 'kane' | 'pass' | 'fail'; size?: number; color?: string }) {
+  if (who === 'claude' || who === 'kane') {
+    const l = LOGOS[who];
+    const c = color ?? LOGO_COLORS[who];
+    return (
+      <span style={{ width: size, height: size, display: 'inline-grid', placeItems: 'center', flex: 'none' }}>
+        <svg width={size * 0.96} height={size * 0.96} viewBox={l.viewBox} fill="none">
+          {l.stroke ? <path d={l.d} stroke={c} strokeWidth={1.25} strokeLinecap="round" strokeLinejoin="round" /> : <path d={l.d} fill={c} />}
+        </svg>
+      </span>
+    );
+  }
+  const bg = who === 'pass' ? C.pass : C.fail;
   return (
-    <span style={{ width: size, height: size, borderRadius: '50%', background: bg, color: '#fff', display: 'inline-grid', placeItems: 'center', font: `700 ${size * 0.46}px ${F.display}`, flex: 'none' }}>
-      {who === 'claude' ? 'C' : who === 'kane' ? 'K' : who === 'pass' ? <Check size={size * 0.55} color="#fff" /> : <Cross size={size * 0.5} color="#fff" />}
+    <span style={{ width: size, height: size, borderRadius: '50%', background: bg, color: '#fff', display: 'inline-grid', placeItems: 'center', flex: 'none' }}>
+      {who === 'pass' ? <Check size={size * 0.55} color="#fff" /> : <Cross size={size * 0.5} color="#fff" />}
     </span>
   );
 }

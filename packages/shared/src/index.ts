@@ -4,3 +4,4 @@ export * from './criteria.ts';
 export * from './types.ts';
 export * from './testmd.ts';
 export * from './brand.ts';
+export * from './logos.ts';

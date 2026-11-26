@@ -3,7 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CUTS, formatTimecode, parseStoryboard, sampleFrames } from '@dailies/shared';
 import { api, STATIC } from '../lib/api';
 import { TEMPLATES } from '../lib/templates';
-import { TopBar } from '../components/Chrome';
+import { TopBar, useHealth } from '../components/Chrome';
+import { Cmd } from './Account';
 import { Face, Icon } from '../components/ui';
 
 export default function NewProject() {
@@ -14,6 +15,8 @@ export default function NewProject() {
   const [body, setBody] = useState(initial.body);
   const [saving, setSaving] = useState<null | 'create' | 'go'>(null);
   const [err, setErr] = useState<string | null>(null);
+  const health = useHealth();
+  const mcpOnly = health?.drafting === false;
   const sb = useMemo(() => parseStoryboard(body), [body]);
   const frames = useMemo(() => sampleFrames(sb), [sb]);
 
@@ -104,15 +107,31 @@ export default function NewProject() {
             </li>
           </ol>
           {err ? <p className="err">{err}</p> : null}
-          <button type="button" className="btn ink lg" disabled={Boolean(saving) || STATIC || !sb.shots.length} onClick={() => create(true)}>
-            {saving === 'go' ? <span className="spinner" /> : <Icon name="spark" />} Create and generate
-          </button>
-          <button type="button" className="btn" disabled={Boolean(saving) || STATIC || !sb.shots.length} onClick={() => create(false)}>
-            Create only
-          </button>
-          <p className="muted" style={{ fontSize: 12, margin: 0, display: 'flex', gap: 6, alignItems: 'center' }}>
-            <Face who="claude" size={14} /> Claude Code and <Face who="kane" size={14} /> Kane CLI run on this machine.
-          </p>
+          {mcpOnly ? (
+            <div className="mcp-note">
+              <b>
+                <Face who="claude" size={15} /> Compose it with your own agent
+              </b>
+              <span className="muted">This dailies server judges with Kane CLI; your Claude Code (or Cursor) writes the video. Save this storyboard as video/storyboard.md in your repo, then:</span>
+              <Cmd>claude plugin install dailies@dailies</Cmd>
+              <Cmd>{'claude "/dailies:video"'}</Cmd>
+              <a className="btn" href="/docs/mcp">
+                Full quickstart
+              </a>
+            </div>
+          ) : (
+            <>
+              <button type="button" className="btn ink lg" disabled={Boolean(saving) || STATIC || !sb.shots.length} onClick={() => create(true)}>
+                {saving === 'go' ? <span className="spinner" /> : <Icon name="spark" />} Create and generate
+              </button>
+              <button type="button" className="btn" disabled={Boolean(saving) || STATIC || !sb.shots.length} onClick={() => create(false)}>
+                Create only
+              </button>
+              <p className="muted" style={{ fontSize: 12, margin: 0, display: 'flex', gap: 6, alignItems: 'center' }}>
+                <Face who="claude" size={14} /> Claude Code and <Face who="kane" size={14} /> Kane CLI run on this machine.
+              </p>
+            </>
+          )}
           {!sb.shots.length ? <p className="err">Add at least one “## Shot N (0:00–0:03) Title” heading.</p> : null}
         </aside>
       </div>

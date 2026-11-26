@@ -52,7 +52,7 @@ export default function McpDocs() {
         <p className="lede">The dailies MCP server, a Kane-gated Stop hook, and a dailies account that keeps every run.</p>
         <div className="docs-quick">
           <Cmd>claude plugin install dailies@dailies</Cmd>
-          <Cmd>npx dailies-cli login</Cmd>
+          <Cmd>npx @usedailies/cli login</Cmd>
           <Cmd>{'claude "/dailies:video"'}</Cmd>
         </div>
       </section>

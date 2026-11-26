@@ -25,7 +25,15 @@ async function launch(port: number): Promise<Slot> {
   const browser = await chromium.launch({
     executablePath: config.chromePath,
     headless: true,
-    args: [`--remote-debugging-port=${port}`, '--hide-scrollbars', '--force-color-profile=srgb', '--no-first-run'],
+    args: [
+      `--remote-debugging-port=${port}`,
+      '--hide-scrollbars',
+      '--force-color-profile=srgb',
+      '--no-first-run',
+      // Linux servers without unprivileged user namespaces (Ubuntu 24.04) need this; the
+      // service itself runs as an unprivileged, sandboxed systemd user instead.
+      ...(process.env.DAILIES_CHROME_NO_SANDBOX === '1' ? ['--no-sandbox', '--disable-dev-shm-usage'] : []),
+    ],
   });
   const ctx = await browser.newContext({ viewport: config.sheetViewport, deviceScaleFactor: 1 });
   const page = await ctx.newPage();

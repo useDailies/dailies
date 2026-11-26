@@ -51,6 +51,10 @@ function mergeJson(file: string, fn: (j: any) => void) {
 export function init(root: string, opts: { agents: ('claude' | 'cursor')[]; dir: string; cli: string; plugin: boolean }) {
   const done: string[] = [];
   const cli = opts.cli;
+  // Run through npx (or from node_modules)? Then point configs at the package, not at npx's temporary cache.
+  const viaPackage = /[\\/](_npx|node_modules)[\\/]/.test(cli);
+  const mcpServer = viaPackage ? { command: 'npx', args: ['-y', '@usedailies/cli', 'mcp'] } : { command: 'node', args: [cli, 'mcp'] };
+  const hookCmd = (extra = '') => (viaPackage ? `npx -y @usedailies/cli hook stop${extra}` : `node "${cli}" hook stop${extra}`);
   const sb = join(root, opts.dir, 'storyboard.md');
   if (!existsSync(sb)) {
     mkdirSync(dirname(sb), { recursive: true });
@@ -67,11 +71,11 @@ export function init(root: string, opts: { agents: ('claude' | 'cursor')[]; dir:
   if (opts.agents.includes('claude') && !opts.plugin) {
     mergeJson(join(root, '.mcp.json'), (j) => {
       j.mcpServers ??= {};
-      j.mcpServers.dailies = { command: 'node', args: [cli, 'mcp'] };
+      j.mcpServers.dailies = mcpServer;
     });
     mergeJson(join(root, '.claude', 'settings.json'), (j) => {
       j.hooks ??= {};
-      const cmd = `node "${cli}" hook stop`;
+      const cmd = hookCmd();
       const list: any[] = (j.hooks.Stop ??= []);
       if (!list.some((g) => g.hooks?.some((h: any) => String(h.command).includes('hook stop') && String(h.command).includes('dailies')))) {
         list.push({ hooks: [{ type: 'command', command: cmd, timeout: 600 }] });
@@ -83,13 +87,13 @@ export function init(root: string, opts: { agents: ('claude' | 'cursor')[]; dir:
   if (opts.agents.includes('cursor')) {
     mergeJson(join(root, '.cursor', 'mcp.json'), (j) => {
       j.mcpServers ??= {};
-      j.mcpServers.dailies = { command: 'node', args: [cli, 'mcp'], env: { DAILIES_PROJECT_DIR: '${workspaceFolder}' } };
+      j.mcpServers.dailies = { ...mcpServer, env: { DAILIES_PROJECT_DIR: '${workspaceFolder}' } };
     });
     mergeJson(join(root, '.cursor', 'hooks.json'), (j) => {
       j.version ??= 1;
       j.hooks ??= {};
       const list: any[] = (j.hooks.stop ??= []);
-      if (!list.some((h) => String(h.command).includes('hook stop'))) list.push({ command: `node "${cli}" hook stop --cursor`, timeout: 600, loop_limit: 4 });
+      if (!list.some((h) => String(h.command).includes('hook stop'))) list.push({ command: hookCmd(' --cursor'), timeout: 600, loop_limit: 4 });
     });
     mkdirSync(join(root, '.cursor', 'rules'), { recursive: true });
     writeFileSync(join(root, '.cursor', 'rules', 'dailies.mdc'), CURSOR_RULE);

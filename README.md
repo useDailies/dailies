@@ -176,7 +176,7 @@ dailies also runs inside **your** agent session. Your agent writes the video in 
 
 ```bash
 # Claude Code: the plugin bundles the MCP server, the Kane-gated Stop hook and /dailies:video
-claude plugin marketplace add <path-or-github-of-this-repo>
+claude plugin marketplace add useDailies/dailies
 claude plugin install dailies@dailies
 node plugins/dailies/bin/dailies.mjs login      # or ask Claude to "sign in to dailies"
 claude "/dailies:video"                         # composes video/storyboard.md; Kane judges it

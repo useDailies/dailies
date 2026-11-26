@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { checkKey, type Criterion, type CutId, type Project, type Storyboard } from '@dailies/shared';
 import { api } from '../lib/api';
 import { CUT_RATIO, type Cell } from '../lib/verdicts';
-import { Coll, Icon, VMark } from './ui';
+import { AgentLogo, Coll, Icon, VMark } from './ui';
 
 /* -------------------------------------------------------------- storyboard */
 
@@ -215,7 +215,7 @@ export function CorrectionCard({
         {ev ? <pre className="codeblock">{ev}</pre> : null}
         {fixV ? (
           <div className="line">
-            <span className="sglyph claude">C</span>
+            <span className="sglyph logo"><AgentLogo who="claude" size={13} /></span>
             <span className="txt">
               <b>Claude, v{fixV.n}:</b> {firstSentences(fixV.summary)}
             </span>
