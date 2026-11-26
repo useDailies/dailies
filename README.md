@@ -10,6 +10,13 @@
   <a href="https://daohbofm7o9ia.cloudfront.net/pitch">Pitch</a>
 </p>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/@usedailies/cli"><img alt="npm" src="https://img.shields.io/npm/v/@usedailies/cli?label=%40usedailies%2Fcli&color=5B4BDB"></a>
+  <a href="https://daohbofm7o9ia.cloudfront.net/docs/mcp"><img alt="MCP server" src="https://img.shields.io/badge/MCP-server-3B82F6"></a>
+  <a href="https://github.com/useDailies/dailies/tree/main/plugins/dailies"><img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude%20Code-plugin-D97757"></a>
+  <a href="LICENSE"><img alt="MIT" src="https://img.shields.io/badge/license-MIT-17161A"></a>
+</p>
+
 In September 2026, Claude Opus 5.5 started one-shotting motion design. A one-line prompt became a 15-second showreel. A founder shipped a product promo the model wrote in a single pass ([Steven Tey](https://x.com/steventey/status/2103625902211088880): *“Claude Opus 5.5 feels like the first model to have truly solved video animation.”*). Video became code: a React file an agent writes, renders and calls done.
 
 And nobody reviews it. AI-written code got type checks, CI and Kane CLI clicking through the UI. AI-written video got someone scrubbing the timeline and saying *looks good*. So the wordmark ships under the Reels buttons, the price tag lands a second late, and the caption runs off the square cut.
@@ -19,6 +26,8 @@ And nobody reviews it. AI-written code got type checks, CI and Kane CLI clicking
 Everyone used Kane to test their code. I’m a designer, and I used it to test what the code makes.
 
 Kane CLI has earned its place checking the software teams ship: forms, flows, checkouts. AI-generated motion video is a domain nothing has been asked to verify yet, and it is arriving fast. dailies is Kane’s first step into it. The same agentic judgement, pointed at the frames an agent renders instead of the screens a user clicks.
+
+> **Use it from your own agent today.** dailies ships as a published npm CLI, [`@usedailies/cli`](https://www.npmjs.com/package/@usedailies/cli), and a Claude Code plugin. Run `npx @usedailies/cli login`, and Claude Code, Cursor or any MCP client can make a video in your repo, with Kane CLI judging it on the hosted dailies and every run saved to your account. [MCP docs →](https://daohbofm7o9ia.cloudfront.net/docs/mcp)
 
 ![The dailies studio: Kane caught the wordmark in the 9:16 platform band on frames F6–F9 of Claude’s draft](docs/media/06-correction.png)
 
@@ -101,14 +110,20 @@ On top of that, Kane judges every criterion on every cut after every change. The
 | --- | --- |
 | **Live app** (sign up, connect your agent, watch recorded runs) | [daohbofm7o9ia.cloudfront.net](https://daohbofm7o9ia.cloudfront.net/) |
 | **The film** (2:41: the pitch, the walkthrough, and a guide to using dailies from Claude Code) | [watch](https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4) |
+| **npm CLI**: link any coding agent to dailies | [`@usedailies/cli`](https://www.npmjs.com/package/@usedailies/cli) · `npx @usedailies/cli login` · [CLI README](packages/cli/README.md) |
+| **Claude Code plugin** (MCP server + Kane-gated Stop hook + `/dailies:video`) | `claude plugin marketplace add useDailies/dailies` → `claude plugin install dailies@dailies` · [`plugins/dailies`](plugins/dailies) |
 | **MCP docs** (Claude Code, Cursor, any MCP client) | [`/docs/mcp`](https://daohbofm7o9ia.cloudfront.net/docs/mcp) · source [`docs/MCP.md`](docs/MCP.md) |
-| **CLI on npm** | [`@usedailies/cli`](https://www.npmjs.com/package/@usedailies/cli): `npx @usedailies/cli login` |
-| **Claude Code plugin** | `claude plugin marketplace add useDailies/dailies` → `claude plugin install dailies@dailies` ([`plugins/dailies`](plugins/dailies)) |
+| **MCP tools reference** | [Tools](docs/MCP.md#tools) · [Stop hook](docs/MCP.md#the-stop-hook) · [CLI reference](docs/MCP.md#cli-reference) · [Troubleshooting](docs/MCP.md#troubleshooting) |
+| **Writing a storyboard** | [Storyboard format](docs/MCP.md#writing-a-storyboard) · [Composition contract](docs/MCP.md#the-composition-contract) |
+| **How Kane CLI is used** | [Command map](#command-map) · [Judge: one contact sheet per cut](#judge-one-contact-sheet-per-cut) · [Accuracy vs credits](#accuracy-vs-credits) |
 | **Source** | [github.com/useDailies/dailies](https://github.com/useDailies/dailies) (MIT) |
+| **HTTP API** | [Endpoints](#http-api) · [agent API](apps/server/src/agent.ts) · [accounts](apps/server/src/auth.ts) |
+| **Self-host / deploy** | [Deploy (AWS)](#deploy-aws) · [`infra/server`](infra/server) · [`scripts/deploy.sh`](scripts/deploy.sh) |
 | **Pitch deck** | [`/pitch`](https://daohbofm7o9ia.cloudfront.net/pitch) |
 | **Brand kit** | [`/brand`](https://daohbofm7o9ia.cloudfront.net/brand) · source in [`brand/`](brand/) |
 | **Recorded runs** (replay in the app, no install) | [Kestrel catch and fix](https://daohbofm7o9ia.cloudfront.net/p/kestrel-runner-launch-spot-a3eb?replay=1) · [Halo via the MCP](https://daohbofm7o9ia.cloudfront.net/p/halo-smart-lamp-launch-spot-d971?replay=1) · data in [`apps/studio/public/recorded/`](apps/studio/public/recorded/) |
 | **Kane evidence** | [`docs/kane-runs/`](docs/kane-runs/): every round, condition and verdict, readable on GitHub |
+| **Honesty** | [Limitations](#honesty-limitations), including where Kane got it wrong and how dailies guards it |
 
 ## How to use dailies (5 minutes, with your own Claude Code)
 

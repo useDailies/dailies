@@ -30,6 +30,16 @@ if [ -n "$KANE_U" ] && [ -n "$KANE_K" ]; then
     --project-id "$(param KANE_PROJECT_ID)" --folder-id "$(param KANE_FOLDER_ID)" </dev/null >/dev/null || echo "warning: kane-cli login failed" >&2
 fi
 
+# Warm Kane CLI's runner once, alone: its first run unpacks a ~326 MB binary into
+# ~/.cache/v16-runner/<version>/, and parallel first runs crash on the half-written file.
+if [ -n "$KANE_U" ] && [ ! -x "/home/dailies/.cache/v16-runner/$(kane-cli --version 2>/dev/null | tail -1)/v16-runner.bin" ]; then
+  sudo -u dailies -H bash -c '
+    google-chrome --headless=new --no-sandbox --remote-debugging-port=9599 --user-data-dir=/tmp/kane-warm about:blank >/dev/null 2>&1 & C=$!
+    sleep 3
+    cd /tmp && kane-cli run --analyzer-only --agent --cdp-endpoint http://127.0.0.1:9599 --timeout 120 --condition "The page is blank" >/dev/null 2>&1 || true
+    kill $C 2>/dev/null; rm -rf /tmp/kane-warm' || true
+fi
+
 cat > /etc/systemd/system/dailies.service <<UNIT
 [Unit]
 Description=dailies (accounts, MCP API, Kane CLI judging)

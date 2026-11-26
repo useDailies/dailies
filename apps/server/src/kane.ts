@@ -125,7 +125,35 @@ async function staggered() {
   if (wait) await new Promise((r) => setTimeout(r, wait));
 }
 
+/*
+ * Root cause of the hosted SIGBUS: on its first run after an install or upgrade, Kane CLI
+ * unpacks its 326 MB runner into ~/.cache/v16-runner/<version>/. Runners launched in
+ * parallel at that moment execute a half-written file. So the first analyzer call after
+ * every server start runs alone; once it has produced verdicts, calls run in parallel.
+ */
+let warm: Promise<void> | null = null;
+let warmed = false;
+
 export async function analyze(opts: { cwd: string; cdpPort: number; conditions: string[]; onEvent?: (e: any) => void }): Promise<AnalyzeOutcome> {
+  if (!warmed) {
+    if (warm) await warm;
+    else {
+      let done!: () => void;
+      warm = new Promise((r) => (done = r));
+      try {
+        const first = await analyzeWithRetry(opts);
+        if (first.ok || first.results.some((v) => v !== null)) warmed = true;
+        return first;
+      } finally {
+        warm = null;
+        done();
+      }
+    }
+  }
+  return analyzeWithRetry(opts);
+}
+
+async function analyzeWithRetry(opts: { cwd: string; cdpPort: number; conditions: string[]; onEvent?: (e: any) => void }): Promise<AnalyzeOutcome> {
   let out: AnalyzeOutcome | null = null;
   for (let attempt = 0; attempt < 3; attempt++) {
     await staggered();
