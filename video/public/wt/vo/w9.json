@@ -1,0 +1,128 @@
+{
+ "id": "w9",
+ "text": "Claude refines the timing and reviews again. Kane re-judges the whole spot, forty out of forty again, and the Stop hook lets Claude finish.",
+ "duration": 9.273469,
+ "speechEnd": 9.242,
+ "words": [
+  {
+   "text": "Claude",
+   "start": 0,
+   "end": 0.372
+  },
+  {
+   "text": "refines",
+   "start": 0.406,
+   "end": 0.906
+  },
+  {
+   "text": "the",
+   "start": 0.975,
+   "end": 1.045
+  },
+  {
+   "text": "timing",
+   "start": 1.103,
+   "end": 1.486
+  },
+  {
+   "text": "and",
+   "start": 1.521,
+   "end": 1.591
+  },
+  {
+   "text": "reviews",
+   "start": 1.649,
+   "end": 1.974
+  },
+  {
+   "text": "again.",
+   "start": 2.02,
+   "end": 2.519
+  },
+  {
+   "text": "Kane",
+   "start": 2.914,
+   "end": 3.228
+  },
+  {
+   "text": "re-judges",
+   "start": 3.274,
+   "end": 3.773
+  },
+  {
+   "text": "the",
+   "start": 3.82,
+   "end": 3.889
+  },
+  {
+   "text": "whole",
+   "start": 3.936,
+   "end": 4.122
+  },
+  {
+   "text": "spot,",
+   "start": 4.145,
+   "end": 4.632
+  },
+  {
+   "text": "forty",
+   "start": 5.085,
+   "end": 5.364
+  },
+  {
+   "text": "out",
+   "start": 5.399,
+   "end": 5.503
+  },
+  {
+   "text": "of",
+   "start": 5.538,
+   "end": 5.584
+  },
+  {
+   "text": "forty",
+   "start": 5.631,
+   "end": 5.898
+  },
+  {
+   "text": "again,",
+   "start": 5.944,
+   "end": 6.409
+  },
+  {
+   "text": "and",
+   "start": 6.745,
+   "end": 6.896
+  },
+  {
+   "text": "the",
+   "start": 6.943,
+   "end": 7.012
+  },
+  {
+   "text": "Stop",
+   "start": 7.059,
+   "end": 7.372
+  },
+  {
+   "text": "hook",
+   "start": 7.43,
+   "end": 7.628
+  },
+  {
+   "text": "lets",
+   "start": 7.697,
+   "end": 7.872
+  },
+  {
+   "text": "Claude",
+   "start": 7.918,
+   "end": 8.208
+  },
+  {
+   "text": "finish.",
+   "start": 8.255,
+   "end": 9.242
+  }
+ ]
+}

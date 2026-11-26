@@ -1,0 +1,26 @@
+{
+  "terminal": [
+    {
+      "cmd": "npx @usedailies/cli init --plugin",
+      "out": "dailies init:\n  (already set up)\n\nNext: `dailies login`, edit the storyboard, then ask your agent to make the video.\n"
+    },
+    {
+      "cmd": "claude plugin marketplace add useDailies/dailies",
+      "out": "Adding marketplace\u2026\u2714 Marketplace 'dailies' already on disk \u2014 declared in project settings\n"
+    },
+    {
+      "cmd": "claude plugin install dailies@dailies",
+      "out": "Installing plugin \"dailies@dailies\"...\u2714 Successfully installed plugin: dailies@dailies (scope: project)\n"
+    },
+    {
+      "cmd": "npx @usedailies/cli login",
+      "out": "\n  Sign in to dailies\n\n  1. Open   https://daohbofm7o9ia.cloudfront.net/device?code=PLDW-MXRJ\n  2. Check  the code reads  PLDW-MXRJ\n  3. Approve, and come back here.\n\n  \u2713 Signed in as Walkthrough <director@dailies.dev>. Token saved to ~/.dailies/credentials.json\n\n"
+    },
+    {
+      "cmd": "cat video/storyboard.md",
+      "out": "# Orbit \u2014 smartwatch launch spot\n\nLength 10 seconds at 30 fps. Deliver two cuts: 16:9 (1920x1080), 9:16 (1080x1920).\n\n## Shot 1 (0:00\u20130:03) Product hero\n- A round titanium smartwatch with a glowing teal face rises into view over a dark slate background.\n- The watch is fully inside the frame by 0:01.\n- Caption reads exactly: Time, in orbit\n- The caption is fully visible by 0:01.\n\n## Shot 2 (0:03\u20130:06) Feature\n- Thin teal rings orbit the watch face like satellites.\n- A badge reads exactly: 7-day battery and is visible at 0:04 and at 0:05.\n\n## Shot 3 (0:06\u20130:10) Call to action\n- The ORBIT wordmark is visible throughout shot 3.\n- A button labelled exactly: Pre-order, fully visible by 0:08.\n- On the 9:16 cut, no text or button sits in the bottom 35% or the top 14% of the frame.\n- On every cut, all text stays fully inside the frame.\n"
+    }
+  ],
+  "claude": [],
+  "spot": "orbit-smartwatch-launch-spot-b4d5"
+}

@@ -12,8 +12,8 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const env = readFileSync(join(ROOT, '..', '.env'), 'utf8');
 const KEY = env.match(/^ELEVENLABS_API_KEY=(.+)$/m)?.[1]?.trim();
 if (!KEY) throw new Error('ELEVENLABS_API_KEY missing from .env');
-const script = JSON.parse(readFileSync(join(ROOT, 'script.json'), 'utf8'));
-const OUT = join(ROOT, 'public/vo');
+const script = JSON.parse(readFileSync(join(ROOT, process.env.VO_SCRIPT ?? 'script.json'), 'utf8'));
+const OUT = join(ROOT, process.env.VO_OUT ?? 'public/vo');
 mkdirSync(OUT, { recursive: true });
 const only = process.argv.slice(2);
 

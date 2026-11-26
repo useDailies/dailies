@@ -1,0 +1,103 @@
+{
+ "id": "w2",
+ "text": "The account page shows how to connect a coding agent. Every video your agent makes will be saved here.",
+ "duration": 5.459592,
+ "speechEnd": 5.433,
+ "words": [
+  {
+   "text": "The",
+   "start": 0,
+   "end": 0.151
+  },
+  {
+   "text": "account",
+   "start": 0.186,
+   "end": 0.488
+  },
+  {
+   "text": "page",
+   "start": 0.534,
+   "end": 0.778
+  },
+  {
+   "text": "shows",
+   "start": 0.813,
+   "end": 1.022
+  },
+  {
+   "text": "how",
+   "start": 1.068,
+   "end": 1.161
+  },
+  {
+   "text": "to",
+   "start": 1.196,
+   "end": 1.242
+  },
+  {
+   "text": "connect",
+   "start": 1.289,
+   "end": 1.567
+  },
+  {
+   "text": "a",
+   "start": 1.602,
+   "end": 1.625
+  },
+  {
+   "text": "coding",
+   "start": 1.683,
+   "end": 1.962
+  },
+  {
+   "text": "agent.",
+   "start": 2.009,
+   "end": 2.392
+  },
+  {
+   "text": "Every",
+   "start": 2.786,
+   "end": 3.042
+  },
+  {
+   "text": "video",
+   "start": 3.088,
+   "end": 3.355
+  },
+  {
+   "text": "your",
+   "start": 3.425,
+   "end": 3.553
+  },
+  {
+   "text": "agent",
+   "start": 3.599,
+   "end": 3.843
+  },
+  {
+   "text": "makes",
+   "start": 3.889,
+   "end": 4.087
+  },
+  {
+   "text": "will",
+   "start": 4.11,
+   "end": 4.249
+  },
+  {
+   "text": "be",
+   "start": 4.284,
+   "end": 4.354
+  },
+  {
+   "text": "saved",
+   "start": 4.389,
+   "end": 4.621
+  },
+  {
+   "text": "here.",
+   "start": 4.644,
+   "end": 5.433
+  }
+ ]
+}

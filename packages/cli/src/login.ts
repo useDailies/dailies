@@ -2,12 +2,8 @@
 import { spawn } from 'node:child_process';
 import { hostname } from 'node:os';
 
-/** A label for Connected agents: the machine's name when it has one, never an IP address. */
-const machine = () => {
-  const h = hostname().replace(/\.local$/, '');
-  const os = process.platform === 'darwin' ? 'macOS' : process.platform === 'win32' ? 'Windows' : 'Linux';
-  return /^[\d.:]+$/.test(h) || !h ? os : `${h} (${os})`;
-};
+/** A label for Connected agents: the platform only (hostnames often carry a person's name). */
+const machine = () => (process.platform === 'darwin' ? 'macOS' : process.platform === 'win32' ? 'Windows' : 'Linux');
 import { DEFAULT_SERVER, clearCredentials, credentialsPath, loadCredentials, saveCredentials } from './config.ts';
 
 export function openUrl(url: string) {

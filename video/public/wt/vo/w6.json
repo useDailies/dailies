@@ -1,0 +1,143 @@
+{
+ "id": "w6",
+ "text": "Now we ask Claude Code to make the video. Claude starts the spot through dailies, and Kane CLI reads the same storyboard and designs the acceptance criteria.",
+ "duration": 10.266122,
+ "speechEnd": 10.217,
+ "words": [
+  {
+   "text": "Now",
+   "start": 0,
+   "end": 0.186
+  },
+  {
+   "text": "we",
+   "start": 0.232,
+   "end": 0.313
+  },
+  {
+   "text": "ask",
+   "start": 0.383,
+   "end": 0.604
+  },
+  {
+   "text": "Claude",
+   "start": 0.639,
+   "end": 0.929
+  },
+  {
+   "text": "Code",
+   "start": 0.975,
+   "end": 1.312
+  },
+  {
+   "text": "to",
+   "start": 1.335,
+   "end": 1.382
+  },
+  {
+   "text": "make",
+   "start": 1.44,
+   "end": 1.579
+  },
+  {
+   "text": "the",
+   "start": 1.602,
+   "end": 1.672
+  },
+  {
+   "text": "video.",
+   "start": 1.707,
+   "end": 2.264
+  },
+  {
+   "text": "Claude",
+   "start": 2.717,
+   "end": 3.077
+  },
+  {
+   "text": "starts",
+   "start": 3.111,
+   "end": 3.379
+  },
+  {
+   "text": "the",
+   "start": 3.413,
+   "end": 3.483
+  },
+  {
+   "text": "spot",
+   "start": 3.518,
+   "end": 3.808
+  },
+  {
+   "text": "through",
+   "start": 3.843,
+   "end": 4.04
+  },
+  {
+   "text": "dailies,",
+   "start": 4.087,
+   "end": 4.679
+  },
+  {
+   "text": "and",
+   "start": 4.83,
+   "end": 4.992
+  },
+  {
+   "text": "Kane",
+   "start": 5.074,
+   "end": 5.41
+  },
+  {
+   "text": "CLI",
+   "start": 5.457,
+   "end": 5.991
+  },
+  {
+   "text": "reads",
+   "start": 6.084,
+   "end": 6.281
+  },
+  {
+   "text": "the",
+   "start": 6.304,
+   "end": 6.374
+  },
+  {
+   "text": "same",
+   "start": 6.42,
+   "end": 6.653
+  },
+  {
+   "text": "storyboard",
+   "start": 6.699,
+   "end": 7.361
+  },
+  {
+   "text": "and",
+   "start": 7.512,
+   "end": 7.767
+  },
+  {
+   "text": "designs",
+   "start": 7.825,
+   "end": 8.266
+  },
+  {
+   "text": "the",
+   "start": 8.29,
+   "end": 8.359
+  },
+  {
+   "text": "acceptance",
+   "start": 8.394,
+   "end": 8.87
+  },
+  {
+   "text": "criteria.",
+   "start": 8.893,
+   "end": 10.217
+  }
+ ]
+}

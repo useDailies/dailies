@@ -1,0 +1,103 @@
+{
+ "id": "w1",
+ "text": "This is a complete run of dailies, recorded live on the hosted app. We start by creating an account.",
+ "duration": 5.511837,
+ "speechEnd": 5.48,
+ "words": [
+  {
+   "text": "This",
+   "start": 0,
+   "end": 0.197
+  },
+  {
+   "text": "is",
+   "start": 0.244,
+   "end": 0.313
+  },
+  {
+   "text": "a",
+   "start": 0.348,
+   "end": 0.372
+  },
+  {
+   "text": "complete",
+   "start": 0.43,
+   "end": 0.824
+  },
+  {
+   "text": "run",
+   "start": 0.871,
+   "end": 0.998
+  },
+  {
+   "text": "of",
+   "start": 1.033,
+   "end": 1.08
+  },
+  {
+   "text": "dailies,",
+   "start": 1.149,
+   "end": 1.521
+  },
+  {
+   "text": "recorded",
+   "start": 1.556,
+   "end": 1.927
+  },
+  {
+   "text": "live",
+   "start": 1.974,
+   "end": 2.194
+  },
+  {
+   "text": "on",
+   "start": 2.218,
+   "end": 2.276
+  },
+  {
+   "text": "the",
+   "start": 2.299,
+   "end": 2.368
+  },
+  {
+   "text": "hosted",
+   "start": 2.403,
+   "end": 2.705
+  },
+  {
+   "text": "app.",
+   "start": 2.763,
+   "end": 3.088
+  },
+  {
+   "text": "We",
+   "start": 3.541,
+   "end": 3.669
+  },
+  {
+   "text": "start",
+   "start": 3.704,
+   "end": 3.913
+  },
+  {
+   "text": "by",
+   "start": 3.959,
+   "end": 4.04
+  },
+  {
+   "text": "creating",
+   "start": 4.098,
+   "end": 4.447
+  },
+  {
+   "text": "an",
+   "start": 4.481,
+   "end": 4.54
+  },
+  {
+   "text": "account.",
+   "start": 4.574,
+   "end": 5.48
+  }
+ ]
+}

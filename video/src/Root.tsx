@@ -2,6 +2,7 @@ import React from 'react';
 import { Composition, continueRender, delayRender, staticFile } from 'remotion';
 import { Ad } from './Ad';
 import { FPS, TOTAL } from './timeline';
+import { WALKTHROUGH_FRAMES, Walkthrough } from './Walkthrough';
 
 const FONTS: [string, string, string][] = [
   ['Bricolage', 'bricolage-600.ttf', '600'],
@@ -22,4 +23,9 @@ Promise.all(
   ),
 ).then(() => continueRender(handle));
 
-export const Root = () => <Composition id="Ad" component={Ad} durationInFrames={TOTAL} fps={FPS} width={1920} height={1080} />;
+export const Root = () => (
+  <>
+    <Composition id="Ad" component={Ad} durationInFrames={TOTAL} fps={FPS} width={1920} height={1080} />
+    <Composition id="Walkthrough" component={Walkthrough} durationInFrames={WALKTHROUGH_FRAMES} fps={30} width={1920} height={1080} />
+  </>
+);

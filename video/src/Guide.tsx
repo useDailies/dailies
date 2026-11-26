@@ -7,7 +7,7 @@ import { Appear, Bg, C, Chip, F, Face, Screen, Step, ease, gradText } from './ui
 /** One terminal line: typed (`$ cmd`) or printed output; `who` tints tool calls. */
 export type TLine = { t: string; kind: 'cmd' | 'out' | 'ok' | 'fail' | 'tool' | 'dim' | 'claude'; at: number };
 
-function Terminal({ lines, x, y, w, h, title, from = 0, size = 24 }: { lines: TLine[]; x: number; y: number; w: number; h: number; title: string; from?: number; size?: number }) {
+export function Terminal({ lines, x, y, w, h, title, from = 0, size = 24 }: { lines: TLine[]; x: number; y: number; w: number; h: number; title: string; from?: number; size?: number }) {
   const f = useCurrentFrame() - from;
   const shown = lines.filter((l) => f >= l.at);
   const maxRows = Math.floor((h - 70) / (size * 1.55));

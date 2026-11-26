@@ -1,0 +1,158 @@
+{
+ "id": "w10",
+ "text": "Every step is on the record: each review Claude asked for, each Kane round with its exact conditions and verdicts, and the Stop hook's decision when Claude tried to stop.",
+ "duration": 11.52,
+ "speechEnd": 11.471,
+ "words": [
+  {
+   "text": "Every",
+   "start": 0,
+   "end": 0.302
+  },
+  {
+   "text": "step",
+   "start": 0.36,
+   "end": 0.685
+  },
+  {
+   "text": "is",
+   "start": 0.743,
+   "end": 0.836
+  },
+  {
+   "text": "on",
+   "start": 0.906,
+   "end": 0.998
+  },
+  {
+   "text": "the",
+   "start": 1.033,
+   "end": 1.103
+  },
+  {
+   "text": "record:",
+   "start": 1.173,
+   "end": 1.66
+  },
+  {
+   "text": "each",
+   "start": 2.113,
+   "end": 2.31
+  },
+  {
+   "text": "review",
+   "start": 2.38,
+   "end": 2.682
+  },
+  {
+   "text": "Claude",
+   "start": 2.752,
+   "end": 3.019
+  },
+  {
+   "text": "asked",
+   "start": 3.053,
+   "end": 3.262
+  },
+  {
+   "text": "for,",
+   "start": 3.309,
+   "end": 3.715
+  },
+  {
+   "text": "each",
+   "start": 4.331,
+   "end": 4.54
+  },
+  {
+   "text": "Kane",
+   "start": 4.598,
+   "end": 4.899
+  },
+  {
+   "text": "round",
+   "start": 4.957,
+   "end": 5.306
+  },
+  {
+   "text": "with",
+   "start": 5.364,
+   "end": 5.503
+  },
+  {
+   "text": "its",
+   "start": 5.55,
+   "end": 5.654
+  },
+  {
+   "text": "exact",
+   "start": 5.7,
+   "end": 6.142
+  },
+  {
+   "text": "conditions",
+   "start": 6.188,
+   "end": 6.687
+  },
+  {
+   "text": "and",
+   "start": 6.722,
+   "end": 6.803
+  },
+  {
+   "text": "verdicts,",
+   "start": 6.85,
+   "end": 7.419
+  },
+  {
+   "text": "and",
+   "start": 7.697,
+   "end": 7.848
+  },
+  {
+   "text": "the",
+   "start": 7.895,
+   "end": 7.964
+  },
+  {
+   "text": "Stop",
+   "start": 7.999,
+   "end": 8.301
+  },
+  {
+   "text": "hook's",
+   "start": 8.359,
+   "end": 8.58
+  },
+  {
+   "text": "decision",
+   "start": 8.615,
+   "end": 9.16
+  },
+  {
+   "text": "when",
+   "start": 9.404,
+   "end": 9.578
+  },
+  {
+   "text": "Claude",
+   "start": 9.625,
+   "end": 9.892
+  },
+  {
+   "text": "tried",
+   "start": 9.915,
+   "end": 10.136
+  },
+  {
+   "text": "to",
+   "start": 10.159,
+   "end": 10.205
+  },
+  {
+   "text": "stop.",
+   "start": 10.252,
+   "end": 11.471
+  }
+ ]
+}

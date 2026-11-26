@@ -1,0 +1,128 @@
+{
+ "id": "w4",
+ "text": "dailies login prints a code. In the browser, we check the code matches and approve it. Claude Code is now connected to this account.",
+ "duration": 8.202449,
+ "speechEnd": 8.173,
+ "words": [
+  {
+   "text": "dailies",
+   "start": 0,
+   "end": 0.372
+  },
+  {
+   "text": "login",
+   "start": 0.43,
+   "end": 0.813
+  },
+  {
+   "text": "prints",
+   "start": 0.894,
+   "end": 1.149
+  },
+  {
+   "text": "a",
+   "start": 1.184,
+   "end": 1.207
+  },
+  {
+   "text": "code.",
+   "start": 1.277,
+   "end": 1.776
+  },
+  {
+   "text": "In",
+   "start": 2.171,
+   "end": 2.31
+  },
+  {
+   "text": "the",
+   "start": 2.357,
+   "end": 2.426
+  },
+  {
+   "text": "browser,",
+   "start": 2.473,
+   "end": 2.902
+  },
+  {
+   "text": "we",
+   "start": 2.926,
+   "end": 3.019
+  },
+  {
+   "text": "check",
+   "start": 3.065,
+   "end": 3.251
+  },
+  {
+   "text": "the",
+   "start": 3.309,
+   "end": 3.379
+  },
+  {
+   "text": "code",
+   "start": 3.413,
+   "end": 3.622
+  },
+  {
+   "text": "matches",
+   "start": 3.657,
+   "end": 3.982
+  },
+  {
+   "text": "and",
+   "start": 4.017,
+   "end": 4.087
+  },
+  {
+   "text": "approve",
+   "start": 4.122,
+   "end": 4.435
+  },
+  {
+   "text": "it.",
+   "start": 4.47,
+   "end": 4.702
+  },
+  {
+   "text": "Claude",
+   "start": 5.41,
+   "end": 5.759
+  },
+  {
+   "text": "Code",
+   "start": 5.817,
+   "end": 6.153
+  },
+  {
+   "text": "is",
+   "start": 6.188,
+   "end": 6.269
+  },
+  {
+   "text": "now",
+   "start": 6.327,
+   "end": 6.455
+  },
+  {
+   "text": "connected",
+   "start": 6.525,
+   "end": 6.943
+  },
+  {
+   "text": "to",
+   "start": 6.966,
+   "end": 7.024
+  },
+  {
+   "text": "this",
+   "start": 7.082,
+   "end": 7.21
+  },
+  {
+   "text": "account.",
+   "start": 7.245,
+   "end": 8.173
+  }
+ ]
+}

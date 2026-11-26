@@ -1,0 +1,168 @@
+{
+ "id": "w3",
+ "text": "In a new project, the dailies CLI from npm writes a storyboard template. Then we add the dailies plugin to Claude Code: an MCP server, a Stop hook, and a video command.",
+ "duration": 11.467755,
+ "speechEnd": 11.424,
+ "words": [
+  {
+   "text": "In",
+   "start": 0,
+   "end": 0.174
+  },
+  {
+   "text": "a",
+   "start": 0.221,
+   "end": 0.244
+  },
+  {
+   "text": "new",
+   "start": 0.302,
+   "end": 0.43
+  },
+  {
+   "text": "project,",
+   "start": 0.488,
+   "end": 0.975
+  },
+  {
+   "text": "the",
+   "start": 0.998,
+   "end": 1.068
+  },
+  {
+   "text": "dailies",
+   "start": 1.126,
+   "end": 1.451
+  },
+  {
+   "text": "CLI",
+   "start": 1.498,
+   "end": 2.067
+  },
+  {
+   "text": "from",
+   "start": 2.148,
+   "end": 2.287
+  },
+  {
+   "text": "npm",
+   "start": 2.345,
+   "end": 2.856
+  },
+  {
+   "text": "writes",
+   "start": 2.937,
+   "end": 3.17
+  },
+  {
+   "text": "a",
+   "start": 3.193,
+   "end": 3.228
+  },
+  {
+   "text": "storyboard",
+   "start": 3.262,
+   "end": 3.68
+  },
+  {
+   "text": "template.",
+   "start": 3.715,
+   "end": 4.238
+  },
+  {
+   "text": "Then",
+   "start": 4.574,
+   "end": 4.748
+  },
+  {
+   "text": "we",
+   "start": 4.783,
+   "end": 4.853
+  },
+  {
+   "text": "add",
+   "start": 4.899,
+   "end": 5.027
+  },
+  {
+   "text": "the",
+   "start": 5.062,
+   "end": 5.132
+  },
+  {
+   "text": "dailies",
+   "start": 5.178,
+   "end": 5.503
+  },
+  {
+   "text": "plugin",
+   "start": 5.55,
+   "end": 5.933
+  },
+  {
+   "text": "to",
+   "start": 6.107,
+   "end": 6.235
+  },
+  {
+   "text": "Claude",
+   "start": 6.293,
+   "end": 6.594
+  },
+  {
+   "text": "Code:",
+   "start": 6.629,
+   "end": 7.07
+  },
+  {
+   "text": "an",
+   "start": 7.465,
+   "end": 7.593
+  },
+  {
+   "text": "MCP",
+   "start": 7.639,
+   "end": 8.104
+  },
+  {
+   "text": "server,",
+   "start": 8.278,
+   "end": 8.789
+  },
+  {
+   "text": "a",
+   "start": 8.824,
+   "end": 8.893
+  },
+  {
+   "text": "Stop",
+   "start": 8.963,
+   "end": 9.265
+  },
+  {
+   "text": "hook,",
+   "start": 9.323,
+   "end": 9.648
+  },
+  {
+   "text": "and",
+   "start": 9.683,
+   "end": 9.834
+  },
+  {
+   "text": "a",
+   "start": 9.868,
+   "end": 9.892
+  },
+  {
+   "text": "video",
+   "start": 9.927,
+   "end": 10.182
+  },
+  {
+   "text": "command.",
+   "start": 10.228,
+   "end": 11.424
+  }
+ ]
+}

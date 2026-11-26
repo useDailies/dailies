@@ -1,0 +1,53 @@
+{
+  "voice": {
+    "id": "nPczCjzI2devNBz1zQrb",
+    "name": "Brian",
+    "model": "eleven_multilingual_v2"
+  },
+  "lines": [
+    {
+      "id": "w1",
+      "text": "This is a complete run of dailies, recorded live on the hosted app. We start by creating an account."
+    },
+    {
+      "id": "w2",
+      "text": "The account page shows how to connect a coding agent. Every video your agent makes will be saved here."
+    },
+    {
+      "id": "w3",
+      "text": "In a new project, the dailies CLI from npm writes a storyboard template. Then we add the dailies plugin to Claude Code: an MCP server, a Stop hook, and a video command."
+    },
+    {
+      "id": "w4",
+      "text": "dailies login prints a code. In the browser, we check the code matches and approve it. Claude Code is now connected to this account."
+    },
+    {
+      "id": "w5",
+      "text": "Here is the storyboard: three shots, the exact copy, two cuts, and a rule that keeps text out of the platform bands on the vertical cut."
+    },
+    {
+      "id": "w6",
+      "text": "Now we ask Claude Code to make the video. Claude starts the spot through dailies, and Kane CLI reads the same storyboard and designs the acceptance criteria."
+    },
+    {
+      "id": "w7",
+      "text": "This is the spot in the studio, live, sped up. Claude writes the composition in its own repo, then asks Kane to review it. Kane judges every criterion on both cuts, in a real browser, and the verdicts land on the frames and the timeline."
+    },
+    {
+      "id": "w8",
+      "text": "Kane passes the first version: forty out of forty checks, on both cuts."
+    },
+    {
+      "id": "w9",
+      "text": "Claude refines the timing and reviews again. Kane re-judges the whole spot, forty out of forty again, and the Stop hook lets Claude finish."
+    },
+    {
+      "id": "w10",
+      "text": "Every step is on the record: each review Claude asked for, each Kane round with its exact conditions and verdicts, and the Stop hook's decision when Claude tried to stop."
+    },
+    {
+      "id": "w11",
+      "text": "The finished spot is saved in the account. To try it yourself, add the dailies plugin to Claude Code and sign in with the dailies CLI from npm."
+    }
+  ]
+}

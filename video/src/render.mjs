@@ -16,13 +16,14 @@ const arg = (k) => process.argv.find((a) => a.startsWith(`--${k}=`))?.split('=')
 
 const serveUrl = await bundle({ entryPoint: join(ROOT, 'src/index.ts'), publicDir: join(ROOT, 'public') });
 const browserExecutable = process.env.CHROME_PATH ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const composition = await selectComposition({ serveUrl, id: 'Ad', browserExecutable });
+const ID = arg('id') ?? 'Ad';
+const composition = await selectComposition({ serveUrl, id: ID, browserExecutable });
 console.log('duration', (composition.durationInFrames / composition.fps).toFixed(1) + 's');
 
 const stills = arg('still');
 if (stills) {
   for (const fr of stills.split(',').map(Number)) {
-    await renderStill({ serveUrl, composition, frame: fr, output: join(OUT, `still-${fr}.png`), browserExecutable });
+    await renderStill({ serveUrl, composition, frame: fr, output: join(OUT, `${ID === 'Ad' ? 'still' : ID}-${fr}.png`), browserExecutable });
     console.log('still', fr);
   }
   process.exit(0);
@@ -45,7 +46,7 @@ await renderMedia({
     if (p !== last) (last = p), console.log(`${p * 5}%`);
   },
 });
-const final = join(OUT, range ? 'preview.mp4' : 'dailies-ad.mp4');
+const final = join(OUT, range ? 'preview.mp4' : ID === 'Ad' ? 'dailies-ad.mp4' : `dailies-${ID.toLowerCase()}.mp4`);
 execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', raw, '-c:v', 'copy', '-af', 'loudnorm=I=-14:TP=-1.0:LRA=11', '-c:a', 'aac', '-b:a', '320k', '-movflags', '+faststart', final]);
 rmSync(raw);
 console.log('wrote', final);

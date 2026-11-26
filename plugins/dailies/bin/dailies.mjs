@@ -7263,7 +7263,7 @@ import { join as join2, relative } from "node:path";
 import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-var VERSION = "0.2.0";
+var VERSION = "0.2.1";
 var DEFAULT_SERVER = (process.env.DAILIES_SERVER ?? "https://daohbofm7o9ia.cloudfront.net").replace(/\/$/, "");
 var HOME = process.env.DAILIES_HOME ?? join(homedir(), ".dailies");
 var CRED = join(HOME, "credentials.json");
@@ -7574,12 +7574,7 @@ function init(root, opts) {
 
 // src/login.ts
 import { spawn } from "node:child_process";
-import { hostname } from "node:os";
-var machine = () => {
-  const h = hostname().replace(/\.local$/, "");
-  const os = process.platform === "darwin" ? "macOS" : process.platform === "win32" ? "Windows" : "Linux";
-  return /^[\d.:]+$/.test(h) || !h ? os : `${h} (${os})`;
-};
+var machine = () => process.platform === "darwin" ? "macOS" : process.platform === "win32" ? "Windows" : "Linux";
 function openUrl(url) {
   if (process.env.DAILIES_NO_BROWSER) return;
   const cmd = process.platform === "darwin" ? "open" : process.platform === "win32" ? "cmd" : "xdg-open";
@@ -13427,9 +13422,9 @@ var asciiTabOrNewline = /[\t\n\r]/g;
 function stripTabAndNewline(value) {
   return value.replace(asciiTabOrNewline, "");
 }
-function urlHostnameOk(url, hostname2) {
-  hostname2.lastIndex = 0;
-  return hostname2.test(url.hostname);
+function urlHostnameOk(url, hostname) {
+  hostname.lastIndex = 0;
+  return hostname.test(url.hostname);
 }
 function urlProtocolOk(url, protocol) {
   protocol.lastIndex = 0;
