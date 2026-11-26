@@ -1,6 +1,6 @@
-# dailies
+<p align="center"><img src="brand/svg/lockup.svg" alt="dailies" height="72"></p>
 
-**Every frame, proven.**
+<p align="center"><b>Every frame, proven.</b> · <a href="https://daohbofm7o9ia.cloudfront.net/">Live site</a> · <a href="https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4">Watch the film</a></p>
 
 In September 2026, Claude Opus 5.5 started one-shotting motion design. A one-line prompt became a 15-second showreel. A founder shipped a product promo the model wrote in a single pass ([Steven Tey](https://x.com/steventey/status/2103625902211088880): *“Claude Opus 5.5 feels like the first model to have truly solved video animation.”*). Video became code: a React file an agent writes, renders and calls done.
 
@@ -37,6 +37,9 @@ Everyone used Kane to test their code. I’m a designer, and I used it to test w
 - [The failure Kane catches](#the-failure-kane-catches)
 - [How this meets the brief](#how-this-meets-the-brief)
 - [The studio](#the-studio)
+- [Brand](#brand)
+- [The film](#the-film)
+- [Deploy (AWS)](#deploy-aws)
 - [HTTP API](#http-api)
 - [Recorded runs and the static replay](#recorded-runs-and-the-static-replay)
 - [Honesty: limitations](#honesty-limitations)
@@ -84,8 +87,10 @@ On top of that, Kane judges every criterion on every cut after every change. The
 
 | | |
 | --- | --- |
-| **Demo video** | coming soon |
-| **Pitch** | `/pitch` in the studio ([preview](docs/media/11-pitch.png)) |
+| **Live site** (recorded runs replay, no install) | [daohbofm7o9ia.cloudfront.net](https://daohbofm7o9ia.cloudfront.net/) |
+| **The film** (2:13 ad + walkthrough) | [daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4](https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4) |
+| **Pitch** | [`/pitch`](https://daohbofm7o9ia.cloudfront.net/pitch) ([preview](docs/media/11-pitch.png)) |
+| **Brand kit** | [`/brand`](https://daohbofm7o9ia.cloudfront.net/brand) · source in [`brand/`](brand/) |
 | **Recorded runs** | [`apps/studio/public/recorded/`](apps/studio/public/recorded/): events, versions, Kane’s-eye screenshots, designed tests |
 | **Kane evidence** | [`docs/kane-runs/`](docs/kane-runs/): every round, condition and verdict, readable on GitHub |
 | **Showcase run** | [`docs/kane-runs/kestrel-runner-launch-spot-a3eb`](docs/kane-runs/kestrel-runner-launch-spot-a3eb/README.md) |
@@ -429,6 +434,49 @@ The other runs show the rest of the product honestly:
 | **Before vs after** | Wipe or 2-up in lock-step, scores, and every criterion’s verdict on both versions |
 | **Contact sheet** | The page Kane judges |
 | **Pitch** | `/pitch`: 12 slides, with numbers read from the showcase run |
+| **Brand** | `/brand`: the brand kit, with downloads |
+
+## Brand
+
+![dailies brand](brand/png/x-banner.png)
+
+The mark is a **viewfinder holding a check**: the frame Claude Code composes, proven by Kane CLI. In the wordmark, the two i-dots are the two agents: clay for Claude Code and cobalt for Kane CLI. That colour pairing runs through the studio, the pitch and the film, and verdicts are always colour plus an icon.
+
+- `node brand/src/build.mjs` generates every vector asset. The wordmark is real outlines of Bricolage Grotesque 700 (via opentype.js), so it renders the same everywhere. The outputs are `brand/svg/*`, `apps/studio/public/brand/*` and `packages/shared/src/brand.ts`, the geometry used by the studio, the pitch and the film.
+- `node brand/src/social.mjs` renders the rasters: X avatar (400×400) and banner (1500×500), Open Graph card, film end card, and 1024/2000 px logo PNGs.
+- [`/brand`](https://daohbofm7o9ia.cloudfront.net/brand) is the brand page: usage, colour, type, rules and downloads.
+
+## The film
+
+[`video/`](video/) is a Remotion project that renders the 2:13 film: the pitch first, then a walkthrough recorded from the real app.
+
+| Step | How |
+| --- | --- |
+| Script | [`video/script.json`](video/script.json): 17 lines, from the problem (*AI code got tests, AI video got vibes*) to Kane’s next frontier |
+| Voice | ElevenLabs `eleven_multilingual_v2` with **character timestamps** (`node video/src/voice.mjs`). Every word on screen and every camera move is timed to the narration |
+| Music and SFX | ElevenLabs sound generation: two looping beds, a riser, whooshes, verdict chimes |
+| App footage | `node video/src/record.mjs`: Chrome’s CDP screencast at 1920×1080 (JPEG q92, ~43 fps captured) with an injected cursor. It replays the recorded run with phase-aware speed ramps, so every frame is the real studio |
+| Stills | `node video/src/stills.mjs`: native-size frames of the showcase composition (`/still/:id/:v`) |
+| Edit | [`video/src/Ad.tsx`](video/src/Ad.tsx): 17 scenes, each driven by the narration’s word timings ([`timeline.ts`](video/src/timeline.ts)) |
+| Render | `node video/src/render.mjs`: H.264 CRF 16, mastered to −14 LUFS |
+
+## Deploy (AWS)
+
+The live site is the static replay build on **S3 + CloudFront**:
+
+- a private bucket with origin access control;
+- HTTPS only, HTTP/3 and compression;
+- SPA fallback to `index.html`;
+- immutable caching for hashed assets, `no-cache` for `index.html`.
+
+A small Lambda ([`infra/deployer/deployer.py`](infra/deployer/deployer.py)) unpacks each site bundle with the right `Content-Type` and `Cache-Control`, prunes stale files and invalidates the distribution:
+
+```bash
+scripts/deploy.sh          # build the static studio and deploy it
+scripts/deploy.sh --film   # …and upload video/out/dailies-ad.mp4 to /media/
+```
+
+The build refuses to deploy if it contains this machine’s home path. Recorded runs are exported with project-relative paths.
 
 ## HTTP API
 
@@ -493,7 +541,10 @@ apps/server            Fastify API, Claude Code runner, Kane runner, verificatio
 apps/studio            React studio, contact sheet (sheet.css), before/after, pitch
 packages/shared        Storyboard parser, frame sampling, criterion mapping, Kane condition builder (+ tests)
 packages/hook          Claude Code Stop hook (stop.mjs)
-scripts                export-recorded.ts, run-pipeline.sh
+scripts                export-recorded.ts, run-pipeline.sh, deploy.sh
+brand                  Logo, wordmark and social assets (generated: src/build.mjs, src/social.mjs)
+video                  The film: script, voiceover, recordings, Remotion edit, renderer
+infra/deployer         Lambda that unpacks site bundles into S3 and invalidates CloudFront
 workspaces/<id>        One per project: storyboard, CLAUDE.md, surface.md, src/, versions/, runs/, .testmuai/ (gitignored)
 docs/kane-runs         Committed Kane evidence from the recorded runs
 docs/media             README screenshots
