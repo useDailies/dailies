@@ -1,0 +1,13 @@
+{
+  "name": "dailies",
+  "owner": { "name": "dailies" },
+  "description": "Test-driven video for your coding agent: Claude writes the motion design, Kane CLI proves every frame.",
+  "plugins": [
+    {
+      "name": "dailies",
+      "source": "./plugins/dailies",
+      "description": "dailies MCP server, Kane-gated Stop hook and the /dailies:video skill.",
+      "version": "0.1.0"
+    }
+  ]
+}

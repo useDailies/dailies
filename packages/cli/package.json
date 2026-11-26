@@ -1,0 +1,21 @@
+{
+  "name": "dailies-cli",
+  "version": "0.1.0",
+  "description": "dailies for your own coding agent: an MCP server, a Kane-gated Stop hook and device login. Claude Code or Cursor writes the video; Kane CLI proves every frame.",
+  "type": "module",
+  "bin": { "dailies": "dist/dailies.mjs" },
+  "files": ["dist"],
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "@types/node": "^22.10.0"
+  },
+  "engines": { "node": ">=20" }
+}

@@ -1,0 +1,16 @@
+{
+  "description": "Kane-gated stop: in a repository linked to a dailies spot, the agent cannot end its turn while a check Kane CLI judged is failing.",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/bin/dailies.mjs\" hook stop",
+            "timeout": 600
+          }
+        ]
+      }
+    ]
+  }
+}
