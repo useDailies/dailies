@@ -279,11 +279,18 @@ function finish(id: string, st: AgentState, r: JudgeResult) {
   return r;
 }
 
+/** URL of the sheet Kane judged: the compact JPEG when it exists. */
+function sheetImage(id: string, rel: string) {
+  const jpg = rel.replace(/\.png$/, '.jpg');
+  const use = existsSync(ws(id, jpg)) ? jpg : rel;
+  return `${config.publicUrl}/api/projects/${id}/files/${use.replace(/^runs\//, '')}`;
+}
+
 function shape(id: string, round: VerifyRound, failing: CheckResult[], base: { version: number; studioUrl: string; credits: number; fixRounds: number }): JudgeResult {
   const p = getProject(id)!;
   const dir = p.agent?.dir ?? 'video';
   const fails = describeFails(p, failing);
-  const ev = evidenceFor(round, failing).map((e) => ({ ...e, screenshot: e.screenshot ? `${config.publicUrl}/api/projects/${id}/files/${e.screenshot.replace(/^runs\//, '')}` : undefined }));
+  const ev = evidenceFor(round, failing).map((e) => ({ ...e, screenshot: e.screenshot ? sheetImage(id, e.screenshot) : undefined }));
   // Totals: the latest verdict of every check on this version.
   const latest = new Map<string, CheckResult>();
   for (const r of p.rounds.filter((x) => x.version <= base.version)) for (const res of r.results) latest.set(checkKey(res.ac, res.cut), res);
@@ -298,7 +305,7 @@ function shape(id: string, round: VerifyRound, failing: CheckResult[], base: { v
     total: all.length,
     failing: fails.map((f) => ({ ac: f.ac, cut: f.cut, ratio: CUTS[f.cut as CutId]?.ratio ?? f.cut, criterion: f.text, reason: f.reason, frames: f.where, storyboardLine: f.line, storyboardText: f.lineText })),
     feedback: failing.length ? correctionPrompt(fails, base.fixRounds, base.fixRounds <= 1, ev, { file: `${dir}/Video.tsx`, external: true }) : '',
-    sheets: evidenceFor(round, failing.length ? failing : round.results).map((e) => ({ cut: e.cut, ratio: e.ratio, image: e.screenshot ? `${config.publicUrl}/api/projects/${id}/files/${e.screenshot.replace(/^runs\//, '')}` : null, report: e.report ?? null })),
+    sheets: evidenceFor(round, failing.length ? failing : round.results).map((e) => ({ cut: e.cut, ratio: e.ratio, image: e.screenshot ? sheetImage(id, e.screenshot) : null, report: e.report ?? null })),
     message: failing.length
       ? `Kane CLI judged v${base.version} (${round.kind}): ${failing.length} check${failing.length === 1 ? '' : 's'} failing.`
       : `Kane CLI verified v${base.version}: every criterion passes in every cut (${pass}/${all.length}).`,

@@ -231,7 +231,7 @@ app.get<{ Params: { id: string; '*': string } }>('/api/projects/:id/files/*', as
   const f = join(ws(id, 'runs'), rel);
   if (!existsSync(f)) throw fail(404, 'not found');
   reply.header('cache-control', 'public, max-age=31536000, immutable');
-  reply.type(f.endsWith('.png') ? 'image/png' : 'application/json');
+  reply.type(f.endsWith('.png') ? 'image/png' : f.endsWith('.jpg') ? 'image/jpeg' : 'application/json');
   return reply.send(createReadStream(f));
 });
 

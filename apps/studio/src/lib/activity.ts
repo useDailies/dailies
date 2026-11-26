@@ -75,7 +75,7 @@ export interface RoundRun {
   endedAt?: number;
   total: number;
   calls: KaneCall[];
-  checks: { ac: string; cut: CutId; verdict: string; reason: string }[];
+  checks: { ac: string; cut: CutId; verdict: string; reason: string; override?: { kane: string; measured: string } }[];
   summary?: { pass: number; fail: number; unknown: number; credits: number; ms: number; calls: number };
   trigger?: 'review' | 'hook' | 'gate';
   status: Status;
@@ -237,7 +237,7 @@ export function buildActivity(events: DailiesEvent[]): Entry[] {
         break;
       }
       case 'round.check':
-        rounds.get(d.id)?.checks.push({ ac: d.ac, cut: d.cut, verdict: d.verdict, reason: d.reason });
+        rounds.get(d.id)?.checks.push({ ac: d.ac, cut: d.cut, verdict: d.verdict, reason: d.reason, override: d.override });
         break;
       case 'round.end': {
         const r = rounds.get(d.id);

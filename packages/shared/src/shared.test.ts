@@ -95,3 +95,19 @@ test('ratios are not timecodes; named shots map to storyboard shots', async () =
   assert.equal(shotForText("In each cut's closing shot, the headline reads", sb), 3);
   assert.equal(shotForText("In each cut's detail shot, a close-up", sb), 2);
 });
+
+test('placement guard: a measured layer in a forbidden band contradicts a pass', async () => {
+  const { measuredViolation, placementRule } = await import('./criteria.ts');
+  const report = [
+    'Visible text outside the frame: none',
+    'Visible text in the top 14% band: none',
+    'Visible text in the bottom 35% band: button “Pre-order now” at F11, F12',
+    'Visible text in the side 6% bands: none',
+  ].join('\n');
+  assert.equal(placementRule('No text or button in the 9:16 cut occupies the bottom 35% of its frame.')?.band, 'bottom');
+  assert.match(measuredViolation('No text or button in the 9:16 cut occupies the bottom 35% of its frame.', report) ?? '', /Pre-order now/);
+  assert.equal(measuredViolation('No text or button in the 9:16 cut occupies the top 14% of its frame.', report), null);
+  assert.equal(measuredViolation('On every cut, all text stays fully inside the frame.', report), null);
+  assert.equal(measuredViolation('A button labelled exactly: Pre-order now, fully visible by 0:08.', report), null);
+  assert.equal(measuredViolation('No text or button in the 9:16 cut occupies the bottom 35% of its frame.', undefined), null);
+});

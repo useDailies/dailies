@@ -5,6 +5,7 @@ import {
   checkKey,
   conditionFor,
   framesInReason,
+  measuredViolation,
   parseStoryboard,
   sampleFrames,
   type CheckResult,
@@ -126,6 +127,15 @@ export async function runRound(
             const v = out.results[i];
             const reason = out.reasons[i] ?? out.error ?? '';
             const r: CheckResult = { ac: c.id, cut, verdict: v === true ? 'pass' : v === false ? 'fail' : 'unknown', reason, frames: framesInReason(reason) };
+            // Guard: a placement rule Kane passed while the sheet's own measurement shows a
+            // layer in the forbidden band is a fail. Kept visible, never silent.
+            const measured = r.verdict === 'pass' ? measuredViolation(c.text, round.reports?.[cut]) : null;
+            if (measured) {
+              r.override = { by: 'measurement', kane: r.verdict, measured };
+              r.verdict = 'fail';
+              r.reason = `dailies measured a violation that Kane passed: ${measured}. (Kane said: ${reason})`;
+              r.frames = framesInReason(measured);
+            }
             round.results.push(r);
             bus.emit(projectId, 'round.check', { id, ...r });
           });

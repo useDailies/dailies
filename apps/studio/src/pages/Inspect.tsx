@@ -225,7 +225,7 @@ export default function Inspect() {
       <section className="sheet-facts">
         <h2>Facts · every named layer, measured in this browser</h2>
         <p>
-          Reserved bands for this cut: {spec.safe.label}. Positions are percent of the frame. Text is the layer’s rendered text. Position columns apply to visible text layers only (— otherwise).
+          Reserved bands for this cut: {spec.safe.label}. Positions are percent of the frame. Text is the layer’s rendered text. Band columns apply to visible text layers only; Fully inside frame is measured for every visible layer, text and graphic (— when not visible). The hatched safe-zone shading is a guide, not the frame edge: graphics may sit in the bands.
         </p>
         <table>
           <thead>
@@ -254,7 +254,15 @@ export default function Inspect() {
                   <td>{l.kind}</td>
                   <td className="t">{l.text || '—'}</td>
                   <td>{l.visible ? 'yes' : 'no'}</td>
-                  {l.visible && l.kind === 'text' ? (
+                  {l.visible && l.kind === 'graphic' ? (
+                    <>
+                      <td>{l.inFrame ? 'yes' : 'no'}</td>
+                      <td>—</td>
+                      <td>—</td>
+                      <td>—</td>
+                      <td>—</td>
+                    </>
+                  ) : l.visible && l.kind === 'text' ? (
                     <>
                       <td>{l.inFrame ? 'yes' : 'no'}</td>
                       <td>{l.bands.top ? 'yes' : 'no'}</td>

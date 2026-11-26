@@ -50,6 +50,12 @@ export interface CheckResult {
   reason: string;
   /** Frame labels Kane referred to ("F4"). */
   frames: string[];
+  /**
+   * Set when dailies' own browser measurement contradicted a Kane pass on a
+   * placement rule (a layer measured inside a band the criterion forbids). The
+   * verdict is then a fail; `kane` keeps what Kane said.
+   */
+  override?: { by: 'measurement'; kane: Verdict; measured: string };
 }
 
 export type RoundKind = 'sweep' | 'targeted' | 'regression';

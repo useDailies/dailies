@@ -236,6 +236,7 @@ function RoundView({ r, projectId, defaultOpen, onZoom }: { r: RoundRun; project
                   <VMark state={res?.verdict ?? 'running'} />
                   <div>
                     <b>{cond.ac}</b>
+                    {res?.override ? <span className="tag fail">measurement override · Kane said {res.override.kane}</span> : null}
                     <span className="muted">{cond.text.replace(/^\[ac-\d+\]\s*/, '')}</span>
                     {res ? <p>{res.reason}</p> : null}
                   </div>

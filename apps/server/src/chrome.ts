@@ -52,6 +52,8 @@ export async function openSheet(cut: CutId, url: string, screenshotPath: string,
   const error = await s.page.$('[data-sheet-error]');
   if (error) throw new Error(`sheet failed to render: ${(await error.textContent())?.slice(0, 400)}`);
   await s.page.screenshot({ path: screenshotPath, type: 'png' });
+  // A compact copy for agents (MCP image results, the Stop hook's evidence).
+  await s.page.screenshot({ path: screenshotPath.replace(/\.png$/, '.jpg'), type: 'jpeg', quality: 72 }).catch(() => undefined);
   const facts = await s.page.$$eval('[data-fact-row]', (r) => r.length);
   const report = await s.page
     .$eval('[data-fact="placement"]', (el) => [...el.querySelectorAll('span')].map((x) => (x.textContent ?? '').trim()).join('\n'))

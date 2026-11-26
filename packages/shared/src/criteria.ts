@@ -133,13 +133,53 @@ export function conditionFor(c: Criterion, cut: CutId, frames: SampleFrame[], sb
     parts.push(
       'Decide position from the Text placement report above the frames (it lists every visible text layer that leaves the frame or touches a reserved band; "none" means none) and the per-frame flags under each frame.',
     );
+  if (/(fully )?(inside|within) the frame|in frame|cropped|cut off/i.test(c.text) && !/text|caption|headline|button|label|wordmark|price/i.test(c.text))
+    parts.push(
+      'Whether a graphic is fully inside the frame is measured in the facts table "Fully inside frame" column for that layer (from its box). The hatched safe-zone shading is only a guide; it is not the frame edge.',
+    );
   if (/visible|absent|appear|hidden|not shown|by \d|at \d/i.test(c.text) && !/inside the frame/i.test(c.text))
     parts.push('Whether a layer can be seen in a frame is in the facts table Visible column and in the picture.');
   if (/\bpx\b|font|type size|legib|point size|text size|set at/i.test(c.text))
     parts.push('Font sizes are in the facts table Font size column (px at full resolution) and in the report line for the smallest visible text.');
   if (/fps|frames per second|seconds|lasts|duration|dimension|declares|shot at|occupies \d/i.test(c.text))
     parts.push('Duration, frame rate, pixel size and the declared shot timings are in the sheet header.');
+  const rule = placementRule(c.text);
+  if (rule)
+    parts.push(
+      `The criterion is violated if the report line "${rule.line}" names any layer; it holds only if that line reads "none".`,
+    );
+  parts.push('Answer true only if the criterion, as written, holds on this cut; answer false if it is violated.');
   return parts.join(' ');
+}
+
+/**
+ * A placement rule the sheet measures directly: "no text in the bottom 35%",
+ * "…top 14%…", "…side bands…", "all text stays inside the frame". Returns the
+ * placement-report line that decides it.
+ */
+export function placementRule(text: string): { band: 'bottom' | 'top' | 'side' | 'outside'; line: string } | null {
+  const t = text.toLowerCase();
+  const negative = /\b(no|never|not|nothing|without|free of|clear of|stays?|remains?|kept)\b/.test(t);
+  if (!negative) return null;
+  const pct = (re: RegExp) => t.match(re)?.[1];
+  if (/bottom\s*\d+\s*%|bottom band|bottom reserved/.test(t)) return { band: 'bottom', line: `Visible text in the bottom ${pct(/bottom\s*(\d+)\s*%/) ?? '35'}% band` };
+  if (/top\s*\d+\s*%|top band|top reserved/.test(t)) return { band: 'top', line: `Visible text in the top ${pct(/top\s*(\d+)\s*%/) ?? '14'}% band` };
+  if (/side\s*(\d+\s*%|band)/.test(t)) return { band: 'side', line: 'Visible text in the side' };
+  if (/(inside|within) the frame|leaves? the frame|outside the frame|off[- ]frame|cropped/.test(t)) return { band: 'outside', line: 'Visible text outside the frame' };
+  return null;
+}
+
+/**
+ * The sheet's measured placement report vs a placement rule. Returns the report
+ * line when it shows a violation ("…: button “Pre-order now” at F11, F12").
+ */
+export function measuredViolation(text: string, report: string | undefined): string | null {
+  const rule = placementRule(text);
+  if (!rule || !report) return null;
+  const line = report.split('\n').find((l) => l.startsWith(rule.line));
+  if (!line) return null;
+  const value = line.slice(line.indexOf(':') + 1).trim();
+  return value && value !== 'none' ? line.trim() : null;
 }
 
 /** "Reading the F4 frame caption…" → ["F4"] */
