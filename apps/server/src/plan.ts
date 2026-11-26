@@ -182,7 +182,8 @@ export function setSheetUrl(projectId: string, version: number | 'latest') {
   } catch {
     /* first write */
   }
-  const url = `${config.studioUrl}/inspect/${projectId}/${version}/sheet`;
+  const key = getProject(projectId)?.inspectKey;
+  const url = `${config.studioUrl}/inspect/${projectId}/${version}/sheet${key ? `/${key}` : ''}`;
   vars.sheet_url = { ...(vars.sheet_url ?? {}), value: url, secret: false };
   writeFileSync(f, JSON.stringify(vars, null, 2));
   return url;

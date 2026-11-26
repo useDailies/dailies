@@ -16,7 +16,7 @@ import { runRound } from './verify.ts';
 
 const live = new Map<string, { child?: import('node:child_process').ChildProcess; watcher?: FSWatcher }>();
 
-function setPhase(id: string, phase: Project['phase'], extra: Partial<Project> = {}) {
+export function setPhase(id: string, phase: Project['phase'], extra: Partial<Project> = {}) {
   updateProject(id, (p) => {
     p.phase = phase;
     Object.assign(p, extra);
@@ -52,7 +52,7 @@ function stopWatch(id: string) {
   if (s) s.watcher = undefined;
 }
 
-function describeFails(p: Project, results: CheckResult[]): FailedCheck[] {
+export function describeFails(p: Project, results: CheckResult[]): FailedCheck[] {
   const sb = parseStoryboard(p.storyboard);
   return results
     .filter((r) => r.verdict !== 'pass')
@@ -71,7 +71,7 @@ function describeFails(p: Project, results: CheckResult[]): FailedCheck[] {
 }
 
 /** The sheets Kane judged for the failing cuts: screenshot path + measured placement report. */
-function evidenceFor(round: VerifyRound, fails: CheckResult[]): SheetEvidence[] {
+export function evidenceFor(round: VerifyRound, fails: CheckResult[]): SheetEvidence[] {
   const cuts = [...new Set(fails.map((f) => f.cut))];
   return cuts.map((cut) => ({
     cut,
@@ -81,7 +81,7 @@ function evidenceFor(round: VerifyRound, fails: CheckResult[]): SheetEvidence[] 
   }));
 }
 
-async function snapshot(id: string, kind: 'draft' | 'fix', extra: { trigger?: string; summary?: string } = {}) {
+export async function snapshot(id: string, kind: 'draft' | 'fix', extra: { trigger?: string; summary?: string } = {}) {
   const c = await compileComposition(versionEntry(id, 'live'));
   const p = getProject(id)!;
   const prev = p.versions.at(-1);

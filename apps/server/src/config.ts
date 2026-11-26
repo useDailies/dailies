@@ -20,6 +20,8 @@ export const config = {
   port: num(process.env.DAILIES_PORT, 4100),
   /** Where Kane's Chrome opens the inspection sheets. */
   studioUrl: process.env.DAILIES_STUDIO_URL ?? 'http://localhost:5173',
+  /** The address users and their agents reach dailies at (links, sheet images, device login). */
+  publicUrl: (process.env.DAILIES_PUBLIC_URL ?? process.env.DAILIES_STUDIO_URL ?? 'http://localhost:5173').replace(/\/$/, ''),
   apiUrl: process.env.DAILIES_API_URL ?? `http://127.0.0.1:${num(process.env.DAILIES_PORT, 4100)}`,
   workspaces: join(ROOT, 'workspaces'),
   hookScript: join(ROOT, 'packages/hook/stop.mjs'),

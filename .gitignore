@@ -17,3 +17,4 @@ apps/server/*.mjs
 video/.frames/
 video/out/
 video/public/rec/
+data/

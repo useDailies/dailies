@@ -149,6 +149,14 @@ export interface Project {
   recorded?: boolean;
   /** when true, any Claude Code session the user opens in the workspace is Kane-gated */
   gate?: boolean;
+  /** the dailies account that owns this spot (absent: local/legacy or recorded example) */
+  owner?: string;
+  /** where the spot was made: the studio's own Claude Code, or an external agent over MCP */
+  source?: 'studio' | 'mcp';
+  /** the external agent driving an MCP spot */
+  agent?: { client: string; version?: string; dir?: string; repo?: string };
+  /** read-only key embedded in inspection-sheet URLs (Kane's browsers carry no login) */
+  inspectKey?: string;
 }
 
 export interface DailiesEvent<T = Record<string, unknown>> {

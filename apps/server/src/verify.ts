@@ -32,7 +32,8 @@ import { getProject, updateProject, ws } from './store.ts';
  *    full regression sweep runs once they pass.
  */
 export function sheetUrl(projectId: string, version: number, cut: CutId) {
-  return `${config.studioUrl}/inspect/${projectId}/${version}/sheet?cut=${cut}&guides=1&kane=1`;
+  const key = getProject(projectId)?.inspectKey;
+  return `${config.studioUrl}/inspect/${projectId}/${version}/sheet${key ? `/${key}` : ''}?cut=${cut}&guides=1&kane=1`;
 }
 
 export async function runRound(

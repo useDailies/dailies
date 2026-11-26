@@ -95,7 +95,14 @@ export interface SheetEvidence {
   report?: string;
 }
 
-export function correctionPrompt(fails: FailedCheck[], round: number, intro = true, evidence: SheetEvidence[] = []): string {
+export function correctionPrompt(
+  fails: FailedCheck[],
+  round: number,
+  intro = true,
+  evidence: SheetEvidence[] = [],
+  opts: { file?: string; external?: boolean } = {},
+): string {
+  const file = opts.file ?? 'src/Video.tsx';
   const byAc = new Map<string, FailedCheck[]>();
   for (const f of fails) byAc.set(f.ac, [...(byAc.get(f.ac) ?? []), f]);
   const blocks = [...byAc.values()].map((group) => {
@@ -110,14 +117,41 @@ ${fails.length} check${fails.length === 1 ? '' : 's'} failed:`
     : `Kane CLI re-ran the checks after your change (review round ${round}). These still fail:`;
   const ev = evidence.length
     ? `\n\nWhat Kane looked at (one contact sheet per cut, every storyboard timecode, measured in a real browser):\n${evidence
-        .map((e) => `- ${e.ratio}: ${e.screenshot ? `screenshot ${e.screenshot} (open it with Read to see exactly what Kane saw)` : 'no screenshot'}${e.report ? `\n    ${e.report.split('\n').join('\n    ')}` : ''}`)
+        .map((e) => `- ${e.ratio}: ${e.screenshot ? `screenshot ${e.screenshot} (${opts.external ? 'view it' : 'open it with Read'} to see exactly what Kane saw)` : 'no screenshot'}${e.report ? `\n    ${e.report.split('\n').join('\n    ')}` : ''}`)
         .join('\n')}`
     : '';
   return `${head}
 
 ${blocks.join('\n\n')}${ev}
 
-Fix src/Video.tsx so every one of these holds in every listed cut, without breaking what
-already passes. Do not edit storyboard.md, the tests or anything outside src/. When you
-are done, stop: Kane CLI re-verifies automatically before your turn can end.`;
+Fix ${file} so every one of these holds in every listed cut, without breaking what
+already passes. Do not edit the storyboard${opts.external ? '' : ', the tests or anything outside src/'}. When you
+are done, ${opts.external ? 'call dailies_review again (or simply stop: the dailies Stop hook re-verifies before your turn can end)' : 'stop: Kane CLI re-verifies automatically before your turn can end'}.`;
+}
+
+/**
+ * The contract an external agent (Claude Code, Cursor… through the dailies MCP
+ * server) composes against. Same rules as the hosted workspace; the files live in
+ * the user's own repository under `dir`.
+ */
+export function agentContract(cuts: CutId[], dir = 'video'): string {
+  return claudeMd(cuts)
+    .replace('# dailies composition contract', '# dailies composition contract (external agent)')
+    .replace(/## The one file you own[\s\S]*?## Exports/, `## Your files
+
+\`${dir}/Video.tsx\` is the composition. Helper files may sit next to it in \`${dir}/\` and be imported
+with relative paths. dailies uploads \`${dir}/**/*.ts(x)\` each time Kane judges, so keep the composition
+self-contained there. The storyboard is \`${dir}/storyboard.md\`: never edit it to make a check pass.
+
+## How Kane CLI judges you
+
+1. \`dailies_start\` registered the storyboard; Kane CLI derived acceptance criteria from it
+   (\`dailies_criteria\` lists them, each mapped to cuts and frames).
+2. \`dailies_review\` uploads ${dir}/, pins a version and has Kane judge every criterion on every cut
+   in a real browser. It answers with verdicts, Kane's reasons, measured text placement and the
+   contact sheets Kane looked at.
+3. Fix what failed and review again. When you stop, the dailies Stop hook re-verifies: your turn
+   cannot end while a check Kane judged is failing.
+
+## Exports`);
 }
