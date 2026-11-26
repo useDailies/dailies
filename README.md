@@ -5,6 +5,7 @@
 <p align="center">
   <a href="https://daohbofm7o9ia.cloudfront.net/">Live app</a> ·
   <a href="https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4">Watch the film</a> ·
+  <a href="https://drive.google.com/file/d/1Uzh2ox1cZYMF7464OTAxziFjt6V8HMTe/view?usp=sharing">See walkthrough</a> ·
   <a href="https://daohbofm7o9ia.cloudfront.net/docs/mcp">MCP docs</a> ·
   <a href="https://www.npmjs.com/package/@usedailies/cli">npm</a> ·
   <a href="https://daohbofm7o9ia.cloudfront.net/pitch">Pitch</a>
@@ -63,7 +64,6 @@ Kane CLI has earned its place checking the software teams ship: forms, flows, ch
 - [Deploy (AWS)](#deploy-aws)
 - [HTTP API](#http-api)
 - [Recorded runs and the static replay](#recorded-runs-and-the-static-replay)
-- [Honesty: limitations](#honesty-limitations)
 - [Configuration](#configuration)
 - [Repository layout](#repository-layout)
 
@@ -110,6 +110,7 @@ On top of that, Kane judges every criterion on every cut after every change. The
 | --- | --- |
 | **Live app** (sign up, connect your agent, watch recorded runs) | [daohbofm7o9ia.cloudfront.net](https://daohbofm7o9ia.cloudfront.net/) |
 | **The film** (2:41: the pitch, the walkthrough, and a guide to using dailies from Claude Code) | [watch](https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4) |
+| **Walkthrough** (2:32: one real run on the hosted app, recorded as it happened, with a plain voiceover) | [see walkthrough](https://drive.google.com/file/d/1Uzh2ox1cZYMF7464OTAxziFjt6V8HMTe/view?usp=sharing) |
 | **npm CLI**: link any coding agent to dailies | [`@usedailies/cli`](https://www.npmjs.com/package/@usedailies/cli) · `npx @usedailies/cli login` · [CLI README](packages/cli/README.md) |
 | **Claude Code plugin** (MCP server + Kane-gated Stop hook + `/dailies:video`) | `claude plugin marketplace add useDailies/dailies` → `claude plugin install dailies@dailies` · [`plugins/dailies`](plugins/dailies) |
 | **MCP docs** (Claude Code, Cursor, any MCP client) | [`/docs/mcp`](https://daohbofm7o9ia.cloudfront.net/docs/mcp) · source [`docs/MCP.md`](docs/MCP.md) |
@@ -123,9 +124,10 @@ On top of that, Kane judges every criterion on every cut after every change. The
 | **Brand kit** | [`/brand`](https://daohbofm7o9ia.cloudfront.net/brand) · source in [`brand/`](brand/) |
 | **Recorded runs** (replay in the app, no install) | [Kestrel catch and fix](https://daohbofm7o9ia.cloudfront.net/p/kestrel-runner-launch-spot-a3eb?replay=1) · [Halo via the MCP](https://daohbofm7o9ia.cloudfront.net/p/halo-smart-lamp-launch-spot-d971?replay=1) · data in [`apps/studio/public/recorded/`](apps/studio/public/recorded/) |
 | **Kane evidence** | [`docs/kane-runs/`](docs/kane-runs/): every round, condition and verdict, readable on GitHub |
-| **Honesty** | [Limitations](#honesty-limitations), including where Kane got it wrong and how dailies guards it |
 
 ## How to use dailies (5 minutes, with your own Claude Code)
+
+Every step below is in the [walkthrough video](https://drive.google.com/file/d/1Uzh2ox1cZYMF7464OTAxziFjt6V8HMTe/view?usp=sharing) (2:32), recorded on the live app.
 
 You need [Claude Code](https://claude.com/claude-code) and Node 20+. Kane CLI runs on the dailies server, so you don't need to install it.
 
@@ -174,6 +176,10 @@ When Claude tries to stop, the Stop hook runs the review again, and Claude can't
 ![The MCP docs](docs/media/12-mcp-docs.png)
 
 ## How to demo the studio (3 minutes)
+
+<p><a href="https://drive.google.com/file/d/1Uzh2ox1cZYMF7464OTAxziFjt6V8HMTe/view?usp=sharing"><img alt="See walkthrough" src="https://img.shields.io/badge/%E2%96%B6%20See%20walkthrough-2%3A32-5B4BDB?style=for-the-badge"></a></p>
+
+Prefer to watch first? The walkthrough is one real session on the hosted app, recorded as it happened: sign up, install the CLI and the plugin, sign the agent in, then Claude Code composes a smartwatch spot while Kane CLI judges both cuts live in the studio (40/40 on v1, 40/40 again after Claude's refinement), with every round saved to the account.
 
 This is the self-hosted studio, where dailies runs Claude Code and Kane CLI on your machine: one click drafts, reviews and corrects. The hosted app is MCP-only (your own agent composes). You need Node 20+, Chrome, Claude Code logged in and Kane CLI logged in (see [Prerequisites](#prerequisites)).
 
@@ -566,27 +572,25 @@ The mark is a **viewfinder holding a check**: the frame Claude Code composes, pr
 
 ## Deploy (AWS)
 
-The live site is the static replay build on **S3 + CloudFront**:
+The live app runs on AWS as two pieces behind one **CloudFront** distribution (HTTPS only, HTTP/3, compression):
 
-- a private bucket with origin access control;
-- HTTPS only, HTTP/3 and compression;
-- SPA fallback to `index.html`;
-- immutable caching for hashed assets, `no-cache` for `index.html`.
+- **The dailies server** on EC2 (Ubuntu 24.04, t3.medium): Fastify, Chrome and Kane CLI, run by systemd. It serves the studio, the accounts and device sign-in, and the MCP agent API. CloudFront is its only way in: the security group admits the CloudFront origin prefix list and nothing else. Kane's login lives in SSM Parameter Store as `SecureString`, read by the instance role at deploy time. The hosted server is MCP-only (`DAILIES_DRAFTING=0`): your own agent composes, dailies runs Kane. Reviews run as jobs that the CLI polls, so a long Kane round never hits CloudFront's origin timeout, and every account has daily caps.
+- **Static media** (the film, hashed assets, recorded runs, brand, pitch) from a private S3 bucket with origin access control and immutable caching.
 
-A small Lambda ([`infra/deployer/deployer.py`](infra/deployer/deployer.py)) unpacks each site bundle with the right `Content-Type` and `Cache-Control`, prunes stale files and invalidates the distribution:
+[`infra/server/user-data.sh`](infra/server/user-data.sh) provisions the instance (Node 22, Chrome, the AWS CLI, Kane CLI). [`infra/server/deploy.sh`](infra/server/deploy.sh) installs each release from `s3://<bucket>/_deploy/server/app.tgz`, writes the service environment, warms Kane's runner before the service starts, and restarts it. It runs on the instance through SSM Run Command. The static site and the film go out with:
 
 ```bash
 scripts/deploy.sh          # build the static studio and deploy it
 scripts/deploy.sh --film   # …and upload video/out/dailies-ad.mp4 to /media/
 ```
 
-The build refuses to deploy if it contains this machine’s home path. Recorded runs are exported with project-relative paths.
+A small Lambda ([`infra/deployer/deployer.py`](infra/deployer/deployer.py)) unpacks each site bundle with the right `Content-Type` and `Cache-Control`, prunes stale files and invalidates the distribution. The build refuses to deploy if it contains this machine's home path, and recorded runs are exported with project-relative paths.
 
 ## HTTP API
 
 | Method | Path | Role |
 | --- | --- | --- |
-| `GET` | `/api/health` | Claude Code version, Kane version, user, credits |
+| `GET` | `/api/health` | Claude Code version, Kane version, Kane readiness (the hosted server hides the Kane account) |
 | `GET` / `POST` | `/api/projects` | List / create from a storyboard |
 | `GET` / `PATCH` | `/api/projects/:id` | Project / title, gate |
 | `PUT` | `/api/projects/:id/storyboard` | Edit the storyboard |
@@ -599,6 +603,14 @@ The build refuses to deploy if it contains this machine’s home path. Recorded 
 | `GET` | `/api/projects/:id/files/eye/*` | Kane’s-eye screenshots |
 | `GET` | `/api/projects/:id/tests` | Kane-designed `_test.md` files |
 | `POST` | `/api/hook/stop` | Claude Code Stop hook |
+| `POST` | `/api/auth/signup` · `login` · `logout` · `GET /api/auth/me` | Accounts (httpOnly session cookie) |
+| `POST` | `/api/auth/device` · `device/token` · `device/approve` | Device sign-in for the CLI (RFC 8628 shape) |
+| `GET` / `DELETE` | `/api/auth/tokens` · `tokens/:id` | Connected agents: list / revoke |
+| `GET` / `POST` | `/api/agent/spots` | Your agent's spots / start one from a storyboard |
+| `GET` | `/api/agent/spots/:id` · `criteria` · `status` | Composition contract, Kane-designed criteria, live status |
+| `POST` | `/api/agent/spots/:id/submit` · `seal` | Pin a version and have Kane judge it (`?async=1` returns a job) / seal |
+| `GET` | `/api/agent/jobs/:job?wait=20` | Long-poll a review job |
+| `GET` | `/api/agent/whoami` | The signed-in account |
 
 ## Recorded runs and the static replay
 
@@ -609,26 +621,6 @@ VITE_DAILIES_STATIC=1 npm run build && npx vite preview apps/studio
 ```
 
 builds a static studio that replays the run with its real rhythm (play, 1×–20×, skip to result). Watching it needs no Claude Code, Kane CLI or server. Locally, any project can also be replayed with `/p/<id>?replay=1`.
-
-## Honesty: limitations
-
-- **Kane sees frames, not motion or sound.** It judges sampled frames: every timecode the storyboard names, plus each shot’s opening and close. A glitch between two sampled frames can slip through, and audio is out of scope.
-- **The facts table is dailies’ own measurement.** It is the browser’s real layout (`getBoundingClientRect`, a DOM `Range` for glyphs, computed font size), but dailies wrote the code that reads it. Kane judges each criterion against both the table and the picture. Vision alone was not reliable for exact copy: in a spike it read “Run the ctiy” as “Run the city” three times out of three.
-- **Kane is not infallible, and neither was the first version of the sheet.**
-  - In early runs, Kane passed a 9:16 safe-zone criterion that the facts contradicted, and failed a “three cuts’ dimensions” criterion on a one-cut sheet. Both came from ambiguous instruments and conditions. Those are now fixed with per-band columns, a placement report, and conditions that say “judge only this cut”.
-  - Element-box measurement once reported a centred caption as touching the side bands. Text is now measured by its glyphs.
-  - In one unrecorded run, a regression sweep failed “all text stays inside the frame” on the 1:1 cut while the sheet’s own report said no text left the frame. Claude was sent back once more for a likely false positive. The correction prompt includes the measured report, so Claude can see the contradiction, and the round cap bounds the cost.
-- **Kane can get the polarity of a check backwards, so dailies guards it with its own measurement.**
-  - **What happened:** in the MCP test run (`halo-smart-lamp-launch-spot-d971`), I moved the 9:16 button into the bottom band by hand. The sheet's report measured it (`bottom 35% band: button “Pre-order now” at F11, F12`), but Kane passed `ac-16` ("bottom-band occupancy: true; equals true → PASS").
-  - **Fix 1, clearer conditions:** every condition now states that *true means the criterion holds*, and for placement rules, that a report line naming any layer means it is violated. With that wording, Kane failed the same defect correctly on the next sweep.
-  - **Fix 2, a deterministic guard:** if Kane passes a placement rule while the sheet's own measurement shows a layer in the forbidden band, the verdict becomes a fail, marked `measurement override · Kane said pass` in the Activity log. The guard never turns a Kane fail into a pass.
-- **Kane's visual judgement can wobble between rounds.** In the same run, "the lamp is fully inside the frame by 0:01" passed on v4 and v5 and then failed on v6 and v7, with identical lamp code. The safe-zone hatching over the 9:16 bottom band was likely read as the frame edge. The sheet now measures *Fully inside frame* for graphic layers as well as text, and tells Kane the hatching is a guide. The loop absorbed it: Claude reworked the glow, and v8 passed the targeted re-check and the regression sweep.
-- **One-shot drafts are not always wrong.** Kane failed four of the first six launch-spot drafts on their first sweep: three put text inside the 9:16 platform bands, and one missed the €149 tag at 0:06. Two were clean, and the 26 November drafts of the demo storyboard were clean too (68/68 twice). When asked for changes that pressure the rule, Claude worked around it by itself. The value is that you don’t have to watch the video to find out which kind of run you got.
-- **A designed test can be stricter than the storyboard.** In one seal, Kane’s own test asserted the price tag on the 0:03 frame, but the storyboard only requires it at 0:04 and 0:06. The test failed for a reason that wasn’t the video. The sealed card shows each test’s failing step and Kane’s reason so you can tell the difference.
-- **Kane CLI's first run on a fresh server is not parallel-safe, so dailies serialises it.** On first use, Kane unpacks a 326 MB runner into `~/.cache/v16-runner/<version>/`. On the new AWS box, parallel first launches died with SIGBUS on the half-written file. Reproduced on the server: with a cold cache and 4 analyzers at once, 3 crashed; with a warm cache, 4 of 4 returned verdicts. Memory was not the cause (no OOM, 3 GB free). The deploy now warms the runner before the service starts, the first analyzer call after a restart runs alone, failed launches are retried, and a round where Kane could not judge is reported as an infrastructure error, never as a failing check.
-- **Seal is the expensive step.** Authoring Kane’s own tests costs about 400–455 credits for 7 tests on the launch spot. Replays are free, and the review loop is cheap by comparison (see [Accuracy vs credits](#accuracy-vs-credits)).
-- **Kane runs locally.** It needs Chrome and a Kane login, so a hosted studio replays recorded runs instead of running Kane.
-- **Compositions are limited to React + Remotion**, with no external assets, so dailies can compile and render every version deterministically.
 
 ## Configuration
 
@@ -643,6 +635,13 @@ See [`.env.example`](.env.example).
 | `DAILIES_CDP_PORT` | `9341` | First CDP port (one per cut) |
 | `DAILIES_MAX_CONDITIONS` | `14` | Conditions per analyzer call before a sheet is split |
 | `DAILIES_MAX_FIX_ROUNDS` | `4` | Stop-hook rounds before handing back to a human |
+| `DAILIES_HOST` | `127.0.0.1` | Bind address (`0.0.0.0` on the hosted server) |
+| `DAILIES_PUBLIC_URL` | `DAILIES_STUDIO_URL` | Public URL used in links, device sign-in and Open Graph tags |
+| `DAILIES_DRAFTING` | `1` | `0` makes the server MCP-only: agents compose, dailies runs Kane |
+| `DAILIES_STUDIO_DIST` | unset | Serve a built studio from the API (one origin for the hosted app) |
+| `DAILIES_SPOTS_PER_DAY` · `DAILIES_REVIEWS_PER_DAY` | `12` · `80` | Per-account daily caps |
+| `DAILIES_ANALYZE_TIMEOUT` | `300` | Seconds per Kane analyzer call |
+| `DAILIES_KANE_STAGGER_MS` | `1500` | Gap between parallel Kane launches |
 
 ## Repository layout
 
@@ -655,7 +654,8 @@ scripts                export-recorded.ts, run-pipeline.sh, deploy.sh
 packages/cli           dailies CLI: device login, MCP server, Stop hook adapters (Claude Code, Cursor), init
 plugins/dailies        Claude Code plugin: MCP server + Stop hook + /dailies:video skill (.claude-plugin/marketplace.json at the root)
 brand                  Logo, wordmark and social assets (generated: src/build.mjs, src/social.mjs)
-video                  The film: script, voiceover, recordings, Remotion edit, renderer
+video                  The film and the walkthrough: scripts, voiceover, recorders, Remotion edits, renderer
+infra/server           EC2 provisioning (user-data.sh) and the release installer (deploy.sh)
 infra/deployer         Lambda that unpacks site bundles into S3 and invalidates CloudFront
 workspaces/<id>        One per project: storyboard, CLAUDE.md, surface.md, src/, versions/, runs/, .testmuai/ (gitignored)
 docs/kane-runs         Committed Kane evidence from the recorded runs
