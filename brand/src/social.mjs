@@ -44,6 +44,11 @@ const pages = {
     h: 400,
     html: `<body class="ink" style="display:grid;place-items:center;background:radial-gradient(90% 90% at 50% 40%,#2a2833,#17161A 70%)"><img src="${svg('mark-glyph-white.svg')}" style="width:330px;height:330px"></body>`,
   },
+  'avatar-1000.png': {
+    w: 1000,
+    h: 1000,
+    html: `<body class="ink" style="display:grid;place-items:center;background:radial-gradient(90% 90% at 50% 40%,#2a2833,#17161A 70%)"><img src="${svg('mark-glyph-white.svg')}" style="width:820px;height:820px"></body>`,
+  },
   'x-banner.png': {
     w: 1500,
     h: 500,
