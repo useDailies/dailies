@@ -11,6 +11,7 @@ import {
 import type { CompositionMeta } from '../lib/composition';
 import { useFrame, type Playhead } from '../lib/playhead';
 import { CUT_RATIO, type Cell } from '../lib/verdicts';
+import { VMark } from './ui';
 
 /**
  * A timeline built for review, not editing. Rows, top to bottom:
@@ -227,8 +228,8 @@ export function Timeline({
       {hover ? (
         <div className="tl-tip" style={{ left: hover.x, top: hover.y }}>
           {hover.items.slice(0, 6).map(({ c, cell, cut }) => (
-            <div key={c.id} className={`tip-row tip-${running.has(checkKey(c.id, cut)) ? 'running' : (cell?.state ?? 'owed')}`}>
-              <b>{c.id}</b>
+            <div key={c.id} className="tip-row">
+              <VMark state={running.has(checkKey(c.id, cut)) ? 'running' : (cell?.state ?? 'owed')} size={15} />
               <span>{c.text}</span>
               {cell?.reason && cell.state !== 'pass' ? <em>{cell.reason}</em> : null}
             </div>

@@ -22,6 +22,7 @@ export function StagePlayer({
   maxHeight,
   badge,
   dim,
+  mood,
 }: {
   comp: LoadedComposition;
   cut: CutId;
@@ -32,6 +33,8 @@ export function StagePlayer({
   maxHeight?: number;
   badge?: React.ReactNode;
   dim?: boolean;
+  /** what the agents are doing to this frame right now */
+  mood?: 'writing' | 'judging' | 'blocked' | 'verified' | null;
 }) {
   const ref = useRef<PlayerRef>(null);
   const box = useRef<HTMLDivElement>(null);
@@ -87,7 +90,7 @@ export function StagePlayer({
   return (
     <div className="stage-box" ref={box}>
       {size.w > 0 ? (
-        <div className={`stage-frame ${dim ? 'dim' : ''}`} style={{ width: size.w, height: size.h }}>
+        <div className={`stage-frame ${dim ? 'dim' : ''} ${mood ?? ''}`} style={{ width: size.w, height: size.h }}>
           <Player
             ref={ref}
             component={comp.Component}
