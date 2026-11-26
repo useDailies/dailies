@@ -133,7 +133,8 @@ async function signIn(page) {
 const CLIPS = {
   async device(page, start) {
     // A real pending `dailies login`, approved on camera.
-    const d = await (await fetch(BASE + '/api/auth/device', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ client: 'dailies CLI on studio-mac' }) })).json();
+    const d = await (await fetch(BASE + '/api/auth/device', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ client: 'dailies CLI · macOS' }) })).json();
+    console.log('   device code', d.user_code, d.verification_uri_complete);
     await signIn(page);
     await page.goto(d.verification_uri_complete);
     await page.getByRole('button', { name: 'Approve' }).waitFor();

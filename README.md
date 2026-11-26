@@ -496,6 +496,7 @@ The other runs show the rest of the product honestly:
 | `kestrel-runner-launch-spot-9fc9` (26 Nov, demo storyboard) | Draft 68/68. Sealed: 6/7 designed tests passed (one failed; reason shown in the sealed card) |
 | `kestrel-runner-launch-spot-5fe1` (26 Nov, demo storyboard, new UI) | Draft 68/68 in a 43 s sweep |
 | `halo-smart-lamp-launch-spot-d971` (26 Nov, **via the dailies MCP** from a separate repo, Claude Code plugin) | v1 and v2 28/28 through `dailies_review`. A client request for a sticky buy bar: Claude kept 9:16 compliant itself (v3 28/28). A hand-planted defect: the **Stop hook blocked** Claude (27/28, `ac-16`), Claude fixed it, and after a Kane wobble on `ac-7`, v8 passed 28/28 and Claude was allowed to stop |
+| `lumen-focus-headphones-launch-sp-ac39` (26 Nov, **on the hosted app**, plugin from GitHub, `npx @usedailies/cli`) | First end-to-end run on the AWS server. v1: Kane's analyzer runner crashed on the fresh box for 3 of 4 calls, so dailies now staggers launches, retries, and reports such rounds as infrastructure errors rather than failures. v2: 40/44, where four 9:16 rules were mis-mapped to the 16:9 cut ("portrait frame"), now mapped correctly. v3: 44/44, then the Stop hook allowed the stop |
 
 ## How this meets the brief
 

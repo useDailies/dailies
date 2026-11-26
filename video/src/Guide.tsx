@@ -72,11 +72,11 @@ export function Guide2({ sc }: { sc: Scene }) {
   const tApprove = at(sc, 'approve');
   const tConnected = at(sc, 'connected');
   const L: TLine[] = [
-    { kind: 'cmd', t: 'claude plugin marketplace add dailies', at: 4 },
+    { kind: 'cmd', t: 'claude plugin marketplace add useDailies/dailies', at: 4 },
     { kind: 'ok', t: '✔ Successfully added marketplace: dailies', at: 30 },
     { kind: 'cmd', t: 'claude plugin install dailies@dailies', at: 40 },
     { kind: 'ok', t: '✔ Successfully installed plugin: dailies@dailies', at: 66 },
-    { kind: 'cmd', t: 'dailies login', at: tSign - 6 },
+    { kind: 'cmd', t: 'npx @usedailies/cli login', at: tSign - 6 },
     { kind: 'out', t: '  Sign in to dailies', at: tSign + 10 },
     { kind: 'dim', t: `  1. Open   ${session.login.url}`, at: tSign + 14 },
     { kind: 'out', t: `  2. Check  the code reads  ${session.login.code}`, at: tSign + 18 },
@@ -125,11 +125,11 @@ export function Guide4({ sc }: { sc: Scene }) {
         <Screen src="rec/account.mp4" from={0.8} rate={1.1} width={1560} y={600} title="dailies · your spots" cam={[{ at: 0, x: 820, y: 560, s: 1.15 }, { at: 34, x: 560, y: 720, s: 1.55 }]} />
       ) : (
         <Sequence from={cut} layout="none">
-          <Screen src="rec/mcpspot.mp4" from={2.2} rate={1.2} width={1560} y={600} title="dailies · Halo — smart lamp launch spot" cam={[{ at: 0, x: 600, y: 520, s: 1.2 }, { at: 40, x: 420, y: 560, s: 1.45 }]} />
+          <Screen src="rec/mcpspot.mp4" from={2.2} rate={1.2} width={1560} y={600} title="dailies · Lumen — focus headphones launch spot" cam={[{ at: 0, x: 900, y: 520, s: 1.1 }, { at: 40, x: 500, y: 560, s: 1.35 }]} />
         </Sequence>
       )}
       <Chip at={sc.voAt + 14} who="claude" tone="claude" style={{ right: 140, top: 900 }} size={26}>
-        via Claude Code · 27/28 → {session.result.score} · fixed by the loop
+        via Claude Code · 40/44 → {session.result.score} · saved to your account
       </Chip>
     </Bg>
   );

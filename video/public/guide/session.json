@@ -1,7 +1,7 @@
 {
   "login": {
-    "url": "http://localhost:5173/device?code=NVVM-TDKV",
-    "code": "NVVM-TDKV",
+    "url": "https://daohbofm7o9ia.cloudfront.net/device?code=NHDC-CNFF",
+    "code": "NHDC-CNFF",
     "user": "Demo Designer <demo@dailies.dev>"
   },
   "claude": [
@@ -102,6 +102,6 @@
     }
   ],
   "result": {
-    "score": "28/28"
+    "score": "44/44"
   }
 }
