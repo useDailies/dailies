@@ -124,7 +124,55 @@ async function record(browser, name, fn) {
 
 const settle = (page) => page.evaluate(() => document.fonts.ready).then(() => sleep(900));
 
+/** Sign the recording browser in as the demo account (cookie session). */
+async function signIn(page) {
+  const r = await page.request.post(BASE + '/api/auth/login', { data: { email: process.env.DEMO_EMAIL ?? 'demo@dailies.dev', password: process.env.DEMO_PASSWORD ?? '' } });
+  if (!r.ok()) throw new Error('demo sign-in failed: ' + r.status());
+}
+
 const CLIPS = {
+  async device(page, start) {
+    // A real pending `dailies login`, approved on camera.
+    const d = await (await fetch(BASE + '/api/auth/device', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ client: 'dailies CLI on studio-mac' }) })).json();
+    await signIn(page);
+    await page.goto(d.verification_uri_complete);
+    await page.getByRole('button', { name: 'Approve' }).waitFor();
+    await settle(page);
+    await start();
+    await sleep(900);
+    await glideTo(page, page.locator('.device-code'), 900);
+    await sleep(900);
+    await click(page, page.getByRole('button', { name: 'Approve' }), 900);
+    await page.getByText('Your agent is connected').waitFor();
+    await sleep(2600);
+  },
+  async account(page, start) {
+    await signIn(page);
+    await page.goto(BASE + '/account');
+    await page.locator('.card').first().waitFor();
+    await settle(page);
+    await start();
+    await sleep(1200);
+    await glideTo(page, page.locator('.card').first(), 1100);
+    await sleep(1300);
+    await smoothScroll(page, 360, 1300);
+    await sleep(1400);
+  },
+  async mcpspot(page, start) {
+    await signIn(page);
+    const spot = process.env.MCP_SPOT;
+    await page.goto(BASE + `/p/${spot}`);
+    await page.locator('.ring').waitFor();
+    await settle(page);
+    await page.keyboard.press('Space');
+    await start();
+    await sleep(900);
+    await click(page, page.getByRole('button', { name: /Activity/ }), 900);
+    await sleep(2400);
+    await glide(page, 300, 420, 700);
+    await smoothScroll(page, 260, 1400, '.drawer-body');
+    await sleep(2200);
+  },
   async home(page, start) {
     await page.goto(BASE + '/');
     await page.locator('.demo-card img, .demo-card canvas, .demo-card div').first().waitFor();

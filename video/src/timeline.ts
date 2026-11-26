@@ -13,6 +13,10 @@ import katch from '../public/vo/catch.json';
 import loop from '../public/vo/loop.json';
 import proof from '../public/vo/proof.json';
 import seal from '../public/vo/seal.json';
+import guide1 from '../public/vo/guide1.json';
+import guide2 from '../public/vo/guide2.json';
+import guide3 from '../public/vo/guide3.json';
+import guide4 from '../public/vo/guide4.json';
 import numbers from '../public/vo/numbers.json';
 import close from '../public/vo/close.json';
 import tag from '../public/vo/tag.json';
@@ -36,6 +40,11 @@ const PLAN: { id: string; vo: Vo; pre: number; post: number; dark?: boolean }[] 
   { id: 'loop', vo: loop, pre: 0.3, post: 0.5 },
   { id: 'proof', vo: proof, pre: 0.2, post: 0.4 },
   { id: 'seal', vo: seal, pre: 0.2, post: 0.5 },
+  // The guide: use dailies from your own Claude Code (MCP)
+  { id: 'guide1', vo: guide1, pre: 0.35, post: 0.45 },
+  { id: 'guide2', vo: guide2, pre: 0.2, post: 0.7 },
+  { id: 'guide3', vo: guide3, pre: 0.3, post: 1.0 },
+  { id: 'guide4', vo: guide4, pre: 0.2, post: 0.9 },
   { id: 'numbers', vo: numbers, pre: 0.3, post: 0.6 },
   { id: 'close', vo: close, pre: 0.4, post: 0.6 },
   { id: 'tag', vo: tag, pre: 0.3, post: 3.6 },

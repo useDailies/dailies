@@ -1,6 +1,7 @@
 import React from 'react';
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { FPS, SCENES, TOTAL, at, scene, voEnd, wi, type Scene } from './timeline';
+import { GUIDE_VIEWS } from './Guide';
 import { Appear, Bg, C, Check, Chip, Cross, F, Face, Img, Mark, Screen, Step, Words, Wordmark, ease, gradText, useSpring } from './ui';
 
 /* Real lines from Claude Code's composition for the showcase run (src/Video.tsx, v2). */
@@ -789,6 +790,7 @@ const VIEWS: Record<string, (p: { sc: Scene }) => React.ReactElement> = {
   loop: LoopScene,
   proof: Proof,
   seal: Seal,
+  ...GUIDE_VIEWS,
   numbers: Numbers,
   close: Close,
   tag: Tag,
@@ -811,7 +813,7 @@ export function Ad() {
       <Audio src={staticFile(`sfx/${file}.mp3`)} volume={volume} />
     </Sequence>
   );
-  const whooshAt = ['code', 'vibes', 'defects', 'kane', 'storyboard', 'compose', 'judge', 'catch', 'loop', 'proof', 'seal', 'numbers', 'close'];
+  const whooshAt = ['code', 'vibes', 'defects', 'kane', 'storyboard', 'compose', 'judge', 'catch', 'loop', 'proof', 'seal', 'guide1', 'guide2', 'guide3', 'guide4', 'numbers', 'close'];
   return (
     <AbsoluteFill style={{ background: C.ink }}>
       {SCENES.map((sc) => {

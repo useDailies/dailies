@@ -1,0 +1,48 @@
+{
+ "id": "guide4",
+ "text": "Every run lands in your dailies account, live.",
+ "duration": 3.160816,
+ "speechEnd": 3.111,
+ "words": [
+  {
+   "text": "Every",
+   "start": 0,
+   "end": 0.313
+  },
+  {
+   "text": "run",
+   "start": 0.372,
+   "end": 0.569
+  },
+  {
+   "text": "lands",
+   "start": 0.639,
+   "end": 0.917
+  },
+  {
+   "text": "in",
+   "start": 0.964,
+   "end": 1.022
+  },
+  {
+   "text": "your",
+   "start": 1.068,
+   "end": 1.173
+  },
+  {
+   "text": "dailies",
+   "start": 1.231,
+   "end": 1.544
+  },
+  {
+   "text": "account,",
+   "start": 1.579,
+   "end": 1.997
+  },
+  {
+   "text": "live.",
+   "start": 2.148,
+   "end": 3.111
+  }
+ ]
+}

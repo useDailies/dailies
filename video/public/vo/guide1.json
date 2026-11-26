@@ -1,0 +1,48 @@
+{
+ "id": "guide1",
+ "text": "And you never have to leave your editor.",
+ "duration": 2.089796,
+ "speechEnd": 2.043,
+ "words": [
+  {
+   "text": "And",
+   "start": 0,
+   "end": 0.163
+  },
+  {
+   "text": "you",
+   "start": 0.209,
+   "end": 0.29
+  },
+  {
+   "text": "never",
+   "start": 0.372,
+   "end": 0.546
+  },
+  {
+   "text": "have",
+   "start": 0.604,
+   "end": 0.755
+  },
+  {
+   "text": "to",
+   "start": 0.778,
+   "end": 0.836
+  },
+  {
+   "text": "leave",
+   "start": 0.882,
+   "end": 1.045
+  },
+  {
+   "text": "your",
+   "start": 1.068,
+   "end": 1.161
+  },
+  {
+   "text": "editor.",
+   "start": 1.219,
+   "end": 2.043
+  }
+ ]
+}

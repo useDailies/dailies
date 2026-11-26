@@ -1,0 +1,163 @@
+{
+ "id": "guide3",
+ "text": "Now hand Claude a storyboard. It writes the video in your own repo, sends every cut to Kane through dailies, and fixes whatever Kane finds, before it is allowed to stop.",
+ "duration": 10.44898,
+ "speechEnd": 10.403,
+ "words": [
+  {
+   "text": "Now",
+   "start": 0,
+   "end": 0.197
+  },
+  {
+   "text": "hand",
+   "start": 0.279,
+   "end": 0.511
+  },
+  {
+   "text": "Claude",
+   "start": 0.58,
+   "end": 0.894
+  },
+  {
+   "text": "a",
+   "start": 0.917,
+   "end": 0.94
+  },
+  {
+   "text": "storyboard.",
+   "start": 1.01,
+   "end": 1.707
+  },
+  {
+   "text": "It",
+   "start": 1.95,
+   "end": 2.09
+  },
+  {
+   "text": "writes",
+   "start": 2.125,
+   "end": 2.38
+  },
+  {
+   "text": "the",
+   "start": 2.438,
+   "end": 2.508
+  },
+  {
+   "text": "video",
+   "start": 2.554,
+   "end": 2.937
+  },
+  {
+   "text": "in",
+   "start": 2.995,
+   "end": 3.053
+  },
+  {
+   "text": "your",
+   "start": 3.1,
+   "end": 3.228
+  },
+  {
+   "text": "own",
+   "start": 3.286,
+   "end": 3.413
+  },
+  {
+   "text": "repo,",
+   "start": 3.471,
+   "end": 4.087
+  },
+  {
+   "text": "sends",
+   "start": 4.331,
+   "end": 4.609
+  },
+  {
+   "text": "every",
+   "start": 4.702,
+   "end": 4.969
+  },
+  {
+   "text": "cut",
+   "start": 5.027,
+   "end": 5.201
+  },
+  {
+   "text": "to",
+   "start": 5.248,
+   "end": 5.294
+  },
+  {
+   "text": "Kane",
+   "start": 5.364,
+   "end": 5.608
+  },
+  {
+   "text": "through",
+   "start": 5.631,
+   "end": 5.817
+  },
+  {
+   "text": "dailies,",
+   "start": 5.863,
+   "end": 6.409
+  },
+  {
+   "text": "and",
+   "start": 6.583,
+   "end": 6.722
+  },
+  {
+   "text": "fixes",
+   "start": 6.792,
+   "end": 7.129
+  },
+  {
+   "text": "whatever",
+   "start": 7.175,
+   "end": 7.488
+  },
+  {
+   "text": "Kane",
+   "start": 7.546,
+   "end": 7.779
+  },
+  {
+   "text": "finds,",
+   "start": 7.825,
+   "end": 8.255
+  },
+  {
+   "text": "before",
+   "start": 8.313,
+   "end": 8.591
+  },
+  {
+   "text": "it",
+   "start": 8.626,
+   "end": 8.673
+  },
+  {
+   "text": "is",
+   "start": 8.719,
+   "end": 8.8
+  },
+  {
+   "text": "allowed",
+   "start": 8.858,
+   "end": 9.114
+  },
+  {
+   "text": "to",
+   "start": 9.137,
+   "end": 9.183
+  },
+  {
+   "text": "stop.",
+   "start": 9.218,
+   "end": 10.403
+  }
+ ]
+}

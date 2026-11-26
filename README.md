@@ -89,7 +89,7 @@ On top of that, Kane judges every criterion on every cut after every change. The
 | | |
 | --- | --- |
 | **Live site** (recorded runs replay, no install) | [daohbofm7o9ia.cloudfront.net](https://daohbofm7o9ia.cloudfront.net/) |
-| **The film** (2:13 ad + walkthrough) | [daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4](https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4) |
+| **The film** (2:41: the pitch, the walkthrough, and the guide to using dailies from your own Claude Code) | [daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4](https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4) |
 | **Pitch** | [`/pitch`](https://daohbofm7o9ia.cloudfront.net/pitch) ([preview](docs/media/11-pitch.png)) |
 | **Brand kit** | [`/brand`](https://daohbofm7o9ia.cloudfront.net/brand) · source in [`brand/`](brand/) |
 | **Recorded runs** | [`apps/studio/public/recorded/`](apps/studio/public/recorded/): events, versions, Kane’s-eye screenshots, designed tests |
@@ -474,7 +474,7 @@ The mark is a **viewfinder holding a check**: the frame Claude Code composes, pr
 
 ## The film
 
-[`video/`](video/) is a Remotion project that renders the 2:13 film: the pitch first, then a walkthrough recorded from the real app.
+[`video/`](video/) is a Remotion project that renders the 2:41 film: the pitch first, then a walkthrough recorded from the real app, then a guide to the dailies MCP built from a real logged-in Claude Code run.
 
 | Step | How |
 | --- | --- |

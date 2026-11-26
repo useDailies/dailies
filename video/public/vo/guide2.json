@@ -1,0 +1,118 @@
+{
+ "id": "guide2",
+ "text": "Add the dailies plugin to Claude Code, and sign in once. Approve the code in your browser, and your agent is connected.",
+ "duration": 8.071837,
+ "speechEnd": 8.034,
+ "words": [
+  {
+   "text": "Add",
+   "start": 0,
+   "end": 0.244
+  },
+  {
+   "text": "the",
+   "start": 0.279,
+   "end": 0.348
+  },
+  {
+   "text": "dailies",
+   "start": 0.406,
+   "end": 0.755
+  },
+  {
+   "text": "plugin",
+   "start": 0.813,
+   "end": 1.161
+  },
+  {
+   "text": "to",
+   "start": 1.207,
+   "end": 1.265
+  },
+  {
+   "text": "Claude",
+   "start": 1.324,
+   "end": 1.637
+  },
+  {
+   "text": "Code,",
+   "start": 1.672,
+   "end": 2.113
+  },
+  {
+   "text": "and",
+   "start": 2.322,
+   "end": 2.485
+  },
+  {
+   "text": "sign",
+   "start": 2.577,
+   "end": 2.891
+  },
+  {
+   "text": "in",
+   "start": 2.926,
+   "end": 3.007
+  },
+  {
+   "text": "once.",
+   "start": 3.1,
+   "end": 3.541
+  },
+  {
+   "text": "Approve",
+   "start": 3.936,
+   "end": 4.365
+  },
+  {
+   "text": "the",
+   "start": 4.4,
+   "end": 4.47
+  },
+  {
+   "text": "code",
+   "start": 4.516,
+   "end": 4.725
+  },
+  {
+   "text": "in",
+   "start": 4.748,
+   "end": 4.795
+  },
+  {
+   "text": "your",
+   "start": 4.841,
+   "end": 4.946
+  },
+  {
+   "text": "browser,",
+   "start": 4.992,
+   "end": 5.608
+  },
+  {
+   "text": "and",
+   "start": 5.735,
+   "end": 5.909
+  },
+  {
+   "text": "your",
+   "start": 5.968,
+   "end": 6.095
+  },
+  {
+   "text": "agent",
+   "start": 6.177,
+   "end": 6.513
+  },
+  {
+   "text": "is",
+   "start": 6.56,
+   "end": 6.653
+  },
+  {
+   "text": "connected.",
+   "start": 6.711,
+   "end": 8.034
+  }
+ ]
+}

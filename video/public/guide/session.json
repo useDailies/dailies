@@ -1,0 +1,107 @@
+{
+  "login": {
+    "url": "http://localhost:5173/device?code=NVVM-TDKV",
+    "code": "NVVM-TDKV",
+    "user": "Demo Designer <demo@dailies.dev>"
+  },
+  "claude": [
+    {
+      "kind": "claude",
+      "t": "> /dailies:video",
+      "at": 0.0
+    },
+    {
+      "kind": "tool",
+      "t": "⏺ dailies · dailies_start",
+      "at": 0.056
+    },
+    {
+      "kind": "dim",
+      "t": "  ⎿ Started spot \"Halo — smart lamp launch spot\" in your dailies account",
+      "at": 0.111
+    },
+    {
+      "kind": "tool",
+      "t": "⏺ dailies · dailies_criteria",
+      "at": 0.167
+    },
+    {
+      "kind": "dim",
+      "t": "  ⎿ Kane CLI designed 16 acceptance criteria and 8 tests from the storyboard",
+      "at": 0.222
+    },
+    {
+      "kind": "tool",
+      "t": "⏺ Write(video/Video.tsx)",
+      "at": 0.278
+    },
+    {
+      "kind": "tool",
+      "t": "⏺ dailies · dailies_review",
+      "at": 0.333
+    },
+    {
+      "kind": "ok",
+      "t": "  ⎿ ✅ Kane CLI verified v1: every criterion passes in every cut (28/28)",
+      "at": 0.389
+    },
+    {
+      "kind": "claude",
+      "t": "> Tighten the comment block at the top of video/Video.tsx",
+      "at": 0.444
+    },
+    {
+      "kind": "dim",
+      "t": "  (meanwhile the 9:16 button was nudged into the bottom band)",
+      "at": 0.5
+    },
+    {
+      "kind": "tool",
+      "t": "⏺ Edit(video/Video.tsx)",
+      "at": 0.556
+    },
+    {
+      "kind": "tool",
+      "t": "⏺ Stop hook · dailies → Kane CLI judges v5",
+      "at": 0.611
+    },
+    {
+      "kind": "fail",
+      "t": "  ⎿ Blocked · 27/28 · [ac-16] No text or button in the 9:16 cut occupies the bottom 35%",
+      "at": 0.667
+    },
+    {
+      "kind": "tool",
+      "t": "⏺ Edit(video/Video.tsx) — restore the 9:16 button to the safe band",
+      "at": 0.722
+    },
+    {
+      "kind": "tool",
+      "t": "⏺ dailies · dailies_review",
+      "at": 0.778
+    },
+    {
+      "kind": "dim",
+      "t": "  ⎿ … 3 more Kane rounds (v6–v8: targeted re-checks, regression sweeps)",
+      "at": 0.833
+    },
+    {
+      "kind": "ok",
+      "t": "  ⎿ ✅ Kane CLI verified v8: every criterion passes in every cut (28/28)",
+      "at": 0.889
+    },
+    {
+      "kind": "tool",
+      "t": "⏺ Stop hook · dailies",
+      "at": 0.944
+    },
+    {
+      "kind": "ok",
+      "t": "  ⎿ No change since Kane verified v8 — allowed to stop",
+      "at": 1.0
+    }
+  ],
+  "result": {
+    "score": "28/28"
+  }
+}
