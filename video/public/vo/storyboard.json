@@ -1,0 +1,68 @@
+{
+ "id": "storyboard",
+ "text": "You write a storyboard. Shots, timecodes, exact copy, platform rules. One click.",
+ "duration": 5.877551,
+ "speechEnd": 5.851,
+ "words": [
+  {
+   "text": "You",
+   "start": 0,
+   "end": 0.163
+  },
+  {
+   "text": "write",
+   "start": 0.209,
+   "end": 0.372
+  },
+  {
+   "text": "a",
+   "start": 0.395,
+   "end": 0.418
+  },
+  {
+   "text": "storyboard.",
+   "start": 0.453,
+   "end": 1.08
+  },
+  {
+   "text": "Shots,",
+   "start": 1.474,
+   "end": 1.904
+  },
+  {
+   "text": "timecodes,",
+   "start": 1.939,
+   "end": 2.612
+  },
+  {
+   "text": "exact",
+   "start": 2.659,
+   "end": 3.065
+  },
+  {
+   "text": "copy,",
+   "start": 3.111,
+   "end": 3.448
+  },
+  {
+   "text": "platform",
+   "start": 3.483,
+   "end": 3.924
+  },
+  {
+   "text": "rules.",
+   "start": 3.971,
+   "end": 4.377
+  },
+  {
+   "text": "One",
+   "start": 4.83,
+   "end": 5.062
+  },
+  {
+   "text": "click.",
+   "start": 5.097,
+   "end": 5.851
+  }
+ ]
+}

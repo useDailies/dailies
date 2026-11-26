@@ -1,0 +1,28 @@
+{
+ "id": "tag",
+ "text": "dailies. Every frame, proven.",
+ "duration": 2.76898,
+ "speechEnd": 2.74,
+ "words": [
+  {
+   "text": "dailies.",
+   "start": 0,
+   "end": 0.546
+  },
+  {
+   "text": "Every",
+   "start": 0.627,
+   "end": 0.952
+  },
+  {
+   "text": "frame,",
+   "start": 1.022,
+   "end": 1.579
+  },
+  {
+   "text": "proven.",
+   "start": 1.916,
+   "end": 2.74
+  }
+ ]
+}

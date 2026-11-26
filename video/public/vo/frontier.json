@@ -1,0 +1,33 @@
+{
+ "id": "frontier",
+ "text": "That is Kane's next frontier.",
+ "duration": 1.985306,
+ "speechEnd": 1.95,
+ "words": [
+  {
+   "text": "That",
+   "start": 0,
+   "end": 0.197
+  },
+  {
+   "text": "is",
+   "start": 0.244,
+   "end": 0.313
+  },
+  {
+   "text": "Kane's",
+   "start": 0.383,
+   "end": 0.685
+  },
+  {
+   "text": "next",
+   "start": 0.743,
+   "end": 0.929
+  },
+  {
+   "text": "frontier.",
+   "start": 0.975,
+   "end": 1.95
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "id": "intro",
+ "text": "This is dailies. Test-driven video.",
+ "duration": 2.690612,
+ "speechEnd": 2.647,
+ "words": [
+  {
+   "text": "This",
+   "start": 0,
+   "end": 0.174
+  },
+  {
+   "text": "is",
+   "start": 0.232,
+   "end": 0.302
+  },
+  {
+   "text": "dailies.",
+   "start": 0.36,
+   "end": 0.94
+  },
+  {
+   "text": "Test-driven",
+   "start": 1.219,
+   "end": 1.753
+  },
+  {
+   "text": "video.",
+   "start": 1.8,
+   "end": 2.647
+  }
+ ]
+}

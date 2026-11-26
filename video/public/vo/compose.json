@@ -1,0 +1,128 @@
+{
+ "id": "compose",
+ "text": "Claude Code composes it in Remotion, while Kane reads the same storyboard and designs the tests. Twenty-four acceptance criteria, each cited to a line.",
+ "duration": 9.848163,
+ "speechEnd": 9.799,
+ "words": [
+  {
+   "text": "Claude",
+   "start": 0,
+   "end": 0.383
+  },
+  {
+   "text": "Code",
+   "start": 0.43,
+   "end": 0.743
+  },
+  {
+   "text": "composes",
+   "start": 0.778,
+   "end": 1.358
+  },
+  {
+   "text": "it",
+   "start": 1.428,
+   "end": 1.498
+  },
+  {
+   "text": "in",
+   "start": 1.556,
+   "end": 1.625
+  },
+  {
+   "text": "Remotion,",
+   "start": 1.683,
+   "end": 2.322
+  },
+  {
+   "text": "while",
+   "start": 2.601,
+   "end": 2.833
+  },
+  {
+   "text": "Kane",
+   "start": 2.868,
+   "end": 3.135
+  },
+  {
+   "text": "reads",
+   "start": 3.181,
+   "end": 3.39
+  },
+  {
+   "text": "the",
+   "start": 3.437,
+   "end": 3.506
+  },
+  {
+   "text": "same",
+   "start": 3.553,
+   "end": 3.785
+  },
+  {
+   "text": "storyboard",
+   "start": 3.82,
+   "end": 4.389
+  },
+  {
+   "text": "and",
+   "start": 4.423,
+   "end": 4.493
+  },
+  {
+   "text": "designs",
+   "start": 4.54,
+   "end": 4.899
+  },
+  {
+   "text": "the",
+   "start": 4.923,
+   "end": 4.992
+  },
+  {
+   "text": "tests.",
+   "start": 5.027,
+   "end": 5.48
+  },
+  {
+   "text": "Twenty-four",
+   "start": 5.933,
+   "end": 6.397
+  },
+  {
+   "text": "acceptance",
+   "start": 6.444,
+   "end": 6.92
+  },
+  {
+   "text": "criteria,",
+   "start": 6.954,
+   "end": 7.755
+  },
+  {
+   "text": "each",
+   "start": 7.964,
+   "end": 8.185
+  },
+  {
+   "text": "cited",
+   "start": 8.231,
+   "end": 8.545
+  },
+  {
+   "text": "to",
+   "start": 8.591,
+   "end": 8.649
+  },
+  {
+   "text": "a",
+   "start": 8.731,
+   "end": 8.754
+  },
+  {
+   "text": "line.",
+   "start": 8.812,
+   "end": 9.799
+  }
+ ]
+}

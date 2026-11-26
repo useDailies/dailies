@@ -1,0 +1,93 @@
+{
+ "id": "seal",
+ "text": "Before, and after. When the cut is final, Kane runs its own tests, and proves every criterion.",
+ "duration": 6.50449,
+ "speechEnd": 6.455,
+ "words": [
+  {
+   "text": "Before,",
+   "start": 0,
+   "end": 0.546
+  },
+  {
+   "text": "and",
+   "start": 0.58,
+   "end": 0.731
+  },
+  {
+   "text": "after.",
+   "start": 0.801,
+   "end": 1.312
+  },
+  {
+   "text": "When",
+   "start": 1.707,
+   "end": 1.881
+  },
+  {
+   "text": "the",
+   "start": 1.916,
+   "end": 1.985
+  },
+  {
+   "text": "cut",
+   "start": 2.02,
+   "end": 2.194
+  },
+  {
+   "text": "is",
+   "start": 2.229,
+   "end": 2.31
+  },
+  {
+   "text": "final,",
+   "start": 2.368,
+   "end": 2.752
+  },
+  {
+   "text": "Kane",
+   "start": 2.81,
+   "end": 3.088
+  },
+  {
+   "text": "runs",
+   "start": 3.135,
+   "end": 3.413
+  },
+  {
+   "text": "its",
+   "start": 3.471,
+   "end": 3.599
+  },
+  {
+   "text": "own",
+   "start": 3.646,
+   "end": 3.808
+  },
+  {
+   "text": "tests,",
+   "start": 3.855,
+   "end": 4.331
+  },
+  {
+   "text": "and",
+   "start": 4.481,
+   "end": 4.621
+  },
+  {
+   "text": "proves",
+   "start": 4.679,
+   "end": 4.946
+  },
+  {
+   "text": "every",
+   "start": 5.039,
+   "end": 5.271
+  },
+  {
+   "text": "criterion.",
+   "start": 5.329,
+   "end": 6.455
+  }
+ ]
+}

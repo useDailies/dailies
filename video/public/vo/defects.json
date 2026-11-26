@@ -1,0 +1,118 @@
+{
+ "id": "defects",
+ "text": "And the wordmark lands under the Reels buttons. The price shows up a second late. The caption runs off the square cut.",
+ "duration": 7.053061,
+ "speechEnd": 7.012,
+ "words": [
+  {
+   "text": "And",
+   "start": 0,
+   "end": 0.151
+  },
+  {
+   "text": "the",
+   "start": 0.197,
+   "end": 0.267
+  },
+  {
+   "text": "wordmark",
+   "start": 0.302,
+   "end": 0.731
+  },
+  {
+   "text": "lands",
+   "start": 0.813,
+   "end": 1.08
+  },
+  {
+   "text": "under",
+   "start": 1.115,
+   "end": 1.265
+  },
+  {
+   "text": "the",
+   "start": 1.312,
+   "end": 1.382
+  },
+  {
+   "text": "Reels",
+   "start": 1.428,
+   "end": 1.66
+  },
+  {
+   "text": "buttons.",
+   "start": 1.718,
+   "end": 2.218
+  },
+  {
+   "text": "The",
+   "start": 2.612,
+   "end": 2.717
+  },
+  {
+   "text": "price",
+   "start": 2.775,
+   "end": 3.019
+  },
+  {
+   "text": "shows",
+   "start": 3.042,
+   "end": 3.274
+  },
+  {
+   "text": "up",
+   "start": 3.32,
+   "end": 3.413
+  },
+  {
+   "text": "a",
+   "start": 3.46,
+   "end": 3.483
+  },
+  {
+   "text": "second",
+   "start": 3.564,
+   "end": 3.866
+  },
+  {
+   "text": "late.",
+   "start": 3.936,
+   "end": 4.261
+  },
+  {
+   "text": "The",
+   "start": 4.656,
+   "end": 4.748
+  },
+  {
+   "text": "caption",
+   "start": 4.807,
+   "end": 5.201
+  },
+  {
+   "text": "runs",
+   "start": 5.271,
+   "end": 5.503
+  },
+  {
+   "text": "off",
+   "start": 5.55,
+   "end": 5.689
+  },
+  {
+   "text": "the",
+   "start": 5.724,
+   "end": 5.793
+  },
+  {
+   "text": "square",
+   "start": 5.828,
+   "end": 6.072
+  },
+  {
+   "text": "cut.",
+   "start": 6.118,
+   "end": 7.012
+  }
+ ]
+}

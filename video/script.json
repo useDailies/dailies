@@ -1,0 +1,22 @@
+{
+  "voice": { "id": "nPczCjzI2devNBz1zQrb", "name": "Brian", "model": "eleven_multilingual_v2" },
+  "lines": [
+    { "id": "hook", "text": "This autumn, A.I. learned to make video." },
+    { "id": "code", "text": "Claude Opus five point five writes motion design the way it writes software. A prompt becomes a launch film. Video became code." },
+    { "id": "vibes", "text": "But A.I. code got tests. A.I. video got vibes. Someone scrubs the timeline, says looks good, and ships it." },
+    { "id": "defects", "text": "And the wordmark lands under the Reels buttons. The price shows up a second late. The caption runs off the square cut." },
+    { "id": "kane", "text": "Everyone uses Kane C.L.I. to test their code. But testing is about to leave the codebase. When agents make what we ship, someone has to check what the code makes." },
+    { "id": "frontier", "text": "That is Kane's next frontier." },
+    { "id": "intro", "text": "This is dailies. Test-driven video." },
+    { "id": "storyboard", "text": "You write a storyboard. Shots, timecodes, exact copy, platform rules. One click." },
+    { "id": "compose", "text": "Claude Code composes it in Remotion, while Kane reads the same storyboard and designs the tests. Twenty-four acceptance criteria, each cited to a line." },
+    { "id": "judge", "text": "Then Kane judges. Every criterion, on every cut, frame by frame, in a real browser." },
+    { "id": "catch", "text": "Claude's draft looked finished. Kane disagreed. On the vertical cut, the wordmark sits in the bottom band, right where TikTok draws its buttons. Frames six to nine. Fail." },
+    { "id": "loop", "text": "So Claude can't stop. Claude Code's stop hook hands every attempt back to Kane, and Kane's verdict becomes the reason. Claude moves the wordmark, tries again, and Kane re-checks what failed. Then everything." },
+    { "id": "proof", "text": "Sixty-two of sixty-two. And nothing is hidden. Every Claude session, every Kane command, the exact conditions, and the frames Kane saw." },
+    { "id": "seal", "text": "Before, and after. When the cut is final, Kane runs its own tests, and proves every criterion." },
+    { "id": "numbers", "text": "About one credit per check. A targeted re-check, five." },
+    { "id": "close", "text": "Kane made code testable. Now it proves what the code makes." },
+    { "id": "tag", "text": "dailies. Every frame, proven." }
+  ]
+}

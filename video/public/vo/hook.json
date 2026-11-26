@@ -1,0 +1,43 @@
+{
+ "id": "hook",
+ "text": "This autumn, A.I. learned to make video.",
+ "duration": 2.507755,
+ "speechEnd": 2.461,
+ "words": [
+  {
+   "text": "This",
+   "start": 0,
+   "end": 0.244
+  },
+  {
+   "text": "autumn,",
+   "start": 0.313,
+   "end": 0.673
+  },
+  {
+   "text": "A.I.",
+   "start": 0.72,
+   "end": 0.987
+  },
+  {
+   "text": "learned",
+   "start": 1.022,
+   "end": 1.242
+  },
+  {
+   "text": "to",
+   "start": 1.265,
+   "end": 1.312
+  },
+  {
+   "text": "make",
+   "start": 1.347,
+   "end": 1.486
+  },
+  {
+   "text": "video.",
+   "start": 1.521,
+   "end": 2.461
+  }
+ ]
+}

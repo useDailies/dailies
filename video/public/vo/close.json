@@ -1,0 +1,63 @@
+{
+ "id": "close",
+ "text": "Kane made code testable. Now it proves what the code makes.",
+ "duration": 3.787755,
+ "speechEnd": 3.762,
+ "words": [
+  {
+   "text": "Kane",
+   "start": 0,
+   "end": 0.279
+  },
+  {
+   "text": "made",
+   "start": 0.313,
+   "end": 0.464
+  },
+  {
+   "text": "code",
+   "start": 0.499,
+   "end": 0.72
+  },
+  {
+   "text": "testable.",
+   "start": 0.743,
+   "end": 1.358
+  },
+  {
+   "text": "Now",
+   "start": 1.753,
+   "end": 1.927
+  },
+  {
+   "text": "it",
+   "start": 1.985,
+   "end": 2.055
+  },
+  {
+   "text": "proves",
+   "start": 2.09,
+   "end": 2.334
+  },
+  {
+   "text": "what",
+   "start": 2.357,
+   "end": 2.461
+  },
+  {
+   "text": "the",
+   "start": 2.485,
+   "end": 2.554
+  },
+  {
+   "text": "code",
+   "start": 2.589,
+   "end": 2.798
+  },
+  {
+   "text": "makes.",
+   "start": 2.833,
+   "end": 3.762
+  }
+ ]
+}

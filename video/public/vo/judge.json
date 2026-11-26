@@ -1,0 +1,83 @@
+{
+ "id": "judge",
+ "text": "Then Kane judges. Every criterion, on every cut, frame by frame, in a real browser.",
+ "duration": 7.340408,
+ "speechEnd": 7.291,
+ "words": [
+  {
+   "text": "Then",
+   "start": 0,
+   "end": 0.232
+  },
+  {
+   "text": "Kane",
+   "start": 0.325,
+   "end": 0.604
+  },
+  {
+   "text": "judges.",
+   "start": 0.65,
+   "end": 1.265
+  },
+  {
+   "text": "Every",
+   "start": 1.44,
+   "end": 1.707
+  },
+  {
+   "text": "criterion,",
+   "start": 1.765,
+   "end": 2.577
+  },
+  {
+   "text": "on",
+   "start": 2.659,
+   "end": 2.833
+  },
+  {
+   "text": "every",
+   "start": 2.949,
+   "end": 3.228
+  },
+  {
+   "text": "cut,",
+   "start": 3.309,
+   "end": 3.75
+  },
+  {
+   "text": "frame",
+   "start": 3.924,
+   "end": 4.238
+  },
+  {
+   "text": "by",
+   "start": 4.284,
+   "end": 4.423
+  },
+  {
+   "text": "frame,",
+   "start": 4.516,
+   "end": 5.074
+  },
+  {
+   "text": "in",
+   "start": 5.317,
+   "end": 5.468
+  },
+  {
+   "text": "a",
+   "start": 5.526,
+   "end": 5.561
+  },
+  {
+   "text": "real",
+   "start": 5.677,
+   "end": 5.898
+  },
+  {
+   "text": "browser.",
+   "start": 5.956,
+   "end": 7.291
+  }
+ ]
+}
