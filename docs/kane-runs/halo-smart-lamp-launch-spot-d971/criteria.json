@@ -1,0 +1,644 @@
+{
+  "createdAt": "2026-11-26T11:29:57.567Z",
+  "storyboardHash": "6e5e288fad2eba45",
+  "usecases": [
+    {
+      "id": "uc-1",
+      "title": "Deliver the Halo smart lamp launch spot",
+      "anchors": [
+        "storyboard#L3-L3",
+        "storyboard#L13-L13",
+        "storyboard#L17-L17",
+        "storyboard#L3-L3",
+        "storyboard#L5-L6",
+        "storyboard#L7-L7",
+        "storyboard#L8-L9",
+        "storyboard#L11-L12",
+        "storyboard#L13-L13",
+        "storyboard#L15-L16",
+        "storyboard#L17-L17",
+        "storyboard#L18-L18",
+        "storyboard#L19-L19"
+      ]
+    },
+    {
+      "id": "uc-2",
+      "title": "Inspect storyboard cuts in a browser contact sheet",
+      "anchors": [
+        "surface#L3-L4",
+        "surface#L8-L8",
+        "surface#L3-L4",
+        "surface#L7-L7",
+        "surface#L8-L8",
+        "surface#L9-L9",
+        "surface#L10-L10",
+        "surface#L11-L11",
+        "surface#L12-L12",
+        "surface#L13-L13"
+      ]
+    }
+  ],
+  "criteria": [
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "1920×1080 pixels"
+      },
+      "id": "ac-1",
+      "text": "The 16:9 cut measures 1920×1080 pixels.",
+      "cuts": [
+        "16x9"
+      ],
+      "times": [],
+      "shot": null,
+      "line": null,
+      "tests": [
+        "t-6"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "1080×1920 pixels"
+      },
+      "id": "ac-2",
+      "text": "The 9:16 cut measures 1080×1920 pixels.",
+      "cuts": [
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": null,
+      "tests": [
+        "t-2"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "10 seconds"
+      },
+      "id": "ac-3",
+      "text": "Each delivered cut lasts 10 seconds.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": null,
+      "tests": [
+        "t-6",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "30 fps"
+      },
+      "id": "ac-4",
+      "text": "Each delivered cut runs at 30 frames per second.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": null,
+      "tests": [
+        "t-6",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "forall",
+        "operand": "every text layer in every frame is fully inside the frame"
+      },
+      "id": "ac-5",
+      "text": "All text in each cut stays fully inside the frame.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 19,
+      "tests": [
+        "t-5",
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "round white smart lamp glowing warm amber in a dark, minimal living room during 0:00–0:03"
+      },
+      "id": "ac-6",
+      "text": "In the product hero, a round white smart lamp glows warm amber in a dark, minimal living room.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 6,
+      "tests": [
+        "t-6",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "lamp layer fully inside frame at 0:01"
+      },
+      "id": "ac-7",
+      "text": "The product-hero lamp is fully inside the frame by 0:01.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [
+        1
+      ],
+      "shot": null,
+      "line": 7,
+      "tests": [
+        "t-6",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "Light that listens"
+      },
+      "id": "ac-8",
+      "text": "The product-hero caption reads exactly “Light that listens”.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 8,
+      "tests": [
+        "t-6",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "caption fully visible at 0:01"
+      },
+      "id": "ac-9",
+      "text": "The product-hero caption is fully visible by 0:01.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [
+        1
+      ],
+      "shot": null,
+      "line": 9,
+      "tests": [
+        "t-6",
+        "t-2"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "amber-to-soft-blue lamp glow shift during 0:03–0:06"
+      },
+      "id": "ac-10",
+      "text": "During the colour shot, the lamp's glow shifts from amber to soft blue.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": 2,
+      "line": 12,
+      "tests": [
+        "t-7",
+        "t-3"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "forall",
+        "operand": "price tag visible with exact rendered text $89 at each of 0:04 and 0:05"
+      },
+      "id": "ac-11",
+      "text": "The colour-shot price tag reads exactly $89 at both 0:04 and 0:05.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [
+        4,
+        5
+      ],
+      "shot": null,
+      "line": 13,
+      "tests": [
+        "t-7",
+        "t-3"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "forall",
+        "operand": "HALO wordmark visible in each frame of shot 3 from 0:06 through the end"
+      },
+      "id": "ac-12",
+      "text": "The HALO wordmark is visible throughout 0:06–0:10.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [
+        6,
+        10
+      ],
+      "shot": null,
+      "line": 16,
+      "tests": [
+        "t-8",
+        "t-4"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "equals",
+        "operand": "Pre-order now"
+      },
+      "id": "ac-13",
+      "text": "The call-to-action button reads exactly “Pre-order now”.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 17,
+      "tests": [
+        "t-8",
+        "t-4"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "call-to-action button fully visible at 0:08"
+      },
+      "id": "ac-14",
+      "text": "The call-to-action button is fully visible by 0:08.",
+      "cuts": [
+        "16x9",
+        "9x16"
+      ],
+      "times": [
+        8
+      ],
+      "shot": null,
+      "line": 17,
+      "tests": [
+        "t-8",
+        "t-4"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "text or button overlapping the top 14% of any portrait frame"
+      },
+      "id": "ac-15",
+      "text": "No text or button in the 9:16 cut occupies the top 14% of its frame.",
+      "cuts": [
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 18,
+      "tests": [
+        "t-1"
+      ]
+    },
+    {
+      "risk": "high",
+      "expected": {
+        "operator": "exists",
+        "operand": "text or button overlapping the bottom 35% of any portrait frame"
+      },
+      "id": "ac-16",
+      "text": "No text or button in the 9:16 cut occupies the bottom 35% of its frame.",
+      "cuts": [
+        "9x16"
+      ],
+      "times": [],
+      "shot": null,
+      "line": 18,
+      "tests": [
+        "t-1"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "t-7",
+      "file": "landscape-colour-shift-and-price-at-both-timecodes_test.md",
+      "title": "Landscape colour shift and price at both timecodes",
+      "summary": "Landscape shot 0:03–0:06 shifts amber to soft blue and shows exact $89 at both stated timecodes.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [],
+          "body": "Open {{sheet_url}}?cut=16x9 in the browser and wait for the contact-sheet header to show ready."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-10"
+          ],
+          "body": "In the landscape contact-sheet frames labelled within the 0:03–0:06 colour shot, inspect the lamp glow as the shot progresses, then assert it shifts from amber to soft blue during that shot."
+        },
+        {
+          "heading": "Step 3",
+          "verifies": [
+            "ac-11"
+          ],
+          "body": "In the landscape contact sheet, inspect the price tag and its exact rendered text in both frames labelled 0:04 and 0:05, then assert the tag is visible and reads exactly $89 at each timecode."
+        }
+      ]
+    },
+    {
+      "id": "t-6",
+      "file": "landscape-hero-lamp-and-caption-at-first-second-deadline_test.md",
+      "title": "Landscape hero lamp and caption at first-second deadline",
+      "summary": "Landscape hero at 0:00–0:03 shows the warm-amber round white lamp in the dark minimal living room, lamp and exact caption fully visible by 0:01.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [],
+          "body": "Open {{sheet_url}}?cut=16x9 in the browser and wait for the contact-sheet header to show ready."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-1",
+            "ac-3",
+            "ac-4"
+          ],
+          "body": "On the landscape contact-sheet header, inspect its measured cut width, height, duration, and frames per second, then assert the measurements are 1920×1080 pixels, 10 seconds, and 30 fps."
+        },
+        {
+          "heading": "Step 3",
+          "verifies": [
+            "ac-6",
+            "ac-7"
+          ],
+          "body": "In the landscape frames labelled within the 0:00–0:03 product-hero shot, inspect the room and lamp as the shot reaches 0:01, then assert a round white smart lamp glows warm amber in a dark, minimal living room and the lamp is fully inside the frame by 0:01."
+        },
+        {
+          "heading": "Step 4",
+          "verifies": [
+            "ac-8",
+            "ac-9"
+          ],
+          "body": "In the landscape hero's frame labelled 0:01, inspect the caption and its facts-table row, then assert its exact rendered text is “Light that listens” and it is fully visible by 0:01."
+        }
+      ]
+    },
+    {
+      "id": "t-5",
+      "file": "landscape-text-never-clips-outside-a-frame_test.md",
+      "title": "Landscape text never clips outside a frame",
+      "summary": "No text layer in any landscape frame extends beyond its frame.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [],
+          "body": "Open {{sheet_url}}?cut=16x9 in the browser and wait for the contact-sheet header to show ready."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-5"
+          ],
+          "body": "On the landscape contact sheet, inspect all text-layer facts-table rows across every labelled frame for the fully-inside-frame property, then assert every text layer in every frame is fully inside its frame."
+        }
+      ]
+    },
+    {
+      "id": "t-8",
+      "file": "landscape-wordmark-continuity-and-pre-order-button-deadline_test.md",
+      "title": "Landscape wordmark continuity and pre-order button deadline",
+      "summary": "Landscape shot 3 shows HALO wordmark throughout and the exact Pre-order now button fully visible by 0:08.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [],
+          "body": "Open {{sheet_url}}?cut=16x9 in the browser and wait for the contact-sheet header to show ready."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-12"
+          ],
+          "body": "Across every landscape contact-sheet frame labelled in shot 3 from 0:06 until the end, inspect the rendered wordmark and corresponding facts-table visibility, then assert HALO is visible throughout shot 3."
+        },
+        {
+          "heading": "Step 3",
+          "verifies": [
+            "ac-13",
+            "ac-14"
+          ],
+          "body": "In the landscape call-to-action frame labelled 0:08, inspect the button and its facts-table text and visibility, then assert the button reads exactly “Pre-order now” and is fully visible by 0:08."
+        }
+      ]
+    },
+    {
+      "id": "t-3",
+      "file": "portrait-colour-shift-and-price-at-both-timecodes_test.md",
+      "title": "Portrait colour shift and price at both timecodes",
+      "summary": "Portrait shot 0:03–0:06 shifts amber to soft blue and shows exact $89 at both stated timecodes.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [],
+          "body": "Open {{sheet_url}}?cut=9x16 in the browser and wait for the contact-sheet header to show ready."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-10"
+          ],
+          "body": "In the portrait contact-sheet frames labelled within the 0:03–0:06 colour shot, inspect the lamp glow as the shot progresses, then assert it shifts from amber to soft blue during that shot."
+        },
+        {
+          "heading": "Step 3",
+          "verifies": [
+            "ac-11"
+          ],
+          "body": "In the portrait contact sheet, inspect the price tag and its exact rendered text in both frames labelled 0:04 and 0:05, then assert the tag is visible and reads exactly $89 at each timecode."
+        }
+      ]
+    },
+    {
+      "id": "t-2",
+      "file": "portrait-hero-lamp-and-caption-at-first-second-deadline_test.md",
+      "title": "Portrait hero lamp and caption at first-second deadline",
+      "summary": "Portrait hero at 0:00–0:03 shows the warm-amber round white lamp in the dark minimal living room, lamp and exact caption fully visible by 0:01.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [],
+          "body": "Open {{sheet_url}}?cut=9x16 in the browser and wait for the contact-sheet header to show ready."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-2",
+            "ac-3",
+            "ac-4"
+          ],
+          "body": "On the portrait contact-sheet header, inspect its measured cut width, height, duration, and frames per second, then assert the measurements are 1080×1920 pixels, 10 seconds, and 30 fps."
+        },
+        {
+          "heading": "Step 3",
+          "verifies": [
+            "ac-6",
+            "ac-7"
+          ],
+          "body": "In the portrait frames labelled within the 0:00–0:03 product-hero shot, inspect the room and lamp as the shot reaches 0:01, then assert a round white smart lamp glows warm amber in a dark, minimal living room and the lamp is fully inside the frame by 0:01."
+        },
+        {
+          "heading": "Step 4",
+          "verifies": [
+            "ac-8",
+            "ac-9"
+          ],
+          "body": "In the portrait hero's frame labelled 0:01, inspect the caption and its facts-table row, then assert its exact rendered text is “Light that listens” and it is fully visible by 0:01."
+        }
+      ]
+    },
+    {
+      "id": "t-1",
+      "file": "portrait-text-and-buttons-avoid-reserved-horizontal-bands_test.md",
+      "title": "Portrait text and buttons avoid reserved horizontal bands",
+      "summary": "Across portrait frames, no text or button enters the top 14% or bottom 35% of the frame.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [],
+          "body": "Open {{sheet_url}}?cut=9x16 in the browser and wait for the contact-sheet header to show ready."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-15",
+            "ac-16"
+          ],
+          "body": "On the portrait contact sheet, enable Show safe zones and inspect the rendered text and button layers across every labelled frame against the shaded top 14% and bottom 35% bands, then assert no text or button overlaps either reserved horizontal band."
+        },
+        {
+          "heading": "Step 3",
+          "verifies": [
+            "ac-5"
+          ],
+          "body": "On the portrait contact sheet, inspect every text-layer row in the facts table for every frame, then assert every text layer is fully inside its frame."
+        }
+      ]
+    },
+    {
+      "id": "t-4",
+      "file": "portrait-wordmark-continuity-and-pre-order-button-deadline_test.md",
+      "title": "Portrait wordmark continuity and pre-order button deadline",
+      "summary": "Portrait shot 3 shows HALO wordmark throughout and the exact Pre-order now button fully visible by 0:08.",
+      "steps": [
+        {
+          "heading": "Step 1",
+          "verifies": [],
+          "body": "Open {{sheet_url}}?cut=9x16 in the browser and wait for the contact-sheet header to show ready."
+        },
+        {
+          "heading": "Step 2",
+          "verifies": [
+            "ac-12"
+          ],
+          "body": "Across every portrait contact-sheet frame labelled in shot 3 from 0:06 until the end, inspect the rendered wordmark and corresponding facts-table visibility, then assert HALO is visible throughout shot 3."
+        },
+        {
+          "heading": "Step 3",
+          "verifies": [
+            "ac-13",
+            "ac-14"
+          ],
+          "body": "In the portrait call-to-action frame labelled 0:08, inspect the button and its facts-table text and visibility, then assert the button reads exactly “Pre-order now” and is fully visible by 0:08."
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "sc-5",
+      "title": "Exclude clipped landscape text"
+    },
+    {
+      "id": "sc-1",
+      "title": "Exclude portrait text and buttons from reserved bands"
+    },
+    {
+      "id": "sc-8",
+      "title": "Inspect 16:9 call to action 0:06–0:10"
+    },
+    {
+      "id": "sc-7",
+      "title": "Inspect 16:9 colour and price at 0:04 and 0:05"
+    },
+    {
+      "id": "sc-6",
+      "title": "Inspect 16:9 product hero at 0:01"
+    },
+    {
+      "id": "sc-4",
+      "title": "Inspect 9:16 call to action 0:06–0:10"
+    },
+    {
+      "id": "sc-3",
+      "title": "Inspect 9:16 colour and price at 0:04 and 0:05"
+    },
+    {
+      "id": "sc-2",
+      "title": "Inspect 9:16 product hero at 0:01"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "gap-1",
+      "title": "Contact sheet URL"
+    }
+  ],
+  "credits": 23.939999999999998
+}

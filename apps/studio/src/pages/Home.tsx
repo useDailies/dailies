@@ -26,7 +26,7 @@ export default function Home() {
   const examples = (projects ?? []).filter((p) => !p.owner);
   // The run that best shows the loop: most corrections, then most rounds.
   const showcase = useMemo(
-    () => (projects ?? []).filter((p) => !p.owner && p.versions.length && p.rounds.length).sort((a, b) => corrections(b).filter((x) => x.fixedIn).length - corrections(a).filter((x) => x.fixedIn).length || b.rounds.length - a.rounds.length)[0],
+    () => (projects ?? []).filter((p) => !p.owner && p.source !== 'mcp' && p.versions.length && p.rounds.length).sort((a, b) => corrections(b).filter((x) => x.fixedIn).length - corrections(a).filter((x) => x.fixedIn).length || b.rounds.length - a.rounds.length)[0],
     [projects],
   );
 
@@ -214,7 +214,7 @@ export function Card({ p }: { p: Project }) {
         ) : (
           <div className="poster-empty">{p.busy ? <span className="spinner" /> : 'No draft yet'}</div>
         )}
-        {p.recorded ? <span className="ribbon">recorded run</span> : p.source === 'mcp' ? <span className="ribbon agent">via {p.agent?.client ?? 'agent'}</span> : null}
+        {p.source === 'mcp' ? <span className="ribbon agent">{p.recorded ? 'recorded · ' : ''}via {p.agent?.client ?? 'agent'} · MCP</span> : p.recorded ? <span className="ribbon">recorded run</span> : null}
       </div>
       <div className="card-body">
         <h3>{p.title}</h3>

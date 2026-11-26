@@ -1,0 +1,245 @@
+{
+  "id": "r1-28a0",
+  "version": 1,
+  "kind": "sweep",
+  "startedAt": "2026-11-26T11:31:40.193Z",
+  "cuts": [
+    "16x9",
+    "9x16"
+  ],
+  "acs": [
+    "ac-1",
+    "ac-3",
+    "ac-4",
+    "ac-5",
+    "ac-6",
+    "ac-7",
+    "ac-8",
+    "ac-9",
+    "ac-10",
+    "ac-11",
+    "ac-12",
+    "ac-13",
+    "ac-14",
+    "ac-2",
+    "ac-15",
+    "ac-16"
+  ],
+  "results": [
+    {
+      "ac": "ac-16",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking bottom-band clearance for the 9:16 cut: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-2",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the 9:16 cut dimensions: value: '1080×1920 pixels' -> '1080×1920 pixels' after ['strip']; equals '1080×1920 pixels' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-3",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the 9:16 cut duration: value: '10 seconds' -> '10 seconds' after ['strip']; equals '10 seconds' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-4",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the 9:16 cut frame rate: value: '30 frames per second' -> '30 frames per second' after ['strip']; equals '30 frames per second' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-5",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking text placement within the frame: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-6",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the product-hero lamp scene: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-7",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the lamp position in F2: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F2"
+      ]
+    },
+    {
+      "ac": "ac-8",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the product-hero caption: value: 'Light that listens' -> 'Light that listens' after ['strip']; equals 'Light that listens' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-9",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking caption visibility in F2: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F2"
+      ]
+    },
+    {
+      "ac": "ac-10",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the colour-shot glow transition: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-11",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking price text at 0:04 and 0:05: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-12",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking HALO visibility near the end of the cut: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-13",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Reading the call-to-action button text: value: 'Pre-order now' -> 'Pre-order now' after ['strip']; equals 'Pre-order now' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-14",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking call-to-action visibility in F11: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F11"
+      ]
+    },
+    {
+      "ac": "ac-15",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the top reserved band for text: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-1",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the measured cut dimensions: value: '1920×1080 pixels' -> '1920×1080 pixels' after ['strip']; equals '1920×1080 pixels' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-3",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the declared cut duration: value: '10.0 s · 300 frames' -> '10' after ['extract_number']; equals '10' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-4",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the declared frame rate: value: '30 fps' -> '30' after ['extract_number']; equals '30' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-5",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the text placement report: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-6",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the product-hero lamp scene: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-7",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the lamp bounds at 0:01: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-8",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the product-hero caption: value: 'Light that listens' -> 'Light that listens' after ['strip']; equals 'Light that listens' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-9",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking caption visibility at 0:01: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-10",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking the colour-shot glow transition: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-11",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking price text at 0:04 and 0:05: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-12",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking wordmark visibility near the end of the call-to-action shot: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-13",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Reading the call-to-action button text: value: 'Pre-order now' -> 'Pre-order now' after ['strip']; equals 'Pre-order now' -> PASS",
+      "frames": []
+    },
+    {
+      "ac": "ac-14",
+      "cut": "16x9",
+      "verdict": "pass",
+      "reason": "Checking button visibility at 0:08: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": []
+    }
+  ],
+  "credits": 33.42823,
+  "calls": 3,
+  "conditions": 28,
+  "durationMs": 37327,
+  "eye": {
+    "16x9": "eye/r1-28a0-16x9.png",
+    "9x16": "eye/r1-28a0-9x16.png"
+  },
+  "reports": {
+    "16x9": "Visible text outside the frame: none\nVisible text in the top 5% band (title-safe margin): none\nVisible text in the bottom 5% band (title-safe margin): none\nVisible text in the side 5% bands (title-safe margin): none\nSmallest visible text (font size at 1920x1080): button “Pre-order now” at 40px (F11, F12)",
+    "9x16": "Visible text outside the frame: none\nVisible text in the top 14% band: none\nVisible text in the bottom 35% band: none\nVisible text in the side 6% bands: none\nSmallest visible text (font size at 1080x1920): button “Pre-order now” at 40px (F11, F12)"
+  },
+  "endedAt": "2026-11-26T11:32:17.520Z"
+}

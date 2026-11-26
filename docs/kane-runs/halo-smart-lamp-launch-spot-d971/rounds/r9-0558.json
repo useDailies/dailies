@@ -1,0 +1,34 @@
+{
+  "id": "r9-0558",
+  "version": 8,
+  "kind": "targeted",
+  "startedAt": "2026-11-26T11:42:26.337Z",
+  "cuts": [
+    "9x16"
+  ],
+  "acs": [
+    "ac-7"
+  ],
+  "results": [
+    {
+      "ac": "ac-7",
+      "cut": "9x16",
+      "verdict": "pass",
+      "reason": "Checking the F2 product graphic's frame containment: value: 'true' -> 'true'; equals 'true' -> PASS",
+      "frames": [
+        "F2"
+      ]
+    }
+  ],
+  "credits": 6.129659999999999,
+  "calls": 1,
+  "conditions": 1,
+  "durationMs": 19765,
+  "eye": {
+    "9x16": "eye/r9-0558-9x16.png"
+  },
+  "reports": {
+    "9x16": "Visible text outside the frame: none\nVisible text in the top 14% band: none\nVisible text in the bottom 35% band: none\nVisible text in the side 6% bands: none\nSmallest visible text (font size at 1080x1920): button “Pre-order now” at 46px (F11, F12)"
+  },
+  "endedAt": "2026-11-26T11:42:46.102Z"
+}

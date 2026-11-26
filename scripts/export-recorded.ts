@@ -39,6 +39,9 @@ const keep = (index as { id: string }[]).filter((p) => !ids.includes(p.id));
 for (const id of ids) {
   const p = getProject(id);
   if (!p) throw new Error(`no project ${id}`);
+  // A published example belongs to no account and needs no inspect key.
+  delete p.owner;
+  delete p.inspectKey;
   const dir = join(OUT, id);
   rmSync(dir, { recursive: true, force: true });
   mkdirSync(dir, { recursive: true });
