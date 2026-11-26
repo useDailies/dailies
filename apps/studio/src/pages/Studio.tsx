@@ -1,17 +1,21 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { checkKey, CUTS, parseStoryboard, sampleFrames, formatTimecode, type Criterion, type CutId } from '@dailies/shared';
+import { checkKey, parseStoryboard, sampleFrames, formatTimecode, type Criterion, type CutId } from '@dailies/shared';
 import { api, STATIC } from '../lib/api';
+import { buildActivity } from '../lib/activity';
 import { useComposition } from '../lib/composition';
 import { Playhead, useFrame, usePlaying } from '../lib/playhead';
 import { useProjectStream } from '../lib/stream';
 import { CUT_RATIO, summarize, verdictMap, worstVersion } from '../lib/verdicts';
-import { AgentChips, Icon, TopBar } from '../components/Chrome';
+import { AgentChips, Stepper, TopBar } from '../components/Chrome';
 import { StagePlayer } from '../components/Stage';
 import { Timeline } from '../components/Timeline';
-import { AgentFeeds, CodeDiff, CriteriaList, Findings, GateCard, KaneEye, ProofPanel, RoundBoard, StoryboardPanel, corrections, sheetEvidence, type Correction } from '../components/Panels';
+import { ActivityList } from '../components/Activity';
+import { CodeCard, ComposingStage, Composer, CutBars, FilmStrip, GateRow, ScoreRing, StatusPill, useAgentStatus } from '../components/Live';
+import { CodeDiff, CorrectionCard, CriteriaList, ProofSummary, StoryboardPanel, corrections, sheetEvidence, type Correction } from '../components/Panels';
+import { Coll, Icon, useDismiss } from '../components/ui';
 
-type Tab = 'live' | 'findings' | 'criteria' | 'proof' | 'eye' | 'code';
+type Drawer = 'storyboard' | 'activity' | 'criteria' | 'code' | null;
 
 export default function Studio() {
   const { id } = useParams();
@@ -21,28 +25,38 @@ export default function Studio() {
   const playhead = useMemo(() => new Playhead(), []);
   const [cut, setCut] = useState<CutId>('16x9');
   const [pick, setPick] = useState<number | 'live' | null>(null);
-  const [tab, setTab] = useState<Tab>('live');
+  const [drawer, setDrawer] = useState<Drawer>(null);
+  const [inspector, setInspector] = useState(true);
+  const [tlOpen, setTlOpen] = useState(true);
+  const [strip, setStrip] = useState(true);
   const [zones, setZones] = useState(false);
   const [xray, setXray] = useState(false);
   const [focus, setFocus] = useState<{ ac: string; cut: CutId } | null>(null);
   const [focusLine, setFocusLine] = useState<number | null>(null);
-  const [toast, setToast] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ text: string; tone: string } | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
+  const [menu, setMenu] = useState(false);
+  const closeMenu = useCallback(() => setMenu(false), []);
+  const menuRef = useDismiss(menu, closeMenu);
 
   const sb = useMemo(() => parseStoryboard(project?.storyboard ?? '# …\n'), [project?.storyboard]);
   const frames = useMemo(() => sampleFrames(sb), [sb]);
+  const entries = useMemo(() => buildActivity(state.events), [state.events]);
+  // In a replay, "now" is the moment the playback has reached, not the wall clock.
+  const now = mode === 'replay' ? (state.events.at(-1)?.ts ?? Date.now()) : Date.now();
+  const status = useAgentStatus(state, entries, now);
+
   useEffect(() => {
     if (project && !project.cuts.includes(cut)) setCut(project.cuts[0]);
   }, [project, cut]);
 
   const latest = project?.versions.at(-1)?.n ?? null;
-  // Follow Claude live while it edits; otherwise show the newest pinned version.
   const following = pick === null;
-  const shown: number | 'live' | null = following ? (state.claudeWorking && !STATIC ? 'live' : latest ?? (STATIC ? null : 'live')) : pick;
+  const shown: number | 'live' | null = following ? (state.claudeWorking && !STATIC ? 'live' : (latest ?? (STATIC ? null : 'live'))) : pick;
   const bust = shown === 'live' ? state.liveBust : 0;
   const { comp, error: compError } = useComposition(id, shown, bust);
-
-  const cells = useMemo(() => verdictMap(project, shown === 'live' ? latest : shown), [project, shown, latest]);
+  const judgedVersion = shown === 'live' ? latest : shown;
+  const cells = useMemo(() => verdictMap(project, judgedVersion), [project, judgedVersion]);
   const running = useMemo(() => {
     const r = state.round;
     if (!r || r.done) return new Set<string>();
@@ -50,19 +64,29 @@ export default function Studio() {
   }, [state.round]);
   const score = useMemo(() => summarize(cells.values()), [cells]);
   const fixes = useMemo(() => corrections(project), [project]);
+  const openFixes = fixes.filter((f) => !f.fixedIn).length;
 
-  // Toast when a version is pinned.
-  const lastVersionSeen = useRef<number | null>(null);
+  // Moments worth a toast.
+  const lastSeq = useRef(0);
   useEffect(() => {
-    if (latest && lastVersionSeen.current !== null && latest > lastVersionSeen.current) {
-      setToast(`v${latest} pinned — Kane is next`);
-      const t = setTimeout(() => setToast(null), 3200);
-      return () => clearTimeout(t);
+    const fresh = state.events.filter((e) => e.seq > lastSeq.current);
+    if (!fresh.length) return;
+    lastSeq.current = fresh.at(-1)!.seq;
+    if (state.events.length - fresh.length < 1 && !replay) return;
+    for (const e of fresh) {
+      const d = e.data as Record<string, any>;
+      if (e.type === 'version') setToast({ text: `v${d.n} pinned`, tone: '' });
+      if (e.type === 'round.end') setToast({ text: d.fail ? `Kane: ${d.fail} check${d.fail > 1 ? 's' : ''} failed on v${d.version}` : `Kane: v${d.version} passes ${d.pass}/${d.pass + d.unknown}`, tone: d.fail ? 'fail' : 'pass' });
+      if (e.type === 'plan.done') setToast({ text: `Kane designed ${d.criteria} criteria`, tone: '' });
     }
-    lastVersionSeen.current = latest;
-  }, [latest]);
+  }, [state.events, replay]);
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 3600);
+    return () => clearTimeout(t);
+  }, [toast]);
 
-  // When a round ends with failures, put the failing cut on screen.
+  // When a round ends with failures, show the failing cut.
   const lastRoundSeen = useRef<string | null>(null);
   useEffect(() => {
     const r = state.round;
@@ -72,17 +96,16 @@ export default function Studio() {
     if (failing) setCut(failing[0].split('@')[1] as CutId);
   }, [state.round]);
 
-  // Jump to the findings tab when a review completes.
+  // The strip comes back whenever Kane starts judging.
   useEffect(() => {
-    if (state.hook.state === 'allowed' || project?.phase === 'reviewed') setTab((t) => (t === 'live' && fixes.length ? 'findings' : t));
-  }, [state.hook.state, project?.phase, fixes.length]);
+    if (state.round && !state.round.done) setStrip(true);
+  }, [state.round?.id, state.round?.done]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const act = async (a: 'draft' | 'review' | 'seal' | 'cancel') => {
     if (!id) return;
     setActionError(null);
     try {
       await api.action(id, a);
-      if (a !== 'cancel') setTab('live');
       setPick(null);
       refetch();
     } catch (e) {
@@ -98,9 +121,9 @@ export default function Studio() {
       setFocusLine(crit?.line ?? null);
       const k = checkKey(ac, c);
       if (fixes.some((f) => checkKey(f.ac, f.cut) === k)) {
-        setTab('findings');
-        setTimeout(() => document.getElementById(`finding-${k}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60);
-      } else setTab('criteria');
+        setInspector(true);
+        setTimeout(() => document.getElementById(`finding-${k}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
+      } else setDrawer('criteria');
     },
     [project, fixes],
   );
@@ -116,7 +139,6 @@ export default function Studio() {
     if (frame) setTimeout(() => playhead.seek(frame.frame), 80);
   };
 
-  // Keyboard: space play/pause, arrows step, 1-4 cut, Z zones, X x-ray.
   useEffect(() => {
     const on = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
@@ -131,6 +153,9 @@ export default function Studio() {
       else if (/^[1-4]$/.test(e.key) && project?.cuts[Number(e.key) - 1]) setCut(project.cuts[Number(e.key) - 1]);
       else if (e.key.toLowerCase() === 'z') setZones((z) => !z);
       else if (e.key.toLowerCase() === 'x') setXray((x) => !x);
+      else if (e.key.toLowerCase() === 'f') setStrip((s) => !s);
+      else if (e.key.toLowerCase() === 'i') setInspector((s) => !s);
+      else if (e.key === '[') setDrawer((d) => (d ? null : 'storyboard'));
     };
     window.addEventListener('keydown', on);
     return () => window.removeEventListener('keydown', on);
@@ -141,254 +166,392 @@ export default function Studio() {
   const busy = state.busy ?? project.busy ?? null;
   const reviewed = project.rounds.length > 0;
   const worstV = worstVersion(project);
-  const firstScore = worstV ? summarize(verdictMap(project, worstV).values()) : null;
+  const before = worstV && worstV !== latest ? summarize(verdictMap(project, worstV).values()) : null;
+  const sealed = Boolean(project.seal?.endedAt);
+  const live = !STATIC && !project.recorded && mode !== 'replay';
+  const lastHook = [...entries].reverse().find((e) => e.kind === 'hook');
+  const mood: 'writing' | 'judging' | 'blocked' | 'verified' | null =
+    state.round && !state.round.done
+      ? 'judging'
+      : lastHook?.kind === 'hook' && lastHook.state === 'block' && now - lastHook.ts < 8000
+        ? 'blocked'
+        : state.claudeWorking
+          ? 'writing'
+          : lastHook?.kind === 'hook' && lastHook.state === 'allow' && now - lastHook.ts < 4000
+            ? 'verified'
+            : null;
+  const kaneCredits = project.credits.plan + project.credits.verify + project.credits.seal;
+  const runningEntry = entries.some((e) => 'status' in e && e.status === 'running');
 
   return (
-    <div className={`studio ${busy ? 'is-busy' : ''}`}>
-      <TopBar right={<AgentChips claudeActive={state.claudeWorking} kaneActive={state.kaneWorking} />}>
+    <div className="studio">
+      <TopBar
+        right={
+          <>
+            <AgentChips claudeActive={state.claudeWorking} kaneActive={state.kaneWorking} />
+            <PrimaryAction busy={busy} hasDraft={Boolean(latest)} reviewed={reviewed} sealed={sealed} hasTests={Boolean(project.plan?.tests.length)} onAct={act} live={live} />
+            <div style={{ position: 'relative' }} ref={menuRef}>
+              <button type="button" className="iconbtn" onClick={() => setMenu(!menu)} aria-label="More" aria-expanded={menu}>
+                <Icon name="more" />
+              </button>
+              {menu ? (
+                <div className="pop menu">
+                  {reviewed ? (
+                    <Link to={`/p/${project.id}/compare${mode === 'replay' && !STATIC ? '?replay=1' : ''}`}>
+                      <Icon name="split" />
+                      <span>
+                        Before vs after
+                        <small>Wipe between the version Kane failed and the final cut</small>
+                      </span>
+                    </Link>
+                  ) : null}
+                  {live && reviewed && !busy ? (
+                    <button type="button" onClick={() => (setMenu(false), act('review'))}>
+                      <Icon name="replay" />
+                      <span>
+                        Review again
+                        <small>Full Kane sweep of the latest version</small>
+                      </span>
+                    </button>
+                  ) : null}
+                  {live && reviewed && !busy && project.plan?.tests.length ? (
+                    <button type="button" onClick={() => (setMenu(false), act('seal'))}>
+                      <Icon name="seal" />
+                      <span>
+                        {sealed ? 'Seal again' : 'Seal proof'}
+                        <small>Run Kane’s designed tests, measure coverage</small>
+                      </span>
+                    </button>
+                  ) : null}
+                  <a href={`/inspect/${project.id}/${latest ?? 'live'}/sheet?cut=${cut}&guides=1`} target="_blank" rel="noreferrer">
+                    <Icon name="frame" />
+                    <span>
+                      Open Kane’s contact sheet
+                      <small>The exact page Kane judges for {CUT_RATIO[cut]}</small>
+                    </span>
+                  </a>
+                  <hr />
+                  <Link to="/pitch">
+                    <Icon name="book" />
+                    <span>Pitch</span>
+                  </Link>
+                </div>
+              ) : null}
+            </div>
+          </>
+        }
+      >
         <div className="crumb">
+          <Link to="/">Projects</Link>
           <span>/</span>
           <b>{project.title}</b>
-          <PhaseRail phase={project.phase} busy={busy} hasDraft={Boolean(latest)} reviewed={reviewed} sealed={Boolean(project.seal?.endedAt)} />
         </div>
+        <Stepper hasDraft={Boolean(latest)} busy={busy} reviewed={reviewed} sealed={sealed} />
       </TopBar>
 
       {replay ? (
         <div className="replaybar">
-          <span className="rec">● Recorded run</span>
-          <button type="button" className="btn ghost sm" onClick={replay.playing ? replay.pause : replay.play}>
-            <Icon name={replay.playing ? 'pause' : 'play'} size={14} /> {replay.playing ? 'Pause' : 'Play'}
+          <span className="rec">
+            <i /> Recorded run
+          </span>
+          <button type="button" className="btn sm" onClick={replay.playing ? replay.pause : replay.play}>
+            <Icon name={replay.playing ? 'pause' : 'play'} size={13} /> {replay.playing ? 'Pause' : 'Play'}
           </button>
-          <button type="button" className="btn ghost sm" onClick={replay.restart}>
-            <Icon name="replay" size={14} /> Restart
+          <button type="button" className="btn sm ghost" onClick={replay.restart}>
+            <Icon name="replay" size={13} /> Restart
           </button>
-          {[1, 3, 8, 20].map((s) => (
-            <button key={s} type="button" className={`btn ghost sm ${replay.speed === s ? 'on' : ''}`} onClick={() => replay.setSpeed(s)}>
-              {s}×
-            </button>
-          ))}
+          <div className="seg">
+            {[1, 3, 8, 20].map((s) => (
+              <button key={s} type="button" className={replay.speed === s ? 'on' : ''} onClick={() => replay.setSpeed(s)}>
+                {s}×
+              </button>
+            ))}
+          </div>
           <div className="replay-track">
             <i style={{ width: `${(replay.progress / Math.max(1, replay.total)) * 100}%` }} />
           </div>
-          <button type="button" className="btn ghost sm" onClick={replay.skipToEnd}>
+          <button type="button" className="btn sm" onClick={replay.skipToEnd}>
             Skip to result
           </button>
         </div>
       ) : null}
 
-      <main className="studio-grid">
-        <aside className="col-left panel">
-          <div className="panel-head">
-            <h3>Storyboard</h3>
-            <span className="muted">
-              {sb.duration}s · {sb.fps} fps · {sb.shots.length} shots
-            </span>
-          </div>
-          <StoryboardPanel
-            sb={sb}
-            criteria={project.plan?.criteria ?? []}
-            cells={cells}
-            focusLine={focusLine}
-            onLine={(n, acs) => {
-              setFocusLine(n);
-              const failing = acs.find((a) => a.cuts.some((c) => cells.get(checkKey(a.id, c))?.state === 'fail'));
-              const c = (failing ?? acs[0]) as Criterion;
-              pickCheck(c.id, c.cuts.includes(cut) ? cut : c.cuts[0]);
-            }}
-            editable={!busy && !STATIC && !project.recorded}
-            value={project.storyboard}
-            onSave={async (v) => {
-              await api.saveStoryboard(project.id, v);
-              refetch();
-            }}
+      <div className="studio-body">
+        <nav className="rail" aria-label="Panels">
+          <RailBtn icon="book" label="Storyboard ( [ )" on={drawer === 'storyboard'} onClick={() => setDrawer(drawer === 'storyboard' ? null : 'storyboard')} />
+          <RailBtn
+            icon="history"
+            label="Activity — every Claude session and Kane run"
+            on={drawer === 'activity'}
+            onClick={() => setDrawer(drawer === 'activity' ? null : 'activity')}
+            badge={runningEntry ? { text: '•', tone: 'live' } : entries.length ? { text: String(entries.filter((e) => e.kind === 'round' || e.kind === 'claude').length), tone: '' } : undefined}
           />
+          <RailBtn icon="target" label="Criteria Kane designed" on={drawer === 'criteria'} onClick={() => setDrawer(drawer === 'criteria' ? null : 'criteria')} badge={project.plan ? { text: String(project.plan.criteria.length), tone: '' } : undefined} />
+          <RailBtn icon="code" label="Code" on={drawer === 'code'} onClick={() => setDrawer(drawer === 'code' ? null : 'code')} />
+          <span className="rail-sep" />
+          <RailBtn icon="panel" label="Verdicts panel (I)" on={inspector} onClick={() => setInspector(!inspector)} badge={openFixes ? { text: String(openFixes), tone: 'fail' } : undefined} />
+          <RailBtn icon="timeline" label="Timeline" on={tlOpen} onClick={() => setTlOpen(!tlOpen)} />
+        </nav>
+
+        <aside className={`drawer ${drawer ? 'open' : ''}`} aria-hidden={!drawer}>
+          <div className="drawer-in">
+            <div className="drawer-head">
+              <h3>{drawer === 'storyboard' ? 'Storyboard' : drawer === 'activity' ? 'Activity' : drawer === 'criteria' ? 'Kane’s criteria' : 'Code'}</h3>
+              <span>
+                {drawer === 'storyboard'
+                  ? `${sb.duration}s · ${sb.fps} fps · ${sb.shots.length} shots`
+                  : drawer === 'activity'
+                    ? `${entries.length} events`
+                    : drawer === 'criteria'
+                      ? `${project.plan?.criteria.length ?? 0} criteria`
+                      : `${project.versions.length} versions`}
+              </span>
+              <button type="button" className="iconbtn" onClick={() => setDrawer(null)} aria-label="Close panel">
+                <Icon name="close" size={14} />
+              </button>
+            </div>
+            <div className="drawer-body">
+              {drawer === 'storyboard' ? (
+                <StoryboardPanel
+                  sb={sb}
+                  criteria={project.plan?.criteria ?? []}
+                  cells={cells}
+                  focusLine={focusLine}
+                  onLine={(n, acs) => {
+                    setFocusLine(n);
+                    const failing = acs.find((a) => a.cuts.some((c) => cells.get(checkKey(a.id, c))?.state === 'fail'));
+                    const c = (failing ?? acs[0]) as Criterion;
+                    pickCheck(c.id, c.cuts.includes(cut) ? cut : c.cuts[0]);
+                  }}
+                  editable={!busy && live && !project.versions.length}
+                  value={project.storyboard}
+                  onSave={async (v) => {
+                    await api.saveStoryboard(project.id, v);
+                    refetch();
+                  }}
+                />
+              ) : null}
+              {drawer === 'activity' ? <ActivityList entries={entries} projectId={project.id} /> : null}
+              {drawer === 'criteria' ? <CriteriaList project={project} cells={cells} focusAc={focus?.ac ?? null} onPick={pickCheck} /> : null}
+              {drawer === 'code' ? <CodeDiff project={project} /> : null}
+            </div>
+          </div>
         </aside>
 
-        <section className="col-stage">
-          <div className="stage-bar">
-            <div className="seg" role="tablist" aria-label="Cut">
-              {project.cuts.map((c, i) => (
-                <button key={c} type="button" role="tab" aria-selected={c === cut} className={c === cut ? 'on' : ''} onClick={() => setCut(c)} title={`${CUTS[c].name} · key ${i + 1}`}>
-                  <span className={`cut-glyph cut-${c}`} />
-                  {CUT_RATIO[c]}
-                </button>
-              ))}
-            </div>
-            <div className="versions" aria-label="Version">
-              {project.versions.map((v) => (
-                <button key={v.n} type="button" className={`vchip ${shown === v.n ? 'on' : ''} ${v.kind}`} onClick={() => setPick(v.n)} title={v.summary ?? ''}>
-                  v{v.n}
-                  <small>{v.kind === 'draft' ? 'draft' : 'fix'}</small>
-                </button>
-              ))}
-              {!STATIC ? (
-                <button type="button" className={`vchip live ${shown === 'live' ? 'on' : ''}`} onClick={() => setPick(following ? 'live' : null)} title="Follow Claude's working file">
-                  <i className={state.claudeWorking ? 'pulse' : ''} /> LIVE
-                </button>
-              ) : null}
-            </div>
-            <div className="toggles">
-              <button type="button" className={`tbtn ${zones ? 'on' : ''}`} onClick={() => setZones(!zones)} title="Safe zones (Z)">
-                <Icon name="zones" />
-              </button>
-              <button type="button" className={`tbtn ${xray ? 'on' : ''}`} onClick={() => setXray(!xray)} title="Layer X-ray (X)">
-                <Icon name="xray" />
-              </button>
-              {reviewed ? (
-                <Link className="btn ghost sm" to={`/p/${project.id}/compare${mode === 'replay' && !STATIC ? '?replay=1' : ''}`}>
-                  <Icon name="split" size={14} /> Draft vs final
-                </Link>
-              ) : null}
-            </div>
-          </div>
-
-          <div className="stage">
-            <HookBanner state={state} />
-            {comp ? (
+        <div className="center">
+          <div className={`canvas ${comp && strip && project.plan && (reviewed || (state.round && !state.round.done)) ? `with-strip strip-${cut}` : ''}`}>
+            {status ? <StatusPill status={status} entries={entries} projectId={project.id} replay={mode === 'replay'} /> : null}
+            {comp && (latest || state.liveBust || !state.claudeWorking) ? (
               <StagePlayer
                 comp={comp}
                 cut={cut}
                 playhead={playhead}
                 zones={zones}
                 xray={xray}
-                badge={
-                  <>
-                    {shown === 'live' && state.claudeWorking ? (
-                      <div className="live-badge">
-                        <i /> Claude is writing {state.editing?.file ?? 'src/Video.tsx'}
-                      </div>
-                    ) : null}
-                    {state.kaneWorking && state.round && !state.round.done ? <div className="scanbeam" aria-hidden /> : null}
-                  </>
-                }
+                mood={mood}
+                badge={mood === 'judging' ? <div className="sweep" aria-hidden /> : null}
               />
+            ) : state.claudeWorking && !latest ? (
+              <ComposingStage state={state} entries={entries} criteria={project.plan?.criteria ?? []} />
             ) : (
-              <div className="stage-empty">
-                {state.claudeWorking && !latest ? (
-                  <div className="empty-stage drafting">
-                    <span className="spinner big" />
-                    <h2>
-                      Claude Code is <em>composing.</em>
-                    </h2>
-                    <p>Kane CLI is reading the same storyboard and designing the tests this draft will have to pass.</p>
-                  </div>
-                ) : latest || state.claudeWorking ? (
-                  <p>{compError ? `Composition error: ${compError}` : 'Loading composition…'}</p>
-                ) : (
-                  <EmptyStage onGenerate={() => act('draft')} busy={Boolean(busy)} disabled={STATIC || Boolean(project.recorded)} />
-                )}
-              </div>
+              <EmptyStage drafting={state.claudeWorking} canGenerate={live && !busy} onGenerate={() => act('draft')} error={compError} hasVersion={Boolean(latest)} />
             )}
-            {state.typing && Date.now() - state.typing.at < 20000 ? <CodeStream typing={state.typing} /> : null}
-            {compError && comp ? <div className="compile-err">Claude’s latest edit does not compile yet — showing the last good frame. {compError.split('\n')[0]}</div> : null}
-            {toast ? <div className="toast">{toast}</div> : null}
-          </div>
-
-          <Transport playhead={playhead} fps={comp?.meta.fps ?? sb.fps} total={comp?.meta.durationInFrames ?? sb.durationInFrames} score={score} firstScore={firstScore} shown={shown} />
-        </section>
-
-        <aside className="col-right panel">
-          <div className="actions">
-            <PrimaryAction busy={busy} hasDraft={Boolean(latest)} reviewed={reviewed} sealed={Boolean(project.seal?.endedAt)} hasTests={Boolean(project.plan?.tests.length)} onAct={act} disabled={STATIC || Boolean(project.recorded)} />
-            {actionError || project.error ? <p className="err">{actionError ?? project.error}</p> : null}
-            <CreditMeter project={project} />
-            {!STATIC && !project.recorded && latest && !busy && project.plan ? (
-              <ReviseBox
-                onSend={async (text) => {
-                  setActionError(null);
-                  try {
-                    await api.revise(project.id, text);
-                    setTab('live');
-                    setPick(null);
-                    refetch();
-                  } catch (e) {
-                    setActionError((e as Error).message);
-                  }
-                }}
+            {state.typing && now - state.typing.at < 20000 && (latest || state.liveBust) ? <CodeCard typing={state.typing} /> : null}
+            {comp && strip && project.plan && (reviewed || (state.round && !state.round.done)) ? (
+              <FilmStrip
+                comp={comp}
+                cut={cut}
+                frames={frames}
+                criteria={project.plan.criteria}
+                sb={sb}
+                cells={cells}
+                live={state.round}
+                playhead={playhead}
+                onClose={() => setStrip(false)}
+                version={state.round && !state.round.done ? state.round.version : judgedVersion}
               />
             ) : null}
-            {!STATIC && !project.recorded && latest ? (
-              <GateCard
-                project={project}
-                onToggle={async (on) => {
-                  try {
-                    await api.patch(project.id, { gate: on });
-                    refetch();
-                  } catch (e) {
-                    setActionError((e as Error).message);
-                  }
-                }}
-              />
+            {compError && comp ? <div className="compile-err">Claude’s latest edit doesn’t compile yet — showing the last good frame</div> : null}
+            {toast ? (
+              <div className="toast" key={toast.text}>
+                {toast.tone ? <span className={`vmark ${toast.tone}`}><Icon name={toast.tone === 'pass' ? 'check' : 'x'} size={10} stroke={3} /></span> : <Icon name="spark" size={14} />}
+                {toast.text}
+              </div>
             ) : null}
-          </div>
-          <nav className="tabs" role="tablist">
-            {(
-              [
-                ['live', 'Live'],
-                ['findings', `Corrections${fixes.length ? ` ${fixes.length}` : ''}`],
-                ['criteria', `Criteria${project.plan ? ` ${project.plan.criteria.length}` : ''}`],
-                ['proof', 'Proof'],
-                ['eye', 'Kane’s eye'],
-                ['code', 'Code'],
-              ] as [Tab, string][]
-            ).map(([t, label]) => (
-              <button key={t} type="button" role="tab" aria-selected={tab === t} className={tab === t ? 'on' : ''} onClick={() => setTab(t)}>
-                {label}
+            <div className="toolbar">
+              <div className="seg" role="tablist" aria-label="Cut">
+                {project.cuts.map((c, i) => (
+                  <button key={c} type="button" role="tab" aria-selected={c === cut} className={c === cut ? 'on' : ''} onClick={() => setCut(c)} title={`${CUT_RATIO[c]} · key ${i + 1}`}>
+                    <span className={`cut-glyph cut-${c}`} />
+                    {CUT_RATIO[c]}
+                  </button>
+                ))}
+              </div>
+              <span className="sep" />
+              {project.versions.map((v) => {
+                const s = summarize(verdictMap(project, v.n).values());
+                const judged = project.rounds.some((r) => r.version === v.n);
+                return (
+                  <button key={v.n} type="button" className={`vchip ${shown === v.n ? 'on' : ''}`} onClick={() => setPick(v.n)} title={v.summary ?? ''}>
+                    <span className={`vd ${judged ? (s.fail ? 'fail' : 'pass') : ''}`} />v{v.n}
+                  </button>
+                );
+              })}
+              {live ? (
+                <button type="button" className={`vchip live ${shown === 'live' ? 'on' : ''}`} onClick={() => setPick(following ? 'live' : null)} title="Follow Claude’s working file">
+                  <i className={state.claudeWorking ? 'pulse' : ''} /> live
+                </button>
+              ) : null}
+              <span className="sep" />
+              <button type="button" className={`iconbtn ${zones ? 'on' : ''}`} onClick={() => setZones(!zones)} title="Safe zones (Z)">
+                <Icon name="zones" />
               </button>
-            ))}
-          </nav>
-          <div className="tab-body">
-            {tab === 'live' ? (
-              <>
-                <RoundBoard state={state} criteria={project.plan?.criteria ?? []} />
-                <AgentFeeds state={state} />
-              </>
-            ) : null}
-            {tab === 'findings' ? <Findings project={project} sb={sb} onShow={showCorrection} focus={focus ? checkKey(focus.ac, focus.cut) : null} /> : null}
-            {tab === 'criteria' ? <CriteriaList project={project} cells={cells} sb={sb} focusAc={focus?.ac ?? null} onPick={pickCheck} /> : null}
-            {tab === 'proof' ? <ProofPanel project={project} /> : null}
-            {tab === 'eye' ? <KaneEye project={project} state={state} cut={cut} /> : null}
-            {tab === 'code' ? <CodeDiff project={project} /> : null}
+              <button type="button" className={`iconbtn ${xray ? 'on' : ''}`} onClick={() => setXray(!xray)} title="Layer X-ray (X)">
+                <Icon name="xray" />
+              </button>
+              <button type="button" className={`iconbtn ${strip ? 'on' : ''}`} onClick={() => setStrip(!strip)} title="Kane’s frames (F)">
+                <Icon name="frame" />
+              </button>
+              {reviewed ? (
+                <Link className="iconbtn" to={`/p/${project.id}/compare${mode === 'replay' && !STATIC ? '?replay=1' : ''}`} title="Before vs after">
+                  <Icon name="split" />
+                </Link>
+              ) : null}
+            </div>
+          </div>
+
+          <div className={`timeline-wrap ${tlOpen ? '' : 'collapsed'}`}>
+            <Transport playhead={playhead} fps={comp?.meta.fps ?? sb.fps} total={comp?.meta.durationInFrames ?? sb.durationInFrames} score={score} before={before} onToggle={() => setTlOpen(!tlOpen)} open={tlOpen} />
+            <Timeline
+              meta={comp?.meta ?? null}
+              sb={sb}
+              frames={frames}
+              criteria={project.plan?.criteria ?? []}
+              cuts={project.cuts}
+              cells={cells}
+              running={running}
+              playhead={playhead}
+              activeCut={cut}
+              onCut={setCut}
+              onPick={pickCheck}
+              focusAc={focus?.ac ?? null}
+            />
+          </div>
+        </div>
+
+        <aside className={`inspector ${inspector ? '' : 'closed'}`} aria-hidden={!inspector}>
+          <div className="inspector-in">
+            <div className="insp-head">
+              <h3>Verdicts</h3>
+              <button type="button" className="iconbtn" onClick={() => setInspector(false)} aria-label="Hide verdicts">
+                <Icon name="close" size={14} />
+              </button>
+            </div>
+            <div className="insp-scroll">
+              <div className="scorebox">
+                <ScoreRing pass={score.pass} total={score.total} fail={score.fail} running={Boolean(state.round && !state.round.done)} />
+                <div className="score-meta">
+                  <h4>
+                    {!project.plan
+                      ? 'No tests yet'
+                      : !reviewed
+                        ? 'Not judged yet'
+                        : score.fail
+                          ? `${score.fail} check${score.fail > 1 ? 's' : ''} failing`
+                          : score.owed
+                            ? `${score.owed} not judged`
+                            : 'Every check passes'}
+                  </h4>
+                  <p>
+                    {judgedVersion ? `v${judgedVersion}` : 'no version'} · {project.cuts.length} cuts · {project.plan?.criteria.length ?? 0} criteria
+                  </p>
+                  {before ? (
+                    <p>
+                      before Kane: <b style={{ color: 'var(--fail-text)' }}>{before.pass}/{before.total}</b>
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+              {project.plan ? <CutBars cuts={project.cuts} cells={cells} active={cut} onCut={setCut} /> : null}
+              {actionError || project.error ? <p className="err">{actionError ?? project.error}</p> : null}
+
+              <div className="sec-title">
+                <span>Corrections</span>
+                <span>{fixes.length ? `${fixes.filter((f) => f.fixedIn).length}/${fixes.length} fixed` : ''}</span>
+              </div>
+              {fixes.length ? (
+                fixes.map((x) => <CorrectionCard key={checkKey(x.ac, x.cut)} project={project} sb={sb} x={x} focus={focus ? checkKey(focus.ac, focus.cut) === checkKey(x.ac, x.cut) : false} onShow={showCorrection} />)
+              ) : (
+                <p className="empty">{reviewed ? 'Kane judged every criterion on every cut and found nothing to correct.' : 'When Kane fails a check, the finding, Claude’s fix and Kane’s re-check appear here.'}</p>
+              )}
+
+              {project.seal ? <ProofSummary project={project} /> : null}
+
+              {live && latest && project.plan ? (
+                <>
+                  <div className="sec-title">
+                    <span>Change</span>
+                  </div>
+                  <Composer
+                    disabled={Boolean(busy)}
+                    onSend={async (text) => {
+                      setActionError(null);
+                      try {
+                        await api.revise(project.id, text);
+                        setPick(null);
+                        refetch();
+                      } catch (e) {
+                        setActionError((e as Error).message);
+                      }
+                    }}
+                  />
+                  <GateRow
+                    project={project}
+                    onToggle={async (on) => {
+                      try {
+                        await api.patch(project.id, { gate: on });
+                        refetch();
+                      } catch (e) {
+                        setActionError((e as Error).message);
+                      }
+                    }}
+                  />
+                </>
+              ) : null}
+
+              {kaneCredits ? (
+                <Coll icon={<Icon name="bolt" size={15} />} title={`${kaneCredits.toFixed(0)} Kane credits`} sub={`Claude Code $${project.claude.costUsd.toFixed(2)} · ${project.claude.model ?? ''}`}>
+                  <div className="credits-bar">
+                    <i className="c-plan" style={{ flex: project.credits.plan }} />
+                    <i className="c-verify" style={{ flex: project.credits.verify }} />
+                    <i className="c-seal" style={{ flex: project.credits.seal || 0.0001 }} />
+                  </div>
+                  <dl className="kv">
+                    <dt>Design</dt>
+                    <dd>{project.credits.plan.toFixed(1)} cr · context ingest, review, design tests</dd>
+                    <dt>Judge</dt>
+                    <dd>
+                      {project.credits.verify.toFixed(1)} cr · {project.rounds.reduce((n, r) => n + r.conditions, 0)} checks in {project.rounds.reduce((n, r) => n + r.calls, 0)} analyzer calls
+                    </dd>
+                    <dt>Seal</dt>
+                    <dd>{project.credits.seal.toFixed(1)} cr · testmd run, cover</dd>
+                  </dl>
+                </Coll>
+              ) : null}
+            </div>
           </div>
         </aside>
-
-        <section className="col-timeline">
-          <Timeline
-            meta={comp?.meta ?? null}
-            sb={sb}
-            frames={frames}
-            criteria={project.plan?.criteria ?? []}
-            cuts={project.cuts}
-            cells={cells}
-            running={running}
-            playhead={playhead}
-            activeCut={cut}
-            onCut={setCut}
-            onPick={pickCheck}
-            focusAc={focus?.ac ?? null}
-          />
-        </section>
-      </main>
+      </div>
     </div>
   );
 }
 
-function PhaseRail({ phase, busy, hasDraft, reviewed, sealed }: { phase: string; busy: string | null; hasDraft: boolean; reviewed: boolean; sealed: boolean }) {
-  const steps = [
-    { k: 'board', label: 'Storyboard', done: true, live: false },
-    { k: 'draft', label: 'Claude drafts · Kane designs', done: hasDraft && busy !== 'draft', live: busy === 'draft' || busy === 'plan' },
-    { k: 'review', label: 'Kane review loop', done: reviewed && busy !== 'review', live: busy === 'review' },
-    { k: 'seal', label: 'Sealed proof', done: sealed, live: busy === 'seal' },
-  ];
+function RailBtn({ icon, label, on, onClick, badge }: { icon: string; label: string; on: boolean; onClick: () => void; badge?: { text: string; tone: string } }) {
   return (
-    <ol className="phaserail" aria-label={`Phase: ${phase}`}>
-      {steps.map((s) => (
-        <li key={s.k} className={`${s.done ? 'done' : ''} ${s.live ? 'live' : ''}`}>
-          <i />
-          {s.label}
-        </li>
-      ))}
-    </ol>
+    <button type="button" className={`iconbtn ${on ? 'on' : ''}`} onClick={onClick} title={label} aria-label={label} aria-pressed={on}>
+      <Icon name={icon} size={17} />
+      {badge ? <span className={`badge ${badge.tone}`}>{badge.text}</span> : null}
+    </button>
   );
 }
 
@@ -399,7 +562,7 @@ function PrimaryAction({
   sealed,
   hasTests,
   onAct,
-  disabled,
+  live,
 }: {
   busy: string | null;
   hasDraft: boolean;
@@ -407,106 +570,37 @@ function PrimaryAction({
   sealed: boolean;
   hasTests: boolean;
   onAct: (a: 'draft' | 'review' | 'seal' | 'cancel') => void;
-  disabled: boolean;
+  live: boolean;
 }) {
-  if (disabled) return <div className="action-note">Recorded run — create a new project to run Claude Code and Kane CLI live.</div>;
+  if (!live) return <span className="tag">recorded run</span>;
   if (busy)
     return (
-      <div className="action-row">
-        <div className="action-busy">
-          <span className="spinner" />
-          {busy === 'draft'
-            ? 'Claude is drafting · Kane is designing tests'
-            : busy === 'plan'
-              ? 'Kane is finishing the test plan'
-              : busy === 'review'
-                ? 'Kane review loop running'
-                : busy === 'revise'
-                  ? 'Claude is making your change · Kane gates it'
-                  : busy === 'gate'
-                    ? 'Kane is judging your Claude Code session'
-                    : 'Sealing evidence'}
-        </div>
-        <button type="button" className="btn ghost sm" onClick={() => onAct('cancel')}>
-          <Icon name="stop" size={12} /> Stop
-        </button>
-      </div>
+      <button type="button" className="btn" onClick={() => onAct('cancel')}>
+        <span className="spinner" /> Stop
+      </button>
     );
   if (!hasDraft)
     return (
-      <button type="button" className="btn primary big" onClick={() => onAct('draft')}>
-        <Icon name="spark" /> Generate draft
+      <button type="button" className="btn ink" onClick={() => onAct('draft')}>
+        <Icon name="spark" size={14} /> Generate draft
       </button>
     );
   if (!reviewed)
     return (
-      <button type="button" className="btn kane big" onClick={() => onAct('review')}>
-        <Icon name="eye" /> Run Kane review
+      <button type="button" className="btn kane" onClick={() => onAct('review')}>
+        <Icon name="eye" size={14} /> Run Kane review
+      </button>
+    );
+  if (!sealed && hasTests)
+    return (
+      <button type="button" className="btn seal" onClick={() => onAct('seal')}>
+        <Icon name="seal" size={14} /> Seal proof
       </button>
     );
   return (
-    <div className="action-row">
-      {!sealed && hasTests ? (
-        <button type="button" className="btn seal big" onClick={() => onAct('seal')}>
-          <Icon name="seal" /> Seal proof
-        </button>
-      ) : null}
-      <button type="button" className="btn ghost" onClick={() => onAct('review')}>
-        <Icon name="replay" size={14} /> Review again
-      </button>
-    </div>
-  );
-}
-
-function CreditMeter({ project }: { project: import('@dailies/shared').Project }) {
-  const c = project.credits;
-  const total = c.plan + c.verify + c.seal;
-  if (!total) return null;
-  const rounds = project.rounds;
-  const conditions = rounds.reduce((n, r) => n + r.conditions, 0);
-  const calls = rounds.reduce((n, r) => n + r.calls, 0);
-  return (
-    <div className="credits" title="Kane CLI credits spent on this project">
-      <div className="credits-bar">
-        <i className="c-plan" style={{ flex: c.plan }} />
-        <i className="c-verify" style={{ flex: c.verify }} />
-        <i className="c-seal" style={{ flex: c.seal }} />
-      </div>
-      <div className="credits-legend">
-        <span>
-          <b>{total.toFixed(1)}</b> Kane credits
-        </span>
-        <span className="c-plan">design {c.plan.toFixed(1)}</span>
-        <span className="c-verify">
-          judge {c.verify.toFixed(1)} · {conditions} checks in {calls} calls
-        </span>
-        {c.seal ? <span className="c-seal">seal {c.seal.toFixed(1)}</span> : null}
-      </div>
-    </div>
-  );
-}
-
-function HookBanner({ state }: { state: ReturnType<typeof useProjectStream>['state'] }) {
-  const h = state.hook;
-  if (h.state === 'idle') return null;
-  const recent = h.at ? Date.now() - h.at < 1000 * 60 * 10 : true;
-  if (!recent && h.state === 'allowed') return null;
-  return (
-    <div className={`hookbanner hb-${h.state}`}>
-      {h.state === 'judging' ? (
-        <>
-          <span className="spinner" /> Claude tried to stop · Stop hook → Kane CLI is re-judging the new version
-        </>
-      ) : h.state === 'blocked' ? (
-        <>
-          <Icon name="x" size={14} /> Stop blocked by Kane — findings sent back to Claude Code
-        </>
-      ) : (
-        <>
-          <Icon name="check" size={14} /> {h.text}
-        </>
-      )}
-    </div>
+    <button type="button" className="btn" onClick={() => onAct('review')}>
+      <Icon name="replay" size={14} /> Review again
+    </button>
   );
 }
 
@@ -515,125 +609,81 @@ function Transport({
   fps,
   total,
   score,
-  firstScore,
-  shown,
+  before,
+  onToggle,
+  open,
 }: {
   playhead: Playhead;
   fps: number;
   total: number;
   score: ReturnType<typeof summarize>;
-  firstScore: ReturnType<typeof summarize> | null;
-  shown: number | 'live' | null;
+  before: ReturnType<typeof summarize> | null;
+  onToggle: () => void;
+  open: boolean;
 }) {
   const f = useFrame(playhead);
   const playing = usePlaying(playhead);
   return (
     <div className="transport">
-      <div className="tp-ctl">
-        <button type="button" className="tbtn" onClick={() => playhead.seek(f - 1)} aria-label="Previous frame">
-          <Icon name="back" />
-        </button>
-        <button type="button" className="tbtn play" onClick={() => playhead.toggle()} aria-label={playing ? 'Pause' : 'Play'}>
-          <Icon name={playing ? 'pause' : 'play'} />
-        </button>
-        <button type="button" className="tbtn" onClick={() => playhead.seek(f + 1)} aria-label="Next frame">
-          <Icon name="fwd" />
-        </button>
-        <span className="tc">
-          {formatTimecode(f / fps)} <em>/ {formatTimecode(total / fps)}</em>
-        </span>
-        <span className="fn">f {String(f).padStart(3, '0')}</span>
-      </div>
+      <button type="button" className="iconbtn" onClick={() => playhead.seek(f - 1)} aria-label="Previous frame">
+        <Icon name="prev" />
+      </button>
+      <button type="button" className="iconbtn play" onClick={() => playhead.toggle()} aria-label={playing ? 'Pause' : 'Play'}>
+        <Icon name={playing ? 'pause' : 'play'} size={14} />
+      </button>
+      <button type="button" className="iconbtn" onClick={() => playhead.seek(f + 1)} aria-label="Next frame">
+        <Icon name="next" />
+      </button>
+      <span className="tc">
+        {formatTimecode(f / fps)} <em>/ {formatTimecode(total / fps)}</em>
+      </span>
+      <span className="tag">f{String(f).padStart(3, '0')}</span>
+      <span className="spacer" />
       {score.total ? (
-        <div className="scorecard" title={`Verdicts for ${shown === 'live' ? 'the latest pinned version' : `v${shown}`}`}>
-          {firstScore && shown !== null && firstScore.pass !== score.pass ? (
-            <span className="from">
-              draft {firstScore.pass}/{firstScore.total} →
-            </span>
+        <span className="scoremini">
+          {before ? (
+            <>
+              <s>
+                {before.pass}/{before.total}
+              </s>
+              <Icon name="next" size={12} />
+            </>
           ) : null}
-          <span className="ok">{score.pass}</span>
-          <span className="sep">/</span>
-          <span>{score.total}</span>
-          <span className="lbl">checks pass</span>
-          {score.fail ? <span className="bad">{score.fail} fail</span> : null}
-          {score.owed ? <span className="owed">{score.owed} not yet judged</span> : null}
-        </div>
+          <span className={`vmark ${score.fail ? 'fail' : score.owed === score.total ? 'owed' : 'pass'}`}>{score.fail ? <Icon name="x" size={10} stroke={3} /> : score.owed === score.total ? null : <Icon name="check" size={10} stroke={3} />}</span>
+          {score.pass}/{score.total}
+        </span>
       ) : null}
+      <button type="button" className="iconbtn" onClick={onToggle} aria-label={open ? 'Collapse timeline' : 'Expand timeline'}>
+        <Icon name="down" size={14} />
+      </button>
     </div>
   );
 }
 
-function EmptyStage({ onGenerate, busy, disabled }: { onGenerate: () => void; busy: boolean; disabled: boolean }) {
+function EmptyStage({ drafting, canGenerate, onGenerate, error, hasVersion }: { drafting: boolean; canGenerate: boolean; onGenerate: () => void; error: string | null; hasVersion: boolean }) {
+  if (drafting)
+    return (
+      <div className="empty-stage">
+        <div className="orb" />
+        <h2>Claude Code is composing</h2>
+        <p>Kane CLI is reading the same storyboard and designing the tests this draft has to pass.</p>
+      </div>
+    );
+  if (hasVersion || error)
+    return (
+      <div className="empty-stage">
+        <p>{error ? `Composition error: ${error.split('\n')[0]}` : 'Loading composition…'}</p>
+      </div>
+    );
   return (
     <div className="empty-stage">
-      <h2>
-        Nothing on screen <em>yet.</em>
-      </h2>
-      <p>Claude Code writes the composition from your storyboard. In parallel, Kane CLI reads the same storyboard and designs the tests every frame has to pass.</p>
-      {!disabled ? (
-        <button type="button" className="btn primary big" onClick={onGenerate} disabled={busy}>
+      <h2>Nothing on screen yet</h2>
+      <p>Claude Code writes the composition from your storyboard. At the same time, Kane CLI turns the storyboard into the tests every frame has to pass.</p>
+      {canGenerate ? (
+        <button type="button" className="btn ink lg" onClick={onGenerate}>
           <Icon name="spark" /> Generate draft
         </button>
       ) : null}
     </div>
-  );
-}
-
-function CodeStream({ typing }: { typing: { file: string; chars: number; tail: string } }) {
-  const lines = typing.tail.split('\n').slice(-16);
-  return (
-    <div className="codestream" aria-live="off">
-      <header>
-        <i /> Claude Code is typing <b>{typing.file}</b> <span>{typing.chars.toLocaleString()} chars</span>
-      </header>
-      <pre>
-        {lines.map((l, i) => (
-          <div key={i}>{l || ' '}</div>
-        ))}
-        <span className="caret" />
-      </pre>
-    </div>
-  );
-}
-
-const SUGGESTIONS = [
-  'Make the caption a big, bold lower-third subtitle near the bottom of the frame, like social video captions.',
-  'Make shot 1 punchier: the shoe slams in from the left with more overshoot.',
-  'Put the price tag in a glowing pill in the bottom-right corner.',
-];
-
-function ReviseBox({ onSend }: { onSend: (text: string) => Promise<void> }) {
-  const [text, setText] = useState('');
-  const [sending, setSending] = useState(false);
-  return (
-    <form
-      className="revise"
-      onSubmit={async (e) => {
-        e.preventDefault();
-        if (text.trim().length < 4) return;
-        setSending(true);
-        await onSend(text.trim());
-        setSending(false);
-        setText('');
-      }}
-    >
-      <label htmlFor="revise-text">
-        <b>Ask Claude for a change</b>
-        <span>Kane re-judges the whole spot before Claude may stop.</span>
-      </label>
-      <textarea id="revise-text" value={text} onChange={(e) => setText(e.target.value)} rows={2} placeholder="e.g. make the caption a big lower-third subtitle" />
-      <div className="revise-row">
-        <div className="sugs">
-          {SUGGESTIONS.map((s) => (
-            <button key={s} type="button" onClick={() => setText(s)} title={s}>
-              {s.split(':')[0].split(',')[0].slice(0, 34)}…
-            </button>
-          ))}
-        </div>
-        <button type="submit" className="btn sm" disabled={sending || text.trim().length < 4}>
-          {sending ? 'Sending…' : 'Send'}
-        </button>
-      </div>
-    </form>
   );
 }
