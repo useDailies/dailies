@@ -5,21 +5,22 @@ import { api } from '../lib/api';
 import { useComposition } from '../lib/composition';
 import { Playhead, useFrame, usePlaying } from '../lib/playhead';
 import { CUT_RATIO, summarize, verdictMap, worstVersion } from '../lib/verdicts';
-import { Icon, TopBar } from '../components/Chrome';
+import { AgentChips, TopBar } from '../components/Chrome';
 import { StagePlayer } from '../components/Stage';
 import { corrections, sheetEvidence } from '../components/Panels';
+import { Icon, VMark } from '../components/ui';
 
 /**
- * Draft vs final. The first draft Claude handed over, and the version Kane's
- * review loop ended on, playing in lock-step under a wipe — with every
- * criterion's verdict before and after.
+ * Before vs after: the version Kane scored lowest and the version the loop
+ * ended on, in lock-step under a wipe, with every criterion's verdict on both.
  */
 export default function Compare() {
   const { id } = useParams();
   const [project, setProject] = useState<Project | null>(null);
   const [cut, setCut] = useState<CutId>('16x9');
   const [mode, setMode] = useState<'wipe' | 'side'>('wipe');
-  const [split, setSplit] = useState(50);
+  const [split, setSplit] = useState(100);
+  const [intro, setIntro] = useState(true);
   const [zones, setZones] = useState(false);
   const playhead = useMemo(() => new Playhead(), []);
   const wipeRef = useRef<HTMLDivElement>(null);
@@ -27,7 +28,7 @@ export default function Compare() {
   useEffect(() => {
     if (id) api.project(id).then(setProject);
   }, [id]);
-  // Open on the cut and frame where Kane's loop changed the most.
+
   const opened = useRef(false);
   useEffect(() => {
     if (!project || opened.current) return;
@@ -39,7 +40,6 @@ export default function Compare() {
     setCut(best ?? (project.cuts.includes('9x16') ? '9x16' : project.cuts[0]));
   }, [project]);
 
-  // "Before" is the version Kane scored lowest (a one-shot draft, or a revision that broke the storyboard).
   const a = worstVersion(project) ?? project?.versions[0]?.n ?? null;
   const b = project?.versions.at(-1)?.n ?? null;
   const A = useComposition(id, a);
@@ -52,16 +52,19 @@ export default function Compare() {
   const sbb = summarize(after.values());
   const fixes = corrections(project).filter((f) => f.fixedIn);
 
+  // Seek to the frame Kane flagged, then sweep the wipe across once.
   const sought = useRef(false);
   useEffect(() => {
     if (sought.current || !A.comp || !B.comp || !project) return;
     sought.current = true;
     const f = corrections(project).find((x) => x.fixedIn && x.cut === cut);
-    // Prefer the frames Kane or the sheet named for the failure, then the criterion's own frames.
     const firstFail = f?.history.find((h) => h.verdict !== 'pass');
-    const named = [...(firstFail?.frames ?? []), ...((f && firstFail ? sheetEvidence(project, firstFail.round, f.cut, f.c?.text ?? '') : '') ?? '').matchAll(/\bF\d+\b/g)].map((m) => (typeof m === 'string' ? m : m[0]));
-    const fr = frames.find((x) => named.includes(x.label)) ?? (f?.c ? framesForCriterion(f.c, frames, sb)[0] ?? frames.find((x) => x.shot === f.c!.shot) : null);
-    setTimeout(() => playhead.seek(fr ? fr.frame : Math.floor(B.comp!.meta.durationInFrames * 0.2)), 150);
+    const ev = f && firstFail ? (sheetEvidence(project, firstFail.round, f.cut, f.c?.text ?? '') ?? '') : '';
+    const named = [...(firstFail?.frames ?? []), ...[...ev.matchAll(/\bF\d+\b/g)].map((m) => m[0])];
+    const fr = frames.find((x) => named.includes(x.label)) ?? (f?.c ? (framesForCriterion(f.c, frames, sb)[0] ?? frames.find((x) => x.shot === f.c!.shot)) : null);
+    setTimeout(() => playhead.seek(fr ? fr.frame : Math.floor(B.comp!.meta.durationInFrames * 0.3)), 150);
+    setTimeout(() => setSplit(50), 500);
+    setTimeout(() => setIntro(false), 1800);
   }, [A.comp, B.comp, project, cut, frames, sb, playhead]);
 
   useEffect(() => {
@@ -81,154 +84,142 @@ export default function Compare() {
   const rows = crits
     .map((c) => ({ c, b: before.get(checkKey(c.id, cut)), a: after.get(checkKey(c.id, cut)) }))
     .sort((x, y) => Number(x.b?.state === 'pass') - Number(y.b?.state === 'pass'));
-  const spec = CUTS[cut];
-  const tall = spec.height > spec.width;
+  const tall = CUTS[cut].height > CUTS[cut].width;
+  const move = (clientX: number) => {
+    const r = wipeRef.current!.getBoundingClientRect();
+    setIntro(false);
+    setSplit(Math.max(0, Math.min(100, ((clientX - r.left) / r.width) * 100)));
+  };
 
   return (
-    <div className="page compare">
-      <TopBar>
+    <div className="page">
+      <TopBar right={<AgentChips />}>
         <div className="crumb">
+          <Link to="/">Projects</Link>
           <span>/</span>
           <Link to={`/p/${project.id}`}>{project.title}</Link>
           <span>/</span>
-          <b>Draft vs final</b>
+          <b>Before vs after</b>
         </div>
       </TopBar>
-
-      <section className="cmp-hero">
-        <div className="cmp-score">
-          <div className="cs draft">
-            <span>Before Kane · v{a}</span>
-            <b>
-              {sa.pass}
-              <small>/{sa.total}</small>
-            </b>
-            <em>
-              {sa.fail} check{sa.fail === 1 ? '' : 's'} failed
-            </em>
+      <div className="cmp">
+        <div className="cmp-head">
+          <div className="cmp-score">
+            <div className="cs before">
+              <span>Before Kane · v{a}</span>
+              <b>
+                {sa.pass}
+                <small>/{sa.total}</small>
+              </b>
+            </div>
+            <div className="cs-arrow">
+              <Icon name="next" size={22} />
+              <span>
+                {fixes.length} fix{fixes.length === 1 ? '' : 'es'}
+              </span>
+            </div>
+            <div className="cs after">
+              <span>After Kane · v{b}</span>
+              <b>
+                {sbb.pass}
+                <small>/{sbb.total}</small>
+              </b>
+            </div>
           </div>
-          <div className="cs-arrow">
-            <span>
-              {fixes.length} correction{fixes.length === 1 ? '' : 's'}
-            </span>
-            <svg viewBox="0 0 120 24" aria-hidden>
-              <path d="M2 12h110M100 3l12 9-12 9" fill="none" stroke="currentColor" strokeWidth="2" />
-            </svg>
-            <span>
-              {Math.max(0, project.versions.length - 1)} Kane-driven revision{project.versions.length - 1 === 1 ? '' : 's'}
-            </span>
-          </div>
-          <div className="cs final">
-            <span>After Kane · v{b}</span>
-            <b>
-              {sbb.pass}
-              <small>/{sbb.total}</small>
-            </b>
-            <em>{sbb.fail ? `${sbb.fail} still failing` : 'every check passes'}</em>
-          </div>
-        </div>
-        <div className="cmp-bar">
-          <div className="seg">
-            {project.cuts.map((c) => (
-              <button key={c} type="button" className={c === cut ? 'on' : ''} onClick={() => setCut(c)}>
-                <span className={`cut-glyph cut-${c}`} />
-                {CUT_RATIO[c]}
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <div className="seg">
+              {project.cuts.map((c) => (
+                <button key={c} type="button" className={c === cut ? 'on' : ''} onClick={() => setCut(c)}>
+                  <span className={`cut-glyph cut-${c}`} />
+                  {CUT_RATIO[c]}
+                </button>
+              ))}
+            </div>
+            <div className="seg">
+              <button type="button" className={mode === 'wipe' ? 'on' : ''} onClick={() => setMode('wipe')}>
+                Wipe
               </button>
-            ))}
-          </div>
-          <div className="seg">
-            <button type="button" className={mode === 'wipe' ? 'on' : ''} onClick={() => setMode('wipe')}>
-              Wipe
-            </button>
-            <button type="button" className={mode === 'side' ? 'on' : ''} onClick={() => setMode('side')}>
-              Side by side
+              <button type="button" className={mode === 'side' ? 'on' : ''} onClick={() => setMode('side')}>
+                2-up
+              </button>
+            </div>
+            <button type="button" className={`iconbtn ${zones ? 'on' : ''}`} onClick={() => setZones(!zones)} title="Safe zones">
+              <Icon name="zones" />
             </button>
           </div>
-          <button type="button" className={`tbtn ${zones ? 'on' : ''}`} onClick={() => setZones(!zones)} title="Safe zones">
-            <Icon name="zones" />
-          </button>
         </div>
-      </section>
 
-      <section className={`cmp-stage mode-${mode} ${tall ? 'tall' : ''}`}>
-        {A.comp && B.comp ? (
-          mode === 'wipe' ? (
-            <div
-              className="wipe"
-              ref={wipeRef}
-              onPointerMove={(e) => {
-                if (e.buttons !== 1) return;
-                const r = wipeRef.current!.getBoundingClientRect();
-                setSplit(Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100)));
-              }}
-              onPointerDown={(e) => {
-                (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-                const r = wipeRef.current!.getBoundingClientRect();
-                setSplit(Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100)));
-              }}
-            >
-              <div className="wipe-layer">
-                <StagePlayer comp={B.comp} cut={cut} playhead={playhead} zones={zones} maxHeight={tall ? 620 : 520} />
+        <section className={`cmp-stage ${tall ? 'tall' : ''}`}>
+          {A.comp && B.comp ? (
+            mode === 'wipe' ? (
+              <div
+                className={`wipe ${intro ? 'intro' : ''}`}
+                ref={wipeRef}
+                onPointerDown={(e) => {
+                  (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+                  move(e.clientX);
+                }}
+                onPointerMove={(e) => e.buttons === 1 && move(e.clientX)}
+              >
+                <div className="wipe-layer">
+                  <StagePlayer comp={B.comp} cut={cut} playhead={playhead} zones={zones} maxHeight={tall ? 600 : 500} />
+                </div>
+                <div className="wipe-layer top" style={{ clipPath: `inset(0 ${100 - split}% 0 0)` }}>
+                  <StagePlayer comp={A.comp} cut={cut} playhead={playhead} zones={zones} follower maxHeight={tall ? 600 : 500} />
+                </div>
+                <div className="wipe-handle" style={{ left: `${split}%` }}>
+                  <span>
+                    <Icon name="prev" size={12} />
+                    <Icon name="next" size={12} />
+                  </span>
+                </div>
+                <span className="wipe-tag l">before · v{a}</span>
+                <span className="wipe-tag r">after · v{b}</span>
               </div>
-              <div className="wipe-layer top" style={{ clipPath: `inset(0 ${100 - split}% 0 0)` }}>
-                <StagePlayer comp={A.comp} cut={cut} playhead={playhead} zones={zones} follower maxHeight={tall ? 620 : 520} />
+            ) : (
+              <div className="side">
+                <figure>
+                  <figcaption>before · v{a}</figcaption>
+                  <StagePlayer comp={A.comp} cut={cut} playhead={playhead} zones={zones} follower maxHeight={tall ? 600 : 360} />
+                </figure>
+                <figure>
+                  <figcaption>after · v{b}</figcaption>
+                  <StagePlayer comp={B.comp} cut={cut} playhead={playhead} zones={zones} maxHeight={tall ? 600 : 360} />
+                </figure>
               </div>
-              <div className="wipe-handle" style={{ left: `${split}%` }}>
-                <span>
-                  <Icon name="back" size={12} />
-                  <Icon name="fwd" size={12} />
-                </span>
-              </div>
-              <span className="wipe-tag l">Before Kane v{a}</span>
-              <span className="wipe-tag r">After Kane v{b}</span>
-            </div>
+            )
           ) : (
-            <div className="side">
-              <figure>
-                <figcaption>Before Kane v{a}</figcaption>
-                <StagePlayer comp={A.comp} cut={cut} playhead={playhead} zones={zones} follower maxHeight={tall ? 600 : 360} />
-              </figure>
-              <figure>
-                <figcaption>After Kane v{b}</figcaption>
-                <StagePlayer comp={B.comp} cut={cut} playhead={playhead} zones={zones} maxHeight={tall ? 600 : 360} />
-              </figure>
-            </div>
-          )
-        ) : (
-          <p className="muted">{A.error ?? B.error ?? 'Loading both versions…'}</p>
-        )}
-        <CmpTransport playhead={playhead} fps={B.comp?.meta.fps ?? 30} total={B.comp?.meta.durationInFrames ?? sb.durationInFrames} />
-      </section>
+            <p className="muted">{A.error ?? B.error ?? 'Loading both versions…'}</p>
+          )}
+          <CmpTransport playhead={playhead} fps={B.comp?.meta.fps ?? 30} total={B.comp?.meta.durationInFrames ?? sb.durationInFrames} />
+        </section>
 
-      <section className="cmp-table">
-        <h3>
-          Every criterion on the {CUT_RATIO[cut]} cut <span className="muted">· verdicts by Kane CLI</span>
-        </h3>
-        <div className="ct">
-          <div className="ct-h">
-            <span>Criterion</span>
-            <span>Before v{a}</span>
-            <span>Final v{b}</span>
+        <div className="cmp-list coll" style={{ animation: 'none' }}>
+          <div className="coll-h" style={{ cursor: 'default' }}>
+            <span className="ttl">
+              <b>Every criterion on the {CUT_RATIO[cut]} cut</b>
+              <small>Kane CLI’s verdicts on both versions · click to jump to the frame</small>
+            </span>
+            <span className="meta">before · after</span>
           </div>
           {rows.map(({ c, b: x, a: y }) => {
             const fr = framesForCriterion(c, frames, sb)[0];
             return (
-              <button key={c.id} type="button" className={`ct-r ${x?.state !== 'pass' && y?.state === 'pass' ? 'fixed' : ''}`} onClick={() => fr && playhead.seek(fr.frame)}>
-                <span className="ct-c">
-                  <b>{c.id}</b> {c.text}
-                  {fr ? <em>{fr.label} · {formatTimecode(fr.seconds)}</em> : null}
+              <button key={c.id} type="button" className={`cmp-row ${x?.state !== 'pass' && y?.state === 'pass' ? 'fixed' : ''}`} onClick={() => fr && playhead.seek(fr.frame)}>
+                <span>
+                  {c.text} {fr ? <span className="tag">{formatTimecode(fr.seconds)}</span> : null}
                 </span>
-                <span className={`vpill v-${x?.state ?? 'owed'}`} title={x?.reason}>
-                  {x?.state ?? 'owed'}
+                <span className="vm" title={x?.reason}>
+                  <VMark state={x?.state ?? 'owed'} />
                 </span>
-                <span className={`vpill v-${y?.state ?? 'owed'}`} title={y?.reason}>
-                  {y?.state ?? 'owed'}
+                <span className="vm" title={y?.reason}>
+                  <VMark state={y?.state ?? 'owed'} />
                 </span>
               </button>
             );
           })}
         </div>
-      </section>
+      </div>
     </div>
   );
 }
@@ -238,8 +229,8 @@ function CmpTransport({ playhead, fps, total }: { playhead: Playhead; fps: numbe
   const playing = usePlaying(playhead);
   return (
     <div className="cmp-transport">
-      <button type="button" className="tbtn play" onClick={() => playhead.toggle()} aria-label={playing ? 'Pause' : 'Play'}>
-        <Icon name={playing ? 'pause' : 'play'} />
+      <button type="button" className="iconbtn play" onClick={() => playhead.toggle()} aria-label={playing ? 'Pause' : 'Play'}>
+        <Icon name={playing ? 'pause' : 'play'} size={14} />
       </button>
       <input type="range" min={0} max={total - 1} value={f} onChange={(e) => playhead.seek(Number(e.target.value))} aria-label="Scrub" />
       <span className="tc">

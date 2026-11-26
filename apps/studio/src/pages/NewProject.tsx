@@ -1,44 +1,43 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CUTS, formatTimecode, parseStoryboard, sampleFrames } from '@dailies/shared';
 import { api, STATIC } from '../lib/api';
 import { TEMPLATES } from '../lib/templates';
-import { Icon, TopBar } from '../components/Chrome';
+import { TopBar } from '../components/Chrome';
+import { Face, Icon } from '../components/ui';
 
 export default function NewProject() {
   const nav = useNavigate();
-  const [tpl, setTpl] = useState(TEMPLATES[0].id);
-  const [body, setBody] = useState(TEMPLATES[0].body);
-  const [saving, setSaving] = useState(false);
+  const [params] = useSearchParams();
+  const initial = TEMPLATES.find((t) => t.id === params.get('template')) ?? TEMPLATES[0];
+  const [tpl, setTpl] = useState(initial.id);
+  const [body, setBody] = useState(initial.body);
+  const [saving, setSaving] = useState<null | 'create' | 'go'>(null);
   const [err, setErr] = useState<string | null>(null);
   const sb = useMemo(() => parseStoryboard(body), [body]);
   const frames = useMemo(() => sampleFrames(sb), [sb]);
 
-  const create = async () => {
-    setSaving(true);
+  const create = async (start: boolean) => {
+    setSaving(start ? 'go' : 'create');
     setErr(null);
     try {
       const p = await api.create(body);
+      if (start) await api.action(p.id, 'draft');
       nav(`/p/${p.id}`);
     } catch (e) {
       setErr((e as Error).message);
-      setSaving(false);
+      setSaving(null);
     }
   };
 
   return (
-    <div className="page newp">
+    <div className="page">
       <TopBar />
-      <div className="newp-grid">
-        <section className="newp-edit">
-          <header>
-            <p className="eyebrow">New spot</p>
-            <h1>
-              Write the storyboard. <em>It becomes the test suite.</em>
-            </h1>
-            <p className="lede">Plain markdown. Shots with timecodes, exact copy, cuts and constraints. Claude Code composes from it; Kane CLI derives the acceptance criteria from the same lines.</p>
-          </header>
-          <div className="tpls" role="radiogroup" aria-label="Start from a template">
+      <div className="newp">
+        <section>
+          <h1>Write the storyboard</h1>
+          <p className="lede">Plain markdown: shots with timecodes, exact copy, cuts and rules. Claude Code composes from it. Kane CLI derives its acceptance criteria from the same lines.</p>
+          <div className="tpls" role="radiogroup" aria-label="Start from">
             {TEMPLATES.map((t) => (
               <button
                 key={t.id}
@@ -50,9 +49,10 @@ export default function NewProject() {
                   setTpl(t.id);
                   setBody(t.body);
                 }}
+                title={t.blurb}
               >
-                <b>{t.name}</b>
-                <span>{t.blurb}</span>
+                {t.id === 'demo' ? <span className="star">★</span> : null}
+                {t.name}
               </button>
             ))}
           </div>
@@ -66,30 +66,19 @@ export default function NewProject() {
           </div>
         </section>
 
-        <aside className="newp-preview">
-          <h3>What dailies reads</h3>
-          <dl className="kv">
-            <div>
-              <dt>Title</dt>
-              <dd>{sb.title}</dd>
-            </div>
-            <div>
-              <dt>Length</dt>
-              <dd>
-                {sb.duration}s · {sb.fps} fps · {sb.durationInFrames} frames
-              </dd>
-            </div>
-            <div>
-              <dt>Cuts</dt>
-              <dd className="cuts">
-                {sb.cuts.map((c) => (
-                  <span key={c}>
-                    <i className={`cut-glyph cut-${c}`} /> {CUTS[c].ratio} <small>{CUTS[c].width}×{CUTS[c].height}</small>
-                  </span>
-                ))}
-              </dd>
-            </div>
-          </dl>
+        <aside className="preview">
+          <h3>{sb.title}</h3>
+          <div className="card-meta">
+            <span className="tag">
+              {sb.duration}s · {sb.fps} fps
+            </span>
+            {sb.cuts.map((c) => (
+              <span key={c} className="tag">
+                <i className={`cut-glyph cut-${c}`} /> {CUTS[c].ratio}
+              </span>
+            ))}
+            <span className="tag">{sb.shots.length} shots</span>
+          </div>
           <div className="mini-tl">
             {sb.shots.map((s) => (
               <div key={s.n} className={`shot shot-${(s.n - 1) % 6}`} style={{ left: `${(s.start / sb.duration) * 100}%`, width: `${((s.end - s.start) / sb.duration) * 100}%` }}>
@@ -100,24 +89,30 @@ export default function NewProject() {
               <i key={f.label} className="mini-f" style={{ left: `${(f.seconds / sb.duration) * 100}%` }} title={`${f.label} · ${f.timecode} · ${f.reason}`} />
             ))}
           </div>
-          <p className="muted small">
-            Kane will judge {frames.length} frames per cut: {frames.map((f) => formatTimecode(f.seconds)).join(' · ')}
+          <p className="muted" style={{ fontSize: 12, margin: 0 }}>
+            Kane judges {frames.length} frames per cut: {frames.map((f) => formatTimecode(f.seconds)).join(' · ')}
           </p>
           <ol className="steps">
             <li>
-              <b>Claude Code</b> writes <code>src/Video.tsx</code> in a sandboxed workspace.
+              <b>Claude Code</b> writes <code>src/Video.tsx</code>.
             </li>
             <li>
-              <b>Kane CLI</b> ingests the storyboard and designs acceptance criteria and <code>_test.md</code> files — at the same time.
+              <b>Kane CLI</b> designs the criteria and <code>_test.md</code> files at the same time.
             </li>
             <li>
-              <b>Run Kane review</b>: every criterion judged on every cut in a real browser; Claude’s Stop hook won’t release it until they pass.
+              <b>Kane review</b> judges every criterion on every cut. Claude can’t stop until they pass.
             </li>
           </ol>
           {err ? <p className="err">{err}</p> : null}
-          <button type="button" className="btn primary big" disabled={saving || STATIC || !sb.shots.length} onClick={create}>
-            <Icon name="plus" /> {saving ? 'Creating…' : 'Create project'}
+          <button type="button" className="btn ink lg" disabled={Boolean(saving) || STATIC || !sb.shots.length} onClick={() => create(true)}>
+            {saving === 'go' ? <span className="spinner" /> : <Icon name="spark" />} Create and generate
           </button>
+          <button type="button" className="btn" disabled={Boolean(saving) || STATIC || !sb.shots.length} onClick={() => create(false)}>
+            Create only
+          </button>
+          <p className="muted" style={{ fontSize: 12, margin: 0, display: 'flex', gap: 6, alignItems: 'center' }}>
+            <Face who="claude" size={14} /> Claude Code and <Face who="kane" size={14} /> Kane CLI run on this machine.
+          </p>
           {!sb.shots.length ? <p className="err">Add at least one “## Shot N (0:00–0:03) Title” heading.</p> : null}
         </aside>
       </div>

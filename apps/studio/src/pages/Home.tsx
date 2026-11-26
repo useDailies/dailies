@@ -1,113 +1,185 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Thumbnail } from '@remotion/player';
-import { CUTS, type Project } from '@dailies/shared';
+import { CUTS, parseStoryboard, sampleFrames, type Project } from '@dailies/shared';
 import { api, STATIC } from '../lib/api';
 import { useComposition } from '../lib/composition';
+import { DEMO_STORYBOARD } from '../lib/templates';
 import { summarize, verdictMap, worstVersion } from '../lib/verdicts';
-import { Icon, TopBar } from '../components/Chrome';
+import { TopBar } from '../components/Chrome';
 import { corrections } from '../components/Panels';
+import { Face, Icon, VMark } from '../components/ui';
 
 export default function Home() {
+  const nav = useNavigate();
   const [projects, setProjects] = useState<Project[] | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
   useEffect(() => {
     api.projects().then(setProjects).catch(() => setProjects([]));
   }, []);
+  // The run that best shows the loop: most corrections, then most rounds.
+  const showcase = useMemo(
+    () => (projects ?? []).filter((p) => p.versions.length && p.rounds.length).sort((a, b) => corrections(b).filter((x) => x.fixedIn).length - corrections(a).filter((x) => x.fixedIn).length || b.rounds.length - a.rounds.length)[0],
+    [projects],
+  );
+
+  const tryDemo = async () => {
+    if (STATIC) {
+      if (showcase) nav(`/p/${showcase.id}`);
+      return;
+    }
+    setCreating(true);
+    setErr(null);
+    try {
+      const p = await api.create(DEMO_STORYBOARD);
+      await api.action(p.id, 'draft');
+      nav(`/p/${p.id}`);
+    } catch (e) {
+      setErr((e as Error).message);
+      setCreating(false);
+    }
+  };
 
   return (
-    <div className="page home">
+    <div className="page">
       <TopBar />
       <section className="hero">
-        <p className="eyebrow">Test-driven video · Claude Code × Kane CLI</p>
-        <h1>
-          Every frame, <em>proven.</em>
-        </h1>
-        <p className="lede">
-          Agents now write motion design as code. dailies hands your storyboard to Claude Code to compose — and to Kane CLI to turn into tests. Kane judges every cut, frame by frame, in a real browser, and Claude can’t call it done until the
-          storyboard holds.
-        </p>
-        <div className="hero-cta">
-          {!STATIC ? (
-            <Link to="/new" className="btn primary big">
-              <Icon name="plus" /> New spot
-            </Link>
-          ) : null}
-          <Link to="/pitch" className="btn ghost big">
-            Why this exists
-          </Link>
+        <div>
+          <span className="eyebrow">
+            <Face who="claude" size={16} />
+            Claude Code writes it
+            <Face who="kane" size={16} />
+            Kane CLI proves it
+          </span>
+          <h1>
+            Every frame, <em>proven.</em>
+          </h1>
+          <p className="lede">Agents write motion design as code now. dailies hands your storyboard to Claude Code to compose, and to Kane CLI to turn into tests. Kane judges every cut, frame by frame, in a real browser. Claude can’t call it done until the storyboard holds.</p>
+          <div className="hero-cta">
+            <button type="button" className="btn ink lg" onClick={tryDemo} disabled={creating}>
+              {creating ? <span className="spinner" /> : <Icon name="spark" />} {STATIC ? 'Watch the demo run' : 'Try the demo storyboard'}
+            </button>
+            {!STATIC ? (
+              <Link to="/new" className="btn lg">
+                <Icon name="plus" /> New spot
+              </Link>
+            ) : null}
+            {showcase && !STATIC ? (
+              <Link to={`/p/${showcase.id}?replay=1`} className="btn lg ghost">
+                <Icon name="replay" /> Replay a recorded run
+              </Link>
+            ) : null}
+          </div>
+          <p className="hero-note">{STATIC ? 'A recorded run, replayed with its real timing.' : 'One click: creates the demo spot and starts Claude Code and Kane CLI. About 4 minutes to a reviewed cut.'}</p>
+          {err ? <p className="err">{err}</p> : null}
         </div>
+        <DemoCard project={showcase ?? null} />
       </section>
 
       <section className="gallery">
         <div className="gallery-head">
-          <h2>Projects</h2>
-          <span className="muted">{projects ? `${projects.length} spot${projects.length === 1 ? '' : 's'}` : ''}</span>
+          <h2>Spots</h2>
+          <span className="muted">{projects ? `${projects.length} project${projects.length === 1 ? '' : 's'}` : ''}</span>
         </div>
-        {projects && !projects.length ? (
-          <div className="gallery-empty">
-            <p>No spots yet. Start from a storyboard template — the launch spot is a good first run.</p>
-            {!STATIC ? (
-              <Link to="/new" className="btn">
-                Create the first one
-              </Link>
-            ) : null}
-          </div>
-        ) : null}
         <div className="cards">
-          {projects?.map((p) => <Card key={p.id} p={p} />)}
+          {projects?.map((p) => (
+            <Card key={p.id} p={p} />
+          ))}
         </div>
       </section>
     </div>
   );
 }
 
+/** A tiny living editor: the real composition, Kane's frames, a fail that turns into a pass. */
+function DemoCard({ project }: { project: Project | null }) {
+  const latest = project?.versions.at(-1)?.n ?? null;
+  const { comp } = useComposition(latest ? project!.id : undefined, latest);
+  const frames = useMemo(() => (project ? sampleFrames(parseStoryboard(project.storyboard)).slice(0, 8) : []), [project]);
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setStep((s) => (s + 1) % 14), 700);
+    return () => clearInterval(t);
+  }, []);
+  const spec = CUTS['16x9'];
+  const at = frames.length ? frames[Math.min(step, frames.length - 1) % frames.length] : null;
+  return (
+    <div className="demo-card" aria-hidden>
+      <div className="dc-stage">
+        {comp && at ? (
+          <div style={{ width: '78%', borderRadius: 8, overflow: 'hidden', boxShadow: 'var(--shadow-3)', position: 'relative' }} className={step < 8 ? 'stage-frame judging' : 'stage-frame'}>
+            <Thumbnail component={comp.Component} compositionWidth={spec.width} compositionHeight={spec.height} frameToDisplay={at.frame} durationInFrames={comp.meta.durationInFrames} fps={comp.meta.fps} style={{ width: '100%', aspectRatio: '16 / 9' }} />
+            {step < 8 ? <div className="sweep" /> : null}
+          </div>
+        ) : (
+          <div className="orb" />
+        )}
+        <div className="statuspill" style={{ position: 'absolute', top: 14, left: '50%', transform: 'translateX(-50%)' }}>
+          {step < 8 ? <Face who="kane" /> : step < 11 ? <Face who="claude" /> : <Face who="pass" />}
+          <span className={`lbl ${step < 8 ? 'kane' : step < 11 ? 'claude' : ''}`}>
+            {step < 8 ? <span className="shimmer">Kane is judging every frame</span> : step < 11 ? <span className="shimmer">Claude is fixing the 9:16 cut</span> : 'Kane verified · every check passes'}
+          </span>
+        </div>
+      </div>
+      <div className="dc-frames">
+        {Array.from({ length: 8 }, (_, i) => {
+          const fr = frames[i];
+          const state = i > step && step < 8 ? 'owed' : i === 5 && step < 11 ? 'fail' : 'pass';
+          return (
+            <div key={i} className="dc-frame" style={{ background: 'var(--canvas)' }}>
+              {comp && fr ? (
+                <Thumbnail component={comp.Component} compositionWidth={spec.width} compositionHeight={spec.height} frameToDisplay={fr.frame} durationInFrames={comp.meta.durationInFrames} fps={comp.meta.fps} style={{ width: '100%', height: '100%' }} />
+              ) : null}
+              {state !== 'owed' ? <VMark state={state} /> : null}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function Card({ p }: { p: Project }) {
   const latest = p.versions.at(-1)?.n ?? null;
-  const first = p.versions[0]?.n ?? null;
   const { comp } = useComposition(latest ? p.id : undefined, latest);
   const final = summarize(verdictMap(p, latest).values());
-  const draft = first && p.rounds.length ? summarize(verdictMap(p, worstVersion(p)).values()) : null;
-  const fixes = corrections(p);
+  const wv = worstVersion(p);
+  const before = wv && wv !== latest ? summarize(verdictMap(p, wv).values()) : null;
+  const fixed = corrections(p).filter((f) => f.fixedIn).length;
   const spec = CUTS['16x9'];
   return (
     <Link to={`/p/${p.id}`} className="card">
       <div className="poster">
         {comp ? (
-          <Thumbnail
-            component={comp.Component}
-            compositionWidth={spec.width}
-            compositionHeight={spec.height}
-            frameToDisplay={Math.floor(comp.meta.durationInFrames * 0.28)}
-            durationInFrames={comp.meta.durationInFrames}
-            fps={comp.meta.fps}
-            style={{ width: '100%', aspectRatio: '16 / 9' }}
-          />
+          <Thumbnail component={comp.Component} compositionWidth={spec.width} compositionHeight={spec.height} frameToDisplay={Math.floor(comp.meta.durationInFrames * 0.28)} durationInFrames={comp.meta.durationInFrames} fps={comp.meta.fps} style={{ width: '100%', aspectRatio: '16 / 9' }} />
         ) : (
-          <div className="poster-empty">{p.busy ? 'Generating…' : 'No draft yet'}</div>
+          <div className="poster-empty">{p.busy ? <span className="spinner" /> : 'No draft yet'}</div>
         )}
-        {p.recorded ? <span className="ribbon">Recorded run</span> : null}
+        {p.recorded ? <span className="ribbon">recorded run</span> : null}
       </div>
       <div className="card-body">
         <h3>{p.title}</h3>
         <div className="card-meta">
-          <span>{p.versions.length ? `${p.versions.length} version${p.versions.length > 1 ? 's' : ''}` : 'storyboard only'}</span>
-          <span>{p.cuts.map((c) => CUTS[c].ratio).join(' · ')}</span>
-        </div>
-        {final.total && p.rounds.length ? (
-          <div className="card-score">
-            {draft && draft.pass !== final.pass ? (
-              <span className="from">
-                before {draft.pass}/{draft.total}
+          {p.rounds.length && final.total ? (
+            <>
+              {before ? (
+                <span className="tag fail">
+                  {before.pass}/{before.total}
+                </span>
+              ) : null}
+              {before ? <Icon name="next" size={12} /> : null}
+              <span className={`tag ${final.fail ? 'fail' : 'pass'}`}>
+                {final.pass}/{final.total} checks
               </span>
-            ) : null}
-            <span className={final.fail ? 'bad' : 'ok'}>
-              {final.pass}/{final.total} checks
-            </span>
-            {fixes.length ? <span>{fixes.filter((f) => f.fixedIn).length} corrected by Kane loop</span> : null}
-          </div>
-        ) : (
-          <div className="card-score muted">{p.plan ? `${p.plan.criteria.length} criteria designed` : 'Not reviewed yet'}</div>
-        )}
+              {fixed ? <span className="tag claude">{fixed} fixed by the loop</span> : null}
+              {p.seal?.endedAt ? <span className="tag seal">sealed</span> : null}
+            </>
+          ) : (
+            <span className="tag">{p.plan ? `${p.plan.criteria.length} criteria` : 'storyboard'}</span>
+          )}
+          <span className="tag">{p.cuts.map((c) => CUTS[c].ratio).join(' ')}</span>
+        </div>
       </div>
     </Link>
   );
