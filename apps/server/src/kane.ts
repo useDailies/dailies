@@ -111,7 +111,33 @@ export interface AnalyzeOutcome {
  * already open in the Chrome at `cdpPort`. No actions, nothing saved — the
  * cheapest way to ask Kane many questions about one screen.
  */
-export async function analyze(opts: {
+/**
+ * Kane's analyzer runner can die on start when several launch at the same instant on a
+ * fresh machine ("v16-runner exited before ready", SIGBUS). Launches are staggered, and a
+ * call that never produced a verdict is retried, so an infrastructure hiccup is never
+ * reported to an agent as a failing check.
+ */
+let lastLaunch = 0;
+async function staggered() {
+  const gap = Number(process.env.DAILIES_KANE_STAGGER_MS ?? 1500);
+  const wait = Math.max(0, lastLaunch + gap - Date.now());
+  lastLaunch = Date.now() + wait;
+  if (wait) await new Promise((r) => setTimeout(r, wait));
+}
+
+export async function analyze(opts: { cwd: string; cdpPort: number; conditions: string[]; onEvent?: (e: any) => void }): Promise<AnalyzeOutcome> {
+  let out: AnalyzeOutcome | null = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    await staggered();
+    out = await analyzeOnce(opts);
+    if (out.ok || out.results.some((v) => v !== null)) return out;
+    opts.onEvent?.({ type: 'dailies_retry', attempt: attempt + 1, error: out.error });
+    await new Promise((r) => setTimeout(r, 2500 * (attempt + 1)));
+  }
+  return out!;
+}
+
+async function analyzeOnce(opts: {
   cwd: string;
   cdpPort: number;
   conditions: string[];

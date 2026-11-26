@@ -22,8 +22,9 @@ function words(s: string): Set<string> {
 export function cutsForText(text: string, available: CutId[]): CutId[] {
   const t = text.toLowerCase();
   const hit: CutId[] = [];
-  if (/9\s*:\s*16|vertical|portrait cut|portrait 9/.test(t)) hit.push('9x16');
-  if (/16\s*:\s*9|landscape|widescreen|wide cut/.test(t)) hit.push('16x9');
+  // "a portrait frame", "the vertical cut", "9:16"; Kane words cuts in many ways.
+  if (/9\s*:\s*16|vertical|portrait|tall cut|stories|reels|tiktok|shorts\b/.test(t)) hit.push('9x16');
+  if (/16\s*:\s*9|landscape|widescreen|wide cut|horizontal/.test(t)) hit.push('16x9');
   if (/1\s*:\s*1|square/.test(t)) hit.push('1x1');
   if (/4\s*:\s*5/.test(t)) hit.push('4x5');
   const scoped = hit.filter((c) => available.includes(c));

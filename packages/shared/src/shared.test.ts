@@ -111,3 +111,11 @@ test('placement guard: a measured layer in a forbidden band contradicts a pass',
   assert.equal(measuredViolation('A button labelled exactly: Pre-order now, fully visible by 0:08.', report), null);
   assert.equal(measuredViolation('No text or button in the 9:16 cut occupies the bottom 35% of its frame.', undefined), null);
 });
+
+test('cut mapping: "portrait frame" is the 9:16 cut, not every cut', async () => {
+  const { cutsForText } = await import('./criteria.ts');
+  const all = ['16x9', '9x16'] as const;
+  assert.deepEqual(cutsForText('No text occupies the bottom 35% of a portrait frame.', [...all]), ['9x16']);
+  assert.deepEqual(cutsForText('The landscape cut measures 1920×1080 pixels.', [...all]), ['16x9']);
+  assert.deepEqual(cutsForText('Caption reads exactly: Hear only what matters', [...all]), ['16x9', '9x16']);
+});

@@ -247,6 +247,11 @@ async function judge(id: string, body: { files: Record<string, string>; summary?
       round = await runRound(id, { version: v.n, kind: 'regression' });
       failing = round.results.filter((r) => r.verdict !== 'pass');
     }
+    // Kane itself failed (no verdicts, an infrastructure error): not the agent's video.
+    if (failing.length && failing.every((f) => f.verdict === 'unknown') && round.error) {
+      setPhase(id, 'reviewed');
+      return { status: 'error', version: v.n, round: round.id, kind: round.kind, pass: round.results.length - failing.length, total: round.results.length, failing: [], sheets: [], feedback: '', credits: 0, fixRounds: st.fixRounds, studioUrl: studioLink(id), message: `Kane CLI could not judge ${failing.length} check(s) this time (an infrastructure error on the dailies server, not a problem with your video). Review again.` };
+    }
     st.fixRounds++;
     const credits = +(getProject(id)!.credits.verify - credits0).toFixed(2);
     const result = shape(id, round, failing, { ...base, credits, fixRounds: st.fixRounds });
