@@ -9,7 +9,14 @@
  * screenshots and the designed test files. `VITE_DAILIES_STATIC=1 npm run build`
  * then produces a site that replays the real run with its real timing.
  */
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync as rawWrite } from 'node:fs';
+import { homedir } from 'node:os';
+
+// Published runs never carry this machine's absolute paths.
+const REPO = join(import.meta.dirname, '..') + '/';
+const HOME = homedir() + '/';
+const scrub = (s: string) => s.split(REPO).join('./').split(HOME).join('~/');
+const writeFileSync = (f: string, data: string) => rawWrite(f, scrub(data));
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { diffLines } from 'diff';
