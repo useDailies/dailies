@@ -1,6 +1,14 @@
 <p align="center"><img src="brand/svg/lockup.svg" alt="dailies" height="72"></p>
 
-<p align="center"><b>Every frame, proven.</b> · <a href="https://daohbofm7o9ia.cloudfront.net/">Live site</a> · <a href="https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4">Watch the film</a></p>
+<p align="center"><b>Every frame, proven.</b></p>
+
+<p align="center">
+  <a href="https://daohbofm7o9ia.cloudfront.net/">Live app</a> ·
+  <a href="https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4">Watch the film</a> ·
+  <a href="https://daohbofm7o9ia.cloudfront.net/docs/mcp">MCP docs</a> ·
+  <a href="https://www.npmjs.com/package/@usedailies/cli">npm</a> ·
+  <a href="https://daohbofm7o9ia.cloudfront.net/pitch">Pitch</a>
+</p>
 
 In September 2026, Claude Opus 5.5 started one-shotting motion design. A one-line prompt became a 15-second showreel. A founder shipped a product promo the model wrote in a single pass ([Steven Tey](https://x.com/steventey/status/2103625902211088880): *“Claude Opus 5.5 feels like the first model to have truly solved video animation.”*). Video became code: a React file an agent writes, renders and calls done.
 
@@ -20,7 +28,8 @@ Everyone used Kane to test their code. I’m a designer, and I used it to test w
 - [Who it is for](#who-it-is-for)
 - [Lane](#lane)
 - [Important links](#important-links)
-- [How to demo (3 minutes)](#how-to-demo-3-minutes)
+- [How to use dailies (5 minutes, with your own Claude Code)](#how-to-use-dailies-5-minutes-with-your-own-claude-code)
+- [How to demo the studio (3 minutes)](#how-to-demo-the-studio-3-minutes)
 - [Use dailies from your own Claude Code or Cursor (MCP)](#use-dailies-from-your-own-claude-code-or-cursor-mcp)
 - [Built with](#built-with)
 - [Prerequisites](#prerequisites)
@@ -88,17 +97,68 @@ On top of that, Kane judges every criterion on every cut after every change. The
 
 | | |
 | --- | --- |
-| **Live site** (recorded runs replay, no install) | [daohbofm7o9ia.cloudfront.net](https://daohbofm7o9ia.cloudfront.net/) |
-| **The film** (2:41: the pitch, the walkthrough, and the guide to using dailies from your own Claude Code) | [daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4](https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4) |
-| **Pitch** | [`/pitch`](https://daohbofm7o9ia.cloudfront.net/pitch) ([preview](docs/media/11-pitch.png)) |
+| **Live app** (sign up, connect your agent, watch recorded runs) | [daohbofm7o9ia.cloudfront.net](https://daohbofm7o9ia.cloudfront.net/) |
+| **The film** (2:41: the pitch, the walkthrough, and a guide to using dailies from Claude Code) | [watch](https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4) |
+| **MCP docs** (Claude Code, Cursor, any MCP client) | [`/docs/mcp`](https://daohbofm7o9ia.cloudfront.net/docs/mcp) · source [`docs/MCP.md`](docs/MCP.md) |
+| **CLI on npm** | [`@usedailies/cli`](https://www.npmjs.com/package/@usedailies/cli): `npx @usedailies/cli login` |
+| **Claude Code plugin** | `claude plugin marketplace add useDailies/dailies` → `claude plugin install dailies@dailies` ([`plugins/dailies`](plugins/dailies)) |
+| **Source** | [github.com/useDailies/dailies](https://github.com/useDailies/dailies) (MIT) |
+| **Pitch deck** | [`/pitch`](https://daohbofm7o9ia.cloudfront.net/pitch) |
 | **Brand kit** | [`/brand`](https://daohbofm7o9ia.cloudfront.net/brand) · source in [`brand/`](brand/) |
-| **Recorded runs** | [`apps/studio/public/recorded/`](apps/studio/public/recorded/): events, versions, Kane’s-eye screenshots, designed tests |
+| **Recorded runs** (replay in the app, no install) | [Kestrel catch and fix](https://daohbofm7o9ia.cloudfront.net/p/kestrel-runner-launch-spot-a3eb?replay=1) · [Halo via the MCP](https://daohbofm7o9ia.cloudfront.net/p/halo-smart-lamp-launch-spot-d971?replay=1) · data in [`apps/studio/public/recorded/`](apps/studio/public/recorded/) |
 | **Kane evidence** | [`docs/kane-runs/`](docs/kane-runs/): every round, condition and verdict, readable on GitHub |
-| **Showcase run** | [`docs/kane-runs/kestrel-runner-launch-spot-a3eb`](docs/kane-runs/kestrel-runner-launch-spot-a3eb/README.md) |
 
-## How to demo (3 minutes)
+## How to use dailies (5 minutes, with your own Claude Code)
 
-You need Node 20+, Chrome, Claude Code logged in and Kane CLI logged in (see [Prerequisites](#prerequisites)).
+You need [Claude Code](https://claude.com/claude-code) and Node 20+. Kane CLI runs on the dailies server, so you don't need to install it.
+
+**1. Open dailies and create an account.** Go to [the live app](https://daohbofm7o9ia.cloudfront.net/) and choose **Sign in → Create an account**. Every video your agent makes is saved there.
+
+![The dailies landing page](docs/media/01-home.png)
+
+**2. Install the plugin and sign in.** The plugin bundles the dailies MCP server, the Kane-gated Stop hook and the `/dailies:video` skill.
+
+```bash
+claude plugin marketplace add useDailies/dailies
+claude plugin install dailies@dailies
+npx @usedailies/cli login        # or ask Claude: "sign in to dailies"
+```
+
+`login` opens a page with a code. Check that it matches your terminal and press **Approve**. Your agent receives a revocable token for your account, never your password.
+
+![Approving the device sign-in](docs/media/13-device-approve.png)
+
+**3. Write a storyboard** at `video/storyboard.md`: shots with timecodes, exact copy, cuts and platform rules. `npx @usedailies/cli init --plugin` writes a template to start from. See [Writing a storyboard](docs/MCP.md#writing-a-storyboard).
+
+**4. Ask Claude to make the video.**
+
+```bash
+claude "/dailies:video"
+```
+
+Claude then:
+1. calls `dailies_start`, and Kane CLI designs the acceptance criteria from your storyboard;
+2. writes `video/Video.tsx` in your repo;
+3. calls `dailies_review`, and Kane judges every cut, frame by frame, in a real browser;
+4. fixes whatever Kane finds.
+
+When Claude tries to stop, the Stop hook runs the review again, and Claude can't finish while a check fails. This is a real session (lightly condensed): the hook blocked a 9:16 button in the platform band, and Claude fixed it before it was allowed to stop.
+
+![A real Claude Code session with dailies: review, Stop-hook block, fix, verified](docs/media/16-claude-session.png)
+
+**5. Watch it in your account.** The spot appears under **Your spots**, live while it runs. The **Activity** drawer shows every MCP call, every Kane round with its exact conditions, and every Stop-hook decision.
+
+![Your spots and connected agents](docs/media/14-account.png)
+
+![An agent's spot in the studio: verdicts, corrections and the MCP activity log](docs/media/15-mcp-spot.png)
+
+**Cursor or another MCP client?** `npx @usedailies/cli init --cursor` writes `.cursor/mcp.json`, a `stop` hook that sends Kane's findings back as a follow-up message, and a rule. Everything else is in the [MCP docs](https://daohbofm7o9ia.cloudfront.net/docs/mcp).
+
+![The MCP docs](docs/media/12-mcp-docs.png)
+
+## How to demo the studio (3 minutes)
+
+This is the self-hosted studio, where dailies runs Claude Code and Kane CLI on your machine: one click drafts, reviews and corrects. The hosted app is MCP-only (your own agent composes). You need Node 20+, Chrome, Claude Code logged in and Kane CLI logged in (see [Prerequisites](#prerequisites)).
 
 ```bash
 npm install
@@ -178,11 +238,11 @@ dailies also runs inside **your** agent session. Your agent writes the video in 
 # Claude Code: the plugin bundles the MCP server, the Kane-gated Stop hook and /dailies:video
 claude plugin marketplace add useDailies/dailies
 claude plugin install dailies@dailies
-node plugins/dailies/bin/dailies.mjs login      # or ask Claude to "sign in to dailies"
+npx @usedailies/cli login                       # or ask Claude to "sign in to dailies"
 claude "/dailies:video"                         # composes video/storyboard.md; Kane judges it
 
 # Cursor (or Claude Code without the plugin)
-node plugins/dailies/bin/dailies.mjs init --cursor   # .cursor/mcp.json, hooks.json (stop → followup), rules
+npx @usedailies/cli init --cursor               # .cursor/mcp.json, hooks.json (stop → followup), rules
 ```
 
 | Piece | What it is |
