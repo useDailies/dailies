@@ -5,16 +5,19 @@ set -euo pipefail
 BUCKET=${BUCKET:?set BUCKET}
 REGION=${REGION:-us-east-1}
 PUBLIC_URL=${PUBLIC_URL:?set PUBLIC_URL}
-param() { aws ssm get-parameter --region "$REGION" --name "/dailies/$1" --with-decryption --query Parameter.Value --output text; }
+param() { aws ssm get-parameter --region "$REGION" --name "/dailies/$1" --with-decryption --query Parameter.Value --output text 2>/dev/null || true; }
+KANE_U=$(param KANE_USERNAME); KANE_K=$(param KANE_ACCESS_KEY)
 
 aws s3 cp "s3://$BUCKET/_deploy/server/app.tgz" /tmp/dailies-app.tgz --region "$REGION"
 rm -rf /opt/dailies.next && mkdir -p /opt/dailies.next
 tar -xzf /tmp/dailies-app.tgz -C /opt/dailies.next
 ln -sfn /var/lib/dailies/workspaces /opt/dailies.next/workspaces
-cat > /opt/dailies.next/.env <<ENV
-KANE_USERNAME=$(param KANE_USERNAME)
-KANE_ACCESS_KEY=$(param KANE_ACCESS_KEY)
-ENV
+if [ -n "$KANE_U" ] && [ -n "$KANE_K" ]; then
+  printf 'KANE_USERNAME=%s\nKANE_ACCESS_KEY=%s\n' "$KANE_U" "$KANE_K" > /opt/dailies.next/.env
+else
+  echo "warning: /dailies/KANE_USERNAME or /dailies/KANE_ACCESS_KEY missing in SSM; starting without Kane CLI" >&2
+  : > /opt/dailies.next/.env
+fi
 chmod 600 /opt/dailies.next/.env
 chown -R dailies:dailies /opt/dailies.next
 cd /opt/dailies.next
@@ -22,8 +25,10 @@ sudo -u dailies -H npm ci --no-audit --no-fund
 sudo -u dailies -H npx vite build apps/studio --outDir "$PWD/dist-studio" --emptyOutDir
 
 # Kane CLI login for the service user (basic auth, no prompts).
-sudo -u dailies -H kane-cli login --username "$(param KANE_USERNAME)" --access-key "$(param KANE_ACCESS_KEY)" \
-  --project-id "$(param KANE_PROJECT_ID)" --folder-id "$(param KANE_FOLDER_ID)" </dev/null >/dev/null
+if [ -n "$KANE_U" ] && [ -n "$KANE_K" ]; then
+  sudo -u dailies -H kane-cli login --username "$KANE_U" --access-key "$KANE_K" \
+    --project-id "$(param KANE_PROJECT_ID)" --folder-id "$(param KANE_FOLDER_ID)" </dev/null >/dev/null || echo "warning: kane-cli login failed" >&2
+fi
 
 cat > /etc/systemd/system/dailies.service <<UNIT
 [Unit]
