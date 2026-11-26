@@ -84,7 +84,7 @@ export interface HookItem {
   kind: 'hook';
   key: string;
   ts: number;
-  state: 'stop' | 'block' | 'allow' | 'error';
+  state: 'stop' | 'block' | 'allow' | 'error' | 'agent';
   text: string;
   detail?: string;
 }
@@ -253,6 +253,24 @@ export function buildActivity(events: DailiesEvent[]): Entry[] {
         break;
       case 'hook.allow':
         out.push({ kind: 'hook', key: `h${e.seq}`, ts: e.ts, state: 'allow', text: d.note });
+        break;
+      case 'agent.start':
+        out.push({ kind: 'hook', key: `a${e.seq}`, ts: e.ts, state: 'agent', text: `${d.client} started this spot through the dailies MCP server · composing in ${d.dir}/` });
+        break;
+      case 'agent.submit':
+        out.push({
+          kind: 'hook',
+          key: `a${e.seq}`,
+          ts: e.ts,
+          state: d.trigger === 'hook' ? 'stop' : 'agent',
+          text:
+            d.trigger === 'hook'
+              ? `${d.client} tried to stop — the dailies Stop hook hands it to Kane${d.changed ? '' : ' (no change)'}`
+              : `${d.client} asked Kane to review (dailies_review)${d.changed ? ` · ${d.files} file${d.files === 1 ? '' : 's'}` : ' · no change'}`,
+        });
+        break;
+      case 'agent.verdict':
+        out.push({ kind: 'hook', key: `a${e.seq}`, ts: e.ts, state: 'block', text: 'Kane’s findings returned to the agent', detail: d.reason });
         break;
       case 'hook.error':
         out.push({ kind: 'hook', key: `h${e.seq}`, ts: e.ts, state: 'error', text: `Hook could not verify: ${d.error}` });

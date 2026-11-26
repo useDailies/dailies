@@ -115,16 +115,16 @@ export function EntryView({ e, projectId, defaultOpen = false, onZoom }: { e: En
     case 'round':
       return <RoundView r={e} projectId={projectId} defaultOpen={defaultOpen} onZoom={onZoom} />;
     case 'hook': {
-      const cls = e.state === 'block' ? 'block' : e.state === 'allow' ? 'allow' : '';
+      const cls = e.state === 'block' ? 'block' : e.state === 'allow' ? 'allow' : e.state === 'agent' ? 'agent' : '';
       return (
         <Coll
           icon={
             <span className={`sglyph hook ${cls}`}>
-              <Icon name={e.state === 'allow' ? 'check' : e.state === 'block' ? 'x' : 'stop'} size={9} stroke={3} />
+              <Icon name={e.state === 'allow' ? 'check' : e.state === 'block' ? 'x' : e.state === 'agent' ? 'plug' : 'stop'} size={9} stroke={3} />
             </span>
           }
           title={e.text}
-          sub={e.state === 'stop' ? 'Claude Code Stop hook' : e.state === 'block' ? 'decision: block' : e.state === 'allow' ? 'decision: allow' : 'failed open'}
+          sub={e.state === 'stop' ? 'Stop hook' : e.state === 'block' ? 'decision: block' : e.state === 'allow' ? 'decision: allow' : e.state === 'agent' ? 'dailies MCP' : 'failed open'}
         >
           {e.detail ? <pre className="codeblock">{e.detail}</pre> : null}
         </Coll>

@@ -6,8 +6,15 @@ import type { Project } from '@dailies/shared';
  */
 export const STATIC = import.meta.env.VITE_DAILIES_STATIC === '1';
 
+/** Set by an inspection sheet: the spot's read-only key, for Kane's login-less browsers. */
+let inspectKey: string | null = null;
+export function setInspectKey(k: string | null | undefined) {
+  inspectKey = k ?? null;
+}
+export const readHeaders = (): Record<string, string> => (inspectKey ? { 'x-dailies-key': inspectKey } : {});
+
 async function j<T>(url: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(url, { ...init, headers: { 'content-type': 'application/json', ...(init?.headers ?? {}) } });
+  const res = await fetch(url, { ...init, headers: { 'content-type': 'application/json', ...readHeaders(), ...(init?.headers ?? {}) } });
   const body = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error((body as { error?: string }).error ?? `${res.status} ${res.statusText}`);
   return body as T;
@@ -19,6 +26,30 @@ export interface Health {
   kane: { version: string | null; user: string | null; credits: number | null };
   studioUrl: string;
 }
+
+export interface Me {
+  user: { id: string; email: string; name: string; createdAt: string } | null;
+  spots?: number;
+  agentSpots?: number;
+}
+export interface CliToken {
+  id: string;
+  label: string;
+  createdAt: string;
+  lastUsedAt: string | null;
+  expiresAt: string | null;
+}
+
+export const auth = {
+  me: () => (STATIC ? Promise.resolve<Me>({ user: null }) : j<Me>('/api/auth/me').catch(() => ({ user: null }) as Me)),
+  signup: (email: string, password: string, name?: string) => j<Me>('/api/auth/signup', { method: 'POST', body: JSON.stringify({ email, password, name }) }),
+  login: (email: string, password: string) => j<Me>('/api/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
+  logout: () => j<{ ok: true }>('/api/auth/logout', { method: 'POST', body: '{}' }),
+  deviceInfo: (code: string) => j<{ user_code: string; client: string; expires_in: number }>(`/api/auth/device/info?code=${encodeURIComponent(code)}`),
+  approve: (code: string, approve: boolean) => j<{ ok: true; client: string; approved: boolean }>('/api/auth/device/approve', { method: 'POST', body: JSON.stringify({ code, approve }) }),
+  tokens: () => j<CliToken[]>('/api/auth/tokens'),
+  revoke: (id: string) => j<{ ok: true }>(`/api/auth/tokens/${id}`, { method: 'DELETE' }),
+};
 
 export const api = {
   health: () => (STATIC ? Promise.resolve(null) : j<Health>('/api/health').catch(() => null)),
@@ -35,7 +66,7 @@ export const api = {
       ? j<{ added: boolean; removed: boolean; value: string; count: number }[]>(`/recorded/${id}/diff-${a}-${b}.json`)
       : j<{ added: boolean; removed: boolean; value: string; count: number }[]>(`/api/projects/${id}/diff/${a}/${b}`),
   source: async (id: string, v: number | 'live') => {
-    const res = await fetch(STATIC ? `/recorded/${id}/v${v}/Video.tsx` : `/api/projects/${id}/source/${v}`);
+    const res = await fetch(STATIC ? `/recorded/${id}/v${v}/Video.tsx` : `/api/projects/${id}/source/${v}`, { headers: readHeaders() });
     return res.ok ? res.text() : '';
   },
   tests: (id: string) => (STATIC ? j<{ file: string; body: string }[]>(`/recorded/${id}/tests.json`) : j<{ file: string; body: string }[]>(`/api/projects/${id}/tests`)),

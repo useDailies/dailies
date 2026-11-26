@@ -1,3 +1,4 @@
+import { readHeaders } from './api';
 import { useEffect, useState, type ComponentType } from 'react';
 import './deps';
 import { moduleUrl } from './api';
@@ -22,7 +23,7 @@ export async function loadComposition(projectId: string, version: number | 'live
     cache.set(
       url,
       (async () => {
-        const res = await fetch(url);
+        const res = await fetch(url, { headers: readHeaders() });
         if (!res.ok) {
           const body = await res.json().catch(() => ({ error: res.statusText }));
           throw new Error(body.error ?? `module ${res.status}`);

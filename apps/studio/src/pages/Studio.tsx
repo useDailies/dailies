@@ -201,7 +201,7 @@ export default function Studio() {
         right={
           <>
             <AgentChips claudeActive={state.claudeWorking} kaneActive={state.kaneWorking} />
-            <PrimaryAction busy={busy} hasDraft={Boolean(latest)} reviewed={reviewed} sealed={sealed} hasTests={Boolean(project.plan?.tests.length)} onAct={act} live={live} />
+            <PrimaryAction busy={busy} hasDraft={Boolean(latest)} reviewed={reviewed} sealed={sealed} hasTests={Boolean(project.plan?.tests.length)} onAct={act} live={live} agent={project.source === 'mcp' ? (project.agent?.client ?? 'your agent') : undefined} />
             <div style={{ position: 'relative' }} ref={menuRef}>
               <button type="button" className="iconbtn" onClick={() => setMenu(!menu)} aria-label="More" aria-expanded={menu}>
                 <Icon name="more" />
@@ -576,6 +576,7 @@ function PrimaryAction({
   hasTests,
   onAct,
   live,
+  agent,
 }: {
   busy: string | null;
   hasDraft: boolean;
@@ -584,8 +585,41 @@ function PrimaryAction({
   hasTests: boolean;
   onAct: (a: 'draft' | 'review' | 'seal' | 'cancel') => void;
   live: boolean;
+  /** set for spots an external agent drives over MCP: the agent writes and asks for reviews */
+  agent?: string;
 }) {
   if (!live) return <span className="tag">recorded run</span>;
+  if (agent) {
+    if (busy === 'agent' || busy === 'plan')
+      return (
+        <span className="agent-pill live">
+          <span className="spinner" /> {busy === 'plan' ? 'Kane is designing the tests' : `Kane is judging for ${agent}`}
+        </span>
+      );
+    if (busy === 'seal')
+      return (
+        <button type="button" className="btn" onClick={() => onAct('cancel')}>
+          <span className="spinner" /> Stop
+        </button>
+      );
+    if (!hasDraft)
+      return (
+        <span className="agent-pill">
+          <Icon name="plug" size={13} /> Waiting for {agent} to write the composition
+        </span>
+      );
+    if (reviewed && !sealed && hasTests)
+      return (
+        <button type="button" className="btn seal" onClick={() => onAct('seal')}>
+          <Icon name="seal" size={14} /> Seal proof
+        </button>
+      );
+    return (
+      <span className="agent-pill">
+        <Icon name="plug" size={13} /> via {agent} · MCP
+      </span>
+    );
+  }
   if (busy)
     return (
       <button type="button" className="btn" onClick={() => onAct('cancel')}>

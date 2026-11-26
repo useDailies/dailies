@@ -12,6 +12,10 @@ const Pitch = lazy(() => import('./pages/Pitch'));
 const NewProject = lazy(() => import('./pages/NewProject'));
 const BrandKit = lazy(() => import('./pages/BrandKit'));
 const Still = lazy(() => import('./pages/Still'));
+const Login = lazy(() => import('./pages/Login'));
+const Device = lazy(() => import('./pages/Device'));
+const Account = lazy(() => import('./pages/Account'));
+const McpDocs = lazy(() => import('./pages/McpDocs'));
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -23,9 +27,14 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/p/:id" element={<Studio />} />
           <Route path="/p/:id/compare" element={<Compare />} />
           <Route path="/inspect/:id/:v/sheet" element={<Inspect />} />
+          <Route path="/inspect/:id/:v/sheet/:key" element={<Inspect />} />
           <Route path="/pitch" element={<Pitch />} />
           <Route path="/brand" element={<BrandKit />} />
           <Route path="/still/:id/:v" element={<Still />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/device" element={<Device />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/docs/mcp" element={<McpDocs />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </Suspense>

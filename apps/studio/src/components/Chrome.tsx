@@ -1,6 +1,8 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { api, STATIC, type Health } from '../lib/api';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { api, auth, STATIC, type Health } from '../lib/api';
+import { refreshMe, useMe } from '../lib/session';
+import { useDismiss } from './ui';
 import { Face, Icon } from './ui';
 import { Lockup } from './Brand';
 
@@ -68,7 +70,10 @@ export function TopBar({ children, right }: { children?: ReactNode; right?: Reac
           </nav>
         )}
       </div>
-      <div className="topbar-r">{right ?? <AgentChips />}</div>
+      <div className="topbar-r">
+        {right ?? <AgentChips />}
+        <AccountMenu compact />
+      </div>
     </header>
   );
 }
@@ -119,6 +124,7 @@ export function SiteHeader({ onDemo, demoLabel = 'Try the demo', busy }: { onDem
         <nav className="site-nav" aria-label="Main">
           <a href="#how">How it works</a>
           <a href="#spots">Spots</a>
+          <NavLink to="/docs/mcp">MCP</NavLink>
           <NavLink to="/pitch">Pitch</NavLink>
           <NavLink to="/brand">Brand</NavLink>
         </nav>
@@ -131,6 +137,7 @@ export function SiteHeader({ onDemo, demoLabel = 'Try the demo', busy }: { onDem
               <span>{h ? (h.claude.installed && h.kane.user ? 'agents ready' : 'agent missing') : 'checking'}</span>
             </span>
           ) : null}
+          <AccountMenu />
           {onDemo ? (
             <button type="button" className="btn ink" onClick={onDemo} disabled={busy}>
               {busy ? <span className="spinner" /> : <Icon name="spark" size={14} />} {demoLabel}
@@ -138,6 +145,61 @@ export function SiteHeader({ onDemo, demoLabel = 'Try the demo', busy }: { onDem
           ) : null}
         </div>
       </header>
+    </div>
+  );
+}
+
+/** Sign in, or the account's avatar with its menu. Hidden in the static replay site. */
+export function AccountMenu({ compact }: { compact?: boolean }) {
+  const me = useMe();
+  const [open, setOpen] = useState(false);
+  const ref = useDismiss(open, () => setOpen(false));
+  const nav = useNavigate();
+  const loc = useLocation();
+  if (STATIC || !me) return null;
+  if (!me.user)
+    return (
+      <Link to={`/login?next=${encodeURIComponent(loc.pathname + loc.search)}`} className={`btn ${compact ? 'sm ghost' : 'ghost'}`}>
+        <Icon name="user" size={14} /> Sign in
+      </Link>
+    );
+  const initials = me.user.name
+    .split(/\s+/)
+    .map((w) => w[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+  return (
+    <div className="acct" ref={ref as React.RefObject<HTMLDivElement>}>
+      <button type="button" className="acct-btn" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Account">
+        <span className="acct-av">{initials}</span>
+        {compact ? null : <span className="acct-name">{me.user.name}</span>}
+      </button>
+      {open ? (
+        <div className="pop menu acct-menu">
+          <div className="acct-head">
+            <b>{me.user.name}</b>
+            <span>{me.user.email}</span>
+          </div>
+          <Link to="/account" onClick={() => setOpen(false)}>
+            <Icon name="user" size={14} /> Your spots &amp; agents
+          </Link>
+          <Link to="/docs/mcp" onClick={() => setOpen(false)}>
+            <Icon name="terminal" size={14} /> Connect Claude Code / Cursor
+          </Link>
+          <button
+            type="button"
+            onClick={async () => {
+              await auth.logout();
+              await refreshMe();
+              setOpen(false);
+              nav('/');
+            }}
+          >
+            <Icon name="logout" size={14} /> Sign out
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }

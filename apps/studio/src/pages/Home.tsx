@@ -9,6 +9,7 @@ import { summarize, verdictMap, worstVersion } from '../lib/verdicts';
 import { SiteHeader } from '../components/Chrome';
 import { corrections } from '../components/Panels';
 import { Face, Icon, VMark } from '../components/ui';
+import { useMe } from '../lib/session';
 
 const FILM = import.meta.env.VITE_FILM_URL as string | undefined;
 
@@ -17,12 +18,15 @@ export default function Home() {
   const [projects, setProjects] = useState<Project[] | null>(null);
   const [creating, setCreating] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const me = useMe();
   useEffect(() => {
     api.projects().then(setProjects).catch(() => setProjects([]));
-  }, []);
+  }, [me?.user?.id]);
+  const mine = (projects ?? []).filter((p) => me?.user && p.owner === me.user.id);
+  const examples = (projects ?? []).filter((p) => !p.owner);
   // The run that best shows the loop: most corrections, then most rounds.
   const showcase = useMemo(
-    () => (projects ?? []).filter((p) => p.versions.length && p.rounds.length).sort((a, b) => corrections(b).filter((x) => x.fixedIn).length - corrections(a).filter((x) => x.fixedIn).length || b.rounds.length - a.rounds.length)[0],
+    () => (projects ?? []).filter((p) => !p.owner && p.versions.length && p.rounds.length).sort((a, b) => corrections(b).filter((x) => x.fixedIn).length - corrections(a).filter((x) => x.fixedIn).length || b.rounds.length - a.rounds.length)[0],
     [projects],
   );
 
@@ -101,13 +105,42 @@ export default function Home() {
         ))}
       </section>
 
+      {me?.user ? (
+        <section className="gallery" id="your-spots">
+          <div className="gallery-head">
+            <h2>Your spots</h2>
+            <span className="muted">
+              {mine.length} · <Link to="/account">account &amp; connected agents</Link>
+            </span>
+          </div>
+          {mine.length ? (
+            <div className="cards">
+              {mine.map((p) => (
+                <Card key={p.id} p={p} />
+              ))}
+            </div>
+          ) : (
+            <div className="empty-spots">
+              <Icon name="terminal" size={18} />
+              <div>
+                <b>Nothing yet.</b>
+                <span>Connect Claude Code or Cursor and ask it to make a video. It shows up here, live.</span>
+              </div>
+              <Link to="/docs/mcp" className="btn sm">
+                MCP quickstart
+              </Link>
+            </div>
+          )}
+        </section>
+      ) : null}
+
       <section className="gallery" id="spots">
         <div className="gallery-head">
-          <h2>Spots</h2>
-          <span className="muted">{projects ? `${projects.length} project${projects.length === 1 ? '' : 's'}` : ''}</span>
+          <h2>{me?.user ? 'Examples' : 'Spots'}</h2>
+          <span className="muted">{projects ? `${examples.length} project${examples.length === 1 ? '' : 's'}` : ''}</span>
         </div>
         <div className="cards">
-          {projects?.map((p) => (
+          {examples.map((p) => (
             <Card key={p.id} p={p} />
           ))}
         </div>
@@ -164,7 +197,7 @@ function DemoCard({ project }: { project: Project | null }) {
   );
 }
 
-function Card({ p }: { p: Project }) {
+export function Card({ p }: { p: Project }) {
   const latest = p.versions.at(-1)?.n ?? null;
   const { comp } = useComposition(latest ? p.id : undefined, latest);
   const final = summarize(verdictMap(p, latest).values());
@@ -180,7 +213,7 @@ function Card({ p }: { p: Project }) {
         ) : (
           <div className="poster-empty">{p.busy ? <span className="spinner" /> : 'No draft yet'}</div>
         )}
-        {p.recorded ? <span className="ribbon">recorded run</span> : null}
+        {p.recorded ? <span className="ribbon">recorded run</span> : p.source === 'mcp' ? <span className="ribbon agent">via {p.agent?.client ?? 'agent'}</span> : null}
       </div>
       <div className="card-body">
         <h3>{p.title}</h3>

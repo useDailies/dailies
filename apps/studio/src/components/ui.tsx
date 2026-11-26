@@ -17,6 +17,12 @@ const PATHS: Record<string, ReactNode> = {
   x: <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" />,
   spark: <path d="M12 3.5l2 5.5 5.5 2-5.5 2-2 5.5-2-5.5-5.5-2 5.5-2z" />,
   download: <path d="M12 4v11M7 10.5l5 5 5-5M5 20h14" />,
+  copy: <path d="M9 9h10v11H9zM5 15V4h10" />,
+  user: <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20a7.5 7.5 0 0 1 15 0" />,
+  logout: <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 16l-4-4 4-4M6 12h10" />,
+  terminal: <path d="M4 5h16v14H4zM8 10l2.5 2L8 14M12.5 14H16" />,
+  key: <path d="M14.5 9.5a4 4 0 1 1-1.2 2.8L4 21.6V19h2.5v-2.5H9l2.2-2.2M16.5 7.5h.01" />,
+  doc: <path d="M7 3h7l4 4v14H7zM14 3v4h4M9.5 12h6M9.5 16h6" />,
   eye: (
     <>
       <path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z" />

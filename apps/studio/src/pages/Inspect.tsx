@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { setInspectKey } from '../lib/api';
 import { Thumbnail } from '@remotion/player';
 import { CUTS, isCutId, parseStoryboard, sampleFrames, formatTimecode, type CutId, type Project } from '@dailies/shared';
 import { api } from '../lib/api';
@@ -18,7 +19,8 @@ import '../sheet.css';
  *  - "ready" once every frame has rendered (dailies waits for data-ready).
  */
 export default function Inspect() {
-  const { id, v } = useParams();
+  const { id, v, key } = useParams();
+  setInspectKey(key);
   const [params, setParams] = useSearchParams();
   const cutParam = params.get('cut') ?? '16x9';
   const cut: CutId = isCutId(cutParam) ? cutParam : '16x9';
