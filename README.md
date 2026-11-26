@@ -311,7 +311,7 @@ read its vertical-cut header, then assert duration is 12 seconds and frame rate 
 
 ![The contact sheet Kane CLI judged for the 9:16 cut of v1](docs/media/09-contact-sheet.png)
 
-`/inspect/<project>/<version>/sheet?cut=9x16` ([`Inspect.tsx`](apps/studio/src/pages/Inspect.tsx)) is the page Kane looks at. Its styles live in their own [`sheet.css`](apps/studio/src/sheet.css), so restyling the studio can never change what Kane sees. It contains:
+`/inspect/<project>/<version>/sheet?cut=9x16` ([`Inspect.tsx`](apps/studio/src/pages/Inspect.tsx)) is the page Kane looks at. Its styles, including its own page colours, live in [`sheet.css`](apps/studio/src/sheet.css), so restyling the studio does not change what Kane sees. That guard is learned: after the redesign, the sheet briefly inherited the light page background, and its measured report rendered near-invisible in Kane's screenshots. It contains:
 
 - **Header:** measured pixel size, fps, duration, and the shots as the composition declares them.
 - **Text placement report:** every *visible* text layer that leaves the frame or touches a reserved band, plus the smallest text size on the cut.
@@ -433,6 +433,7 @@ The other runs show the rest of the product honestly:
 | `kestrel-runner-launch-spot-477c` (recorded) | Three change requests, each gated by a full Kane sweep, 69/69 every time. Claude worked around the 9:16 rule itself, and Kane proved it |
 | `kestrel-runner-launch-spot-9fc9` (26 Nov, demo storyboard) | Draft 68/68. Sealed: 6/7 designed tests passed (one failed; reason shown in the sealed card) |
 | `kestrel-runner-launch-spot-5fe1` (26 Nov, demo storyboard, new UI) | Draft 68/68 in a 43 s sweep |
+| `halo-smart-lamp-launch-spot-d971` (26 Nov, **via the dailies MCP** from a separate repo, Claude Code plugin) | v1 and v2 28/28 through `dailies_review`. A client request for a sticky buy bar: Claude kept 9:16 compliant itself (v3 28/28). A hand-planted defect: the **Stop hook blocked** Claude (27/28, `ac-16`), Claude fixed it, and after a Kane wobble on `ac-7`, v8 passed 28/28 and Claude was allowed to stop |
 
 ## How this meets the brief
 
@@ -539,6 +540,11 @@ builds a static studio that replays the run with its real rhythm (play, 1×–20
   - In early runs, Kane passed a 9:16 safe-zone criterion that the facts contradicted, and failed a “three cuts’ dimensions” criterion on a one-cut sheet. Both came from ambiguous instruments and conditions. Those are now fixed with per-band columns, a placement report, and conditions that say “judge only this cut”.
   - Element-box measurement once reported a centred caption as touching the side bands. Text is now measured by its glyphs.
   - In one unrecorded run, a regression sweep failed “all text stays inside the frame” on the 1:1 cut while the sheet’s own report said no text left the frame. Claude was sent back once more for a likely false positive. The correction prompt includes the measured report, so Claude can see the contradiction, and the round cap bounds the cost.
+- **Kane can get the polarity of a check backwards, so dailies guards it with its own measurement.**
+  - **What happened:** in the MCP test run (`halo-smart-lamp-launch-spot-d971`), I moved the 9:16 button into the bottom band by hand. The sheet's report measured it (`bottom 35% band: button “Pre-order now” at F11, F12`), but Kane passed `ac-16` ("bottom-band occupancy: true; equals true → PASS").
+  - **Fix 1, clearer conditions:** every condition now states that *true means the criterion holds*, and for placement rules, that a report line naming any layer means it is violated. With that wording, Kane failed the same defect correctly on the next sweep.
+  - **Fix 2, a deterministic guard:** if Kane passes a placement rule while the sheet's own measurement shows a layer in the forbidden band, the verdict becomes a fail, marked `measurement override · Kane said pass` in the Activity log. The guard never turns a Kane fail into a pass.
+- **Kane's visual judgement can wobble between rounds.** In the same run, "the lamp is fully inside the frame by 0:01" passed on v4 and v5 and then failed on v6 and v7, with identical lamp code. The safe-zone hatching over the 9:16 bottom band was likely read as the frame edge. The sheet now measures *Fully inside frame* for graphic layers as well as text, and tells Kane the hatching is a guide. The loop absorbed it: Claude reworked the glow, and v8 passed the targeted re-check and the regression sweep.
 - **One-shot drafts are not always wrong.** Kane failed four of the first six launch-spot drafts on their first sweep: three put text inside the 9:16 platform bands, and one missed the €149 tag at 0:06. Two were clean, and the 26 November drafts of the demo storyboard were clean too (68/68 twice). When asked for changes that pressure the rule, Claude worked around it by itself. The value is that you don’t have to watch the video to find out which kind of run you got.
 - **A designed test can be stricter than the storyboard.** In one seal, Kane’s own test asserted the price tag on the 0:03 frame, but the storyboard only requires it at 0:04 and 0:06. The test failed for a reason that wasn’t the video. The sealed card shows each test’s failing step and Kane’s reason so you can tell the difference.
 - **Seal is the expensive step.** Authoring Kane’s own tests costs about 400–455 credits for 7 tests on the launch spot. Replays are free, and the review loop is cheap by comparison (see [Accuracy vs credits](#accuracy-vs-credits)).

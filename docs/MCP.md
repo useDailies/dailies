@@ -49,6 +49,7 @@ agent stops ─────────── Stop hook ─────▶ same 
   - the storyboard line each criterion cites;
   - the measured text-placement report;
   - the contact sheet image.
+- **Guard.** dailies measures text placement in the browser itself. If Kane passes a placement rule while the measurement shows a layer in the forbidden band, the verdict is a fail, labelled as a measurement override.
 - **Gate.** When the agent tries to stop, the dailies Stop hook runs the same review. Claude Code gets `{"decision":"block"}` and Cursor gets a `followup_message`, until Kane passes the cut or a round cap hands it to a human.
 
 ## Quickstart: Claude Code
