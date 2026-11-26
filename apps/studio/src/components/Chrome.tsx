@@ -2,19 +2,14 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { api, STATIC, type Health } from '../lib/api';
 import { Face, Icon } from './ui';
+import { Lockup } from './Brand';
 
 export { Icon } from './ui';
 
-export function Logo() {
+export function Logo({ height = 24 }: { height?: number }) {
   return (
     <Link to="/" className="logo" aria-label="dailies home">
-      <span className="logo-mark">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <rect x="3" y="6" width="18" height="12" rx="2.5" stroke="#fff" strokeWidth="2" />
-          <path d="M8.6 12.2l2.4 2.4 4.6-4.6" stroke="#22c55e" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </span>
-      dailies
+      <Lockup height={height} />
     </Link>
   );
 }
@@ -102,5 +97,47 @@ export function IconLink({ to, icon, label }: { to: string; icon: string; label:
     <Link to={to} className="btn ghost sm">
       <Icon name={icon} size={14} /> {label}
     </Link>
+  );
+}
+
+/** Landing-only header: floating glass bar, centred nav, the full lockup. */
+export function SiteHeader({ onDemo, demoLabel = 'Try the demo', busy }: { onDemo?: () => void; demoLabel?: string; busy?: boolean }) {
+  const h = useHealth();
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 8);
+    on();
+    window.addEventListener('scroll', on, { passive: true });
+    return () => window.removeEventListener('scroll', on);
+  }, []);
+  return (
+    <div className={`site-header-wrap ${scrolled ? 'scrolled' : ''}`}>
+      <header className="site-header">
+        <Link to="/" className="logo" aria-label="dailies home">
+          <Lockup height={28} />
+        </Link>
+        <nav className="site-nav" aria-label="Main">
+          <a href="#how">How it works</a>
+          <a href="#spots">Spots</a>
+          <NavLink to="/pitch">Pitch</NavLink>
+          <NavLink to="/brand">Brand</NavLink>
+        </nav>
+        <div className="site-right">
+          {!STATIC ? (
+            <span className="site-agents" title={`Claude Code ${h?.claude.version ?? ''} · Kane CLI ${h?.kane.version ?? ''}`}>
+              <Face who="claude" size={18} />
+              <Face who="kane" size={18} />
+              <i className={`dot ${h?.claude.installed && h?.kane.user ? 'ok' : h ? 'bad' : ''}`} />
+              <span>{h ? (h.claude.installed && h.kane.user ? 'agents ready' : 'agent missing') : 'checking'}</span>
+            </span>
+          ) : null}
+          {onDemo ? (
+            <button type="button" className="btn ink" onClick={onDemo} disabled={busy}>
+              {busy ? <span className="spinner" /> : <Icon name="spark" size={14} />} {demoLabel}
+            </button>
+          ) : null}
+        </div>
+      </header>
+    </div>
   );
 }

@@ -4,7 +4,7 @@ import type { Project } from '@dailies/shared';
 import { api, fileUrl } from '../lib/api';
 import { summarize, verdictMap, worstVersion } from '../lib/verdicts';
 import { corrections } from '../components/Panels';
-import { Logo } from '../components/Chrome';
+import { Lockup } from '../components/Brand';
 import { Face, Icon, VMark } from '../components/ui';
 
 /**
@@ -213,7 +213,7 @@ export default function Pitch() {
         <div className="p-center p-reveal">
           <p className="p-sub">So I built</p>
           <div className="p-logo">
-            <Logo />
+            <Lockup height={110} />
             {Array.from({ length: 16 }, (_, i) => (
               <i key={i} className="p-spark" style={{ ['--a' as string]: `${(i / 16) * 360}deg`, ['--d' as string]: `${(i % 4) * 0.1}s` }} />
             ))}
@@ -368,7 +368,7 @@ export default function Pitch() {
   return (
     <div className={`pitch ${slides[i].tone ?? ''}`} onClick={(e) => !(e.target as HTMLElement).closest('a,button') && setI((x) => Math.min(slides.length - 1, x + 1))}>
       <div className="p-top">
-        <Logo />
+        <Lockup height={22} ink={slides[i].tone === 'ink' ? '#fff' : undefined} mark={slides[i].tone === 'ink' ? 'light' : 'ink'} />
         <span>
           {String(i + 1).padStart(2, '0')} / {slides.length}
         </span>

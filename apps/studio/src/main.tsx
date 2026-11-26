@@ -10,6 +10,8 @@ const Compare = lazy(() => import('./pages/Compare'));
 const Inspect = lazy(() => import('./pages/Inspect'));
 const Pitch = lazy(() => import('./pages/Pitch'));
 const NewProject = lazy(() => import('./pages/NewProject'));
+const BrandKit = lazy(() => import('./pages/BrandKit'));
+const Still = lazy(() => import('./pages/Still'));
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -22,6 +24,8 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/p/:id/compare" element={<Compare />} />
           <Route path="/inspect/:id/:v/sheet" element={<Inspect />} />
           <Route path="/pitch" element={<Pitch />} />
+          <Route path="/brand" element={<BrandKit />} />
+          <Route path="/still/:id/:v" element={<Still />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </Suspense>

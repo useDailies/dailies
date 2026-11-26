@@ -6,9 +6,11 @@ import { api, STATIC } from '../lib/api';
 import { useComposition } from '../lib/composition';
 import { DEMO_STORYBOARD } from '../lib/templates';
 import { summarize, verdictMap, worstVersion } from '../lib/verdicts';
-import { TopBar } from '../components/Chrome';
+import { SiteHeader } from '../components/Chrome';
 import { corrections } from '../components/Panels';
 import { Face, Icon, VMark } from '../components/ui';
+
+const FILM = import.meta.env.VITE_FILM_URL as string | undefined;
 
 export default function Home() {
   const nav = useNavigate();
@@ -43,7 +45,7 @@ export default function Home() {
 
   return (
     <div className="page">
-      <TopBar />
+      <SiteHeader onDemo={tryDemo} demoLabel={STATIC ? 'Watch the demo' : 'Try the demo'} busy={creating} />
       <section className="hero">
         <div>
           <span className="eyebrow">
@@ -65,6 +67,11 @@ export default function Home() {
                 <Icon name="plus" /> New spot
               </Link>
             ) : null}
+            {FILM ? (
+              <a href={FILM} className="btn lg" target="_blank" rel="noreferrer">
+                <Icon name="play" /> Watch the film · 2 min
+              </a>
+            ) : null}
             {showcase && !STATIC ? (
               <Link to={`/p/${showcase.id}?replay=1`} className="btn lg ghost">
                 <Icon name="replay" /> Replay a recorded run
@@ -77,7 +84,24 @@ export default function Home() {
         <DemoCard project={showcase ?? null} />
       </section>
 
-      <section className="gallery">
+      <section className="how" id="how">
+        {[
+          { n: '01', who: null, t: 'Write the storyboard', d: 'Shots, timecodes, exact copy, cuts and platform rules, in markdown.' },
+          { n: '02', who: 'claude', t: 'Claude Code composes', d: 'A Remotion composition for every cut, streamed into the editor as it is typed.' },
+          { n: '03', who: 'kane', t: 'Kane CLI designs and judges', d: 'Criteria from the same storyboard, judged on every frame of every cut in real Chrome.' },
+          { n: '04', who: 'pass', t: 'Claude can’t stop until it holds', d: 'Claude Code’s Stop hook sends every failure back to Claude. Kane re-checks every fix.' },
+        ].map((s) => (
+          <div key={s.n} className="how-step">
+            <span className="how-n">
+              {s.who ? <Face who={s.who as 'claude'} size={16} /> : <Icon name="book" size={14} />} {s.n}
+            </span>
+            <b>{s.t}</b>
+            <span>{s.d}</span>
+          </div>
+        ))}
+      </section>
+
+      <section className="gallery" id="spots">
         <div className="gallery-head">
           <h2>Spots</h2>
           <span className="muted">{projects ? `${projects.length} project${projects.length === 1 ? '' : 's'}` : ''}</span>

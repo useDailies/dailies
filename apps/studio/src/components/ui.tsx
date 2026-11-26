@@ -16,6 +16,7 @@ const PATHS: Record<string, ReactNode> = {
   check: <path d="M5 12.5l4.2 4.2L19 7" />,
   x: <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" />,
   spark: <path d="M12 3.5l2 5.5 5.5 2-5.5 2-2 5.5-2-5.5-5.5-2 5.5-2z" />,
+  download: <path d="M12 4v11M7 10.5l5 5 5-5M5 20h14" />,
   eye: (
     <>
       <path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z" />

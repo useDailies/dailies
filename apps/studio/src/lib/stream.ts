@@ -384,6 +384,12 @@ export function useProjectStream(id: string | undefined, mode: 'live' | 'replay'
     return () => window.clearTimeout(t);
   }, [replayEvents, playing, cursor, speed]);
 
+  // A handle for scripted screen recordings (video/src/record.mjs): phase-aware speed ramps.
+  useEffect(() => {
+    if (!replayEvents) return;
+    (window as unknown as { __dailiesReplay?: unknown }).__dailiesReplay = { cursor, total: replayEvents.length, last: replayEvents[cursor - 1]?.type ?? null, setSpeed, playing };
+  }, [replayEvents, cursor, playing]);
+
   const replay: ReplayControls | null = useMemo(
     () =>
       replayEvents
