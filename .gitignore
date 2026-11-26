@@ -19,3 +19,5 @@ video/out/
 video/public/rec/
 data/
 video/.frames-wt/
+video/public/wt/*.mp4
+video/public/wt/claude-run.ndjson
