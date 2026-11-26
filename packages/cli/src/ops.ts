@@ -66,7 +66,8 @@ export async function review(root: string, trigger: 'mcp' | 'hook' | 'cli', clie
   let feedback = result.feedback;
   for (const s of result.sheets) {
     if (!s.image) continue;
-    const want = result.status === 'pass' ? images.length < 1 : result.failing.some((f) => f.cut === s.cut);
+    // On a pass, show every cut Kane judged (up to 3); on a failure, the cuts that failed.
+    const want = result.status === 'pass' ? images.length < 3 : result.failing.some((f) => f.cut === s.cut);
     if (!want) continue;
     const bytes = await fetchBytes(s.image);
     if (!bytes) continue;

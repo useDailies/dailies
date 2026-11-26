@@ -1,6 +1,13 @@
 /** `dailies login`: device authorization, so the token never passes through the terminal. */
 import { spawn } from 'node:child_process';
 import { hostname } from 'node:os';
+
+/** A label for Connected agents: the machine's name when it has one, never an IP address. */
+const machine = () => {
+  const h = hostname().replace(/\.local$/, '');
+  const os = process.platform === 'darwin' ? 'macOS' : process.platform === 'win32' ? 'Windows' : 'Linux';
+  return /^[\d.:]+$/.test(h) || !h ? os : `${h} (${os})`;
+};
 import { DEFAULT_SERVER, clearCredentials, credentialsPath, loadCredentials, saveCredentials } from './config.ts';
 
 export function openUrl(url: string) {
@@ -30,7 +37,7 @@ export async function beginLogin(server = DEFAULT_SERVER): Promise<DeviceStart> 
   const r = await fetch(`${server}/api/auth/device`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ client: `dailies on ${hostname()}` }),
+    body: JSON.stringify({ client: `dailies CLI · ${machine()}` }),
   }).catch((e) => {
     throw new Error(`Could not reach dailies at ${server} (${e.message}).`);
   });

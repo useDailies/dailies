@@ -7,7 +7,7 @@
       "name": "dailies",
       "source": "./plugins/dailies",
       "description": "dailies MCP server, Kane-gated Stop hook and the /dailies:video skill.",
-      "version": "0.1.0"
+      "version": "0.1.1"
     }
   ]
 }

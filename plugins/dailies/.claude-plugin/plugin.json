@@ -1,6 +1,6 @@
 {
   "name": "dailies",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Test-driven video. Claude writes the motion design as a Remotion composition; Kane CLI judges every frame against your storyboard, and Claude can't stop until it passes.",
   "author": { "name": "dailies" },
   "keywords": ["video", "remotion", "kane-cli", "testing", "motion-design"]

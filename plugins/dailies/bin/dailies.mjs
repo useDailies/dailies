@@ -7263,7 +7263,7 @@ import { join as join2, relative } from "node:path";
 import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-var VERSION = "0.1.0";
+var VERSION = "0.1.1";
 var DEFAULT_SERVER = process.env.DAILIES_SERVER ?? "http://localhost:5173";
 var HOME = process.env.DAILIES_HOME ?? join(homedir(), ".dailies");
 var CRED = join(HOME, "credentials.json");
@@ -7411,7 +7411,7 @@ async function review(root, trigger, client, summary2) {
   let feedback = result.feedback;
   for (const s of result.sheets) {
     if (!s.image) continue;
-    const want = result.status === "pass" ? images.length < 1 : result.failing.some((f) => f.cut === s.cut);
+    const want = result.status === "pass" ? images.length < 3 : result.failing.some((f) => f.cut === s.cut);
     if (!want) continue;
     const bytes = await fetchBytes(s.image);
     if (!bytes) continue;
@@ -7566,6 +7566,11 @@ function init(root, opts) {
 // src/login.ts
 import { spawn } from "node:child_process";
 import { hostname } from "node:os";
+var machine = () => {
+  const h = hostname().replace(/\.local$/, "");
+  const os = process.platform === "darwin" ? "macOS" : process.platform === "win32" ? "Windows" : "Linux";
+  return /^[\d.:]+$/.test(h) || !h ? os : `${h} (${os})`;
+};
 function openUrl(url) {
   if (process.env.DAILIES_NO_BROWSER) return;
   const cmd = process.platform === "darwin" ? "open" : process.platform === "win32" ? "cmd" : "xdg-open";
@@ -7580,7 +7585,7 @@ async function beginLogin(server = DEFAULT_SERVER) {
   const r = await fetch(`${server}/api/auth/device`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ client: `dailies on ${hostname()}` })
+    body: JSON.stringify({ client: `dailies CLI \xB7 ${machine()}` })
   }).catch((e) => {
     throw new Error(`Could not reach dailies at ${server} (${e.message}).`);
   });
@@ -28058,7 +28063,7 @@ async function runMcp() {
         const { result, images } = await review(root(), "mcp", client().name, a.note);
         const content = [{ type: "text", text: summary(result) }];
         if (result.status === "fail" || result.status === "compile_error" || result.status === "capped") content.push({ type: "text", text: result.feedback });
-        for (const img of images.slice(0, 2)) {
+        for (const img of images.slice(0, 3)) {
           content.push({ type: "text", text: `Contact sheet Kane judged for the ${img.ratio} cut (saved at ${img.path}):` });
           content.push({ type: "image", data: img.bytes.toString("base64"), mimeType: img.path.endsWith(".jpg") ? "image/jpeg" : "image/png" });
         }

@@ -3,7 +3,7 @@ import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'n
 import { homedir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 
-export const VERSION = '0.1.0';
+export const VERSION = '0.1.1';
 export const DEFAULT_SERVER = process.env.DAILIES_SERVER ?? 'http://localhost:5173';
 
 export interface Credentials {

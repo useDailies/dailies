@@ -113,7 +113,7 @@ export async function runMcp() {
         const { result, images } = await review(root(), 'mcp', client().name, a.note);
         const content: Content[] = [{ type: 'text', text: summary(result) }];
         if (result.status === 'fail' || result.status === 'compile_error' || result.status === 'capped') content.push({ type: 'text', text: result.feedback });
-        for (const img of images.slice(0, 2)) {
+        for (const img of images.slice(0, 3)) {
           content.push({ type: 'text', text: `Contact sheet Kane judged for the ${img.ratio} cut (saved at ${img.path}):` });
           content.push({ type: 'image', data: img.bytes.toString('base64'), mimeType: img.path.endsWith('.jpg') ? 'image/jpeg' : 'image/png' });
         }

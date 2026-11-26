@@ -202,7 +202,8 @@ export function Card({ p }: { p: Project }) {
   const { comp } = useComposition(latest ? p.id : undefined, latest);
   const final = summarize(verdictMap(p, latest).values());
   const wv = worstVersion(p);
-  const before = wv && wv !== latest ? summarize(verdictMap(p, wv).values()) : null;
+  const was = wv && wv !== latest ? summarize(verdictMap(p, wv).values()) : null;
+  const before = was && was.fail ? was : null;
   const fixed = corrections(p).filter((f) => f.fixedIn).length;
   const spec = CUTS['16x9'];
   return (
