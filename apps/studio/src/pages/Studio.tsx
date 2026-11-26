@@ -65,6 +65,18 @@ export default function Studio() {
   const score = useMemo(() => summarize(cells.values()), [cells]);
   const fixes = useMemo(() => corrections(project), [project]);
   const openFixes = fixes.filter((f) => !f.fixedIn).length;
+  // Frames the sheet's measurements named for checks failing on the version on screen.
+  const flagged = useMemo(() => {
+    if (!project) return [];
+    const out = new Set<string>();
+    for (const [k, c] of cells) {
+      if (c.state !== 'fail' || !k.endsWith(`@${cut}`) || !c.round) continue;
+      for (const f of c.frames ?? []) out.add(f);
+      const ev = sheetEvidence(project, c.round, cut, project.plan?.criteria.find((x) => x.id === c.ac)?.text ?? '');
+      for (const m of (ev ?? '').matchAll(/\bF\d+\b/g)) out.add(m[0]);
+    }
+    return [...out];
+  }, [project, cells, cut]);
 
   // Moments worth a toast.
   const lastSeq = useRef(0);
@@ -369,6 +381,7 @@ export default function Studio() {
                 playhead={playhead}
                 onClose={() => setStrip(false)}
                 version={state.round && !state.round.done ? state.round.version : judgedVersion}
+                flagged={flagged}
               />
             ) : null}
             {compError && comp ? <div className="compile-err">Claude’s latest edit doesn’t compile yet — showing the last good frame</div> : null}

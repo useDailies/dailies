@@ -140,6 +140,7 @@ export function FilmStrip({
   playhead,
   onClose,
   version,
+  flagged = [],
 }: {
   comp: LoadedComposition;
   cut: CutId;
@@ -151,6 +152,8 @@ export function FilmStrip({
   playhead: Playhead;
   onClose: () => void;
   version: number | 'live' | null;
+  /** frame labels the sheet's measurements named for a failing check */
+  flagged?: string[];
 }) {
   const spec = CUTS[cut];
   const [avail, setAvail] = useState(900);
@@ -192,7 +195,8 @@ export function FilmStrip({
       </button>
       {frames.map((fr) => {
         const pins = perFrame.get(fr.label) ?? [];
-        const worst = pins.some((p) => p.state === 'fail') ? 'fail' : pins.length && pins.every((p) => p.state === 'pass') ? 'pass' : '';
+        const isFlagged = !judging && flagged.includes(fr.label);
+        const worst = isFlagged || pins.some((p) => p.state === 'fail') ? 'fail' : pins.length && pins.every((p) => p.state === 'pass') ? 'pass' : '';
         const nearest = frames.reduce((a, b) => (Math.abs(b.frame - f) < Math.abs(a.frame - f) ? b : a), frames[0]);
         return (
           <button
@@ -213,9 +217,9 @@ export function FilmStrip({
               style={{ width: w, height: h }}
             />
             <span className="fs-tc">{fr.timecode}</span>
-            {pins.some((p) => p.state === 'fail' || p.state === 'pass') ? (
+            {isFlagged || pins.some((p) => p.state === 'fail' || p.state === 'pass') ? (
               <span className="fs-pins">
-                {pins.some((p) => p.state === 'fail') ? <VMark state="fail" /> : <VMark state="pass" />}
+                {worst === 'fail' ? <VMark state="fail" /> : <VMark state="pass" />}
               </span>
             ) : null}
           </button>
