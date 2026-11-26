@@ -18,6 +18,8 @@ And nobody reviews it. AI-written code got type checks, CI and Kane CLI clicking
 
 Everyone used Kane to test their code. I’m a designer, and I used it to test what the code makes.
 
+Kane CLI has earned its place checking the software teams ship: forms, flows, checkouts. AI-generated motion video is a domain nothing has been asked to verify yet, and it is arriving fast. dailies is Kane’s first step into it. The same agentic judgement, pointed at the frames an agent renders instead of the screens a user clicks.
+
 ![The dailies studio: Kane caught the wordmark in the 9:16 platform band on frames F6–F9 of Claude’s draft](docs/media/06-correction.png)
 
 <sub>A real recorded run. Claude Opus 5.5’s draft put the KESTREL wordmark in the bottom 35% of the 9:16 cut, where Reels and TikTok draw their UI. Kane failed it on F6–F9, Claude fixed it, and Kane re-verified.</sub>
@@ -58,7 +60,7 @@ Everyone used Kane to test their code. I’m a designer, and I used it to test w
 
 ## What it is
 
-A light, minimal video editor for video written as code, with two agents and one storyboard:
+A light, minimal video editor for video written as code, with two agents and one storyboard. Kane CLI's role here is new: it isn't checking that an app behaves, it's checking that a film says and shows what the brief asked for.
 
 | | Claude Code | Kane CLI |
 | --- | --- | --- |
@@ -91,7 +93,7 @@ The storyboard is the PRD:
 - `kane-cli design tests` produces acceptance criteria with oracles, plus one `_test.md` per scenario.
 - `kane-cli cover` reports proven vs owed for each criterion.
 
-On top of that, Kane judges every criterion on every cut after every change. The result goes straight back to the coding agent through Claude Code’s Stop hook, so the app verifies itself.
+On top of that, Kane judges every criterion on every cut after every change. The result goes straight back to the coding agent through Claude Code’s Stop hook, so the app verifies itself. The requirements are a creative brief instead of a spec, and the thing under test is a rendered frame instead of a page, but Kane’s workflow carries over unchanged.
 
 ## Important links
 
@@ -329,7 +331,7 @@ In plain English, end to end:
 
 ## Kane CLI at the core
 
-Everything that decides whether a frame is right is Kane CLI. dailies opens pages and keeps score.
+Everything that decides whether a frame is right is Kane CLI. dailies opens pages and keeps score. Each command below is one Kane already ships; what's new is what it's asked to judge.
 
 ### Command map
 
