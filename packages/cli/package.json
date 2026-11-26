@@ -15,11 +15,9 @@
     "build": "node build.mjs",
     "typecheck": "tsc --noEmit -p ."
   },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.17.0",
-    "zod": "^4.0.0"
-  },
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.0",
+    "zod": "^4.0.0",
     "esbuild": "^0.24.0",
     "@types/node": "^22.10.0"
   },

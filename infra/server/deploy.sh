@@ -56,7 +56,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=full
 ProtectHome=false
-ReadWritePaths=/var/lib/dailies /home/dailies /opt/dailies /opt/dailies.next /tmp
+ReadWritePaths=/var/lib/dailies /home/dailies /opt/dailies /tmp
 
 [Install]
 WantedBy=multi-user.target
