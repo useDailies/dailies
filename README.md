@@ -3,6 +3,7 @@
 <p align="center"><b>Every frame, proven.</b></p>
 
 <p align="center">
+  <a href="https://www.youtube.com/watch?v=81TWKKTlywI">Demo video</a> ·
   <a href="https://daohbofm7o9ia.cloudfront.net/">Live app</a> ·
   <a href="https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4">Watch the film</a> ·
   <a href="https://drive.google.com/file/d/1Uzh2ox1cZYMF7464OTAxziFjt6V8HMTe/view?usp=sharing">See walkthrough</a> ·
@@ -12,6 +13,7 @@
 </p>
 
 <p align="center">
+  <a href="https://www.youtube.com/watch?v=81TWKKTlywI"><img alt="Demo video on YouTube" src="https://img.shields.io/badge/demo-YouTube-FF0000"></a>
   <a href="https://www.npmjs.com/package/@usedailies/cli"><img alt="npm" src="https://img.shields.io/npm/v/@usedailies/cli?label=%40usedailies%2Fcli&color=5B4BDB"></a>
   <a href="https://daohbofm7o9ia.cloudfront.net/docs/mcp"><img alt="MCP server" src="https://img.shields.io/badge/MCP-server-3B82F6"></a>
   <a href="https://github.com/useDailies/dailies/tree/main/plugins/dailies"><img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude%20Code-plugin-D97757"></a>
@@ -34,8 +36,20 @@ Kane CLI has earned its place checking the software teams ship: forms, flows, ch
 
 <sub>A real recorded run. Claude Opus 5.5’s draft put the KESTREL wordmark in the bottom 35% of the 9:16 cut, where Reels and TikTok draw their UI. Kane failed it on F6–F9, Claude fixed it, and Kane re-verified.</sub>
 
+## For judges: 30 seconds
+
+| | |
+| --- | --- |
+| **Watch** | [The demo video](https://www.youtube.com/watch?v=81TWKKTlywI) (4:48): the idea, then one real run on the live app, start to finish |
+| **See it run, no install** | [Replay a recorded run](https://daohbofm7o9ia.cloudfront.net/p/kestrel-runner-launch-spot-a3eb?replay=1) in the live app, with its real timing |
+| **Kane caught a bug** | [The failed round](docs/kane-runs/kestrel-runner-launch-spot-a3eb/rounds/r1-f084.json): 61/62 on Claude’s draft, the KESTREL wordmark in the 9:16 bottom band on F6–F9 ([Kane’s verdicts](docs/kane-runs/kestrel-runner-launch-spot-a3eb/README.md#every-check-kane-failed)) |
+| **Kane proved the fix** | [The green round](docs/kane-runs/kestrel-runner-launch-spot-a3eb/rounds/r3-e37c.json): 62/62 after Claude’s fix, re-checked on every cut |
+| **Agent ↔ Kane loop** | The Stop hook blocks Claude with Kane’s findings until every check passes: [`apps/server/src/pipeline.ts`](apps/server/src/pipeline.ts#L268) (studio) and [`packages/cli/src/hook.ts`](packages/cli/src/hook.ts#L40) (your own Claude Code or Cursor) |
+| **Try it yourself** | [Create an account](https://daohbofm7o9ia.cloudfront.net/), then `claude plugin marketplace add useDailies/dailies`, `claude plugin install dailies@dailies`, `npx @usedailies/cli login`, `/dailies:video`. No credentials needed: Kane runs on the dailies server |
+
 ## Table of contents
 
+- [For judges: 30 seconds](#for-judges-30-seconds)
 - [What it is](#what-it-is)
 - [Who it is for](#who-it-is-for)
 - [Lane](#lane)
@@ -110,6 +124,7 @@ On top of that, Kane judges every criterion on every cut after every change. The
 | --- | --- |
 | **Live app** (sign up, connect your agent, watch recorded runs) | [daohbofm7o9ia.cloudfront.net](https://daohbofm7o9ia.cloudfront.net/) |
 | **The film** (2:41: the pitch, the walkthrough, and a guide to using dailies from Claude Code) | [watch](https://daohbofm7o9ia.cloudfront.net/media/dailies-ad.mp4) |
+| **Demo video** (4:48 on YouTube: the idea, then one real run start to finish) | [watch on YouTube](https://www.youtube.com/watch?v=81TWKKTlywI) |
 | **Walkthrough** (2:32: one real run on the hosted app, recorded as it happened, with a plain voiceover) | [see walkthrough](https://drive.google.com/file/d/1Uzh2ox1cZYMF7464OTAxziFjt6V8HMTe/view?usp=sharing) |
 | **npm CLI**: link any coding agent to dailies | [`@usedailies/cli`](https://www.npmjs.com/package/@usedailies/cli) · `npx @usedailies/cli login` · [CLI README](packages/cli/README.md) |
 | **Claude Code plugin** (MCP server + Kane-gated Stop hook + `/dailies:video`) | `claude plugin marketplace add useDailies/dailies` → `claude plugin install dailies@dailies` · [`plugins/dailies`](plugins/dailies) |
