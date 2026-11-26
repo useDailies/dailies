@@ -50,7 +50,9 @@ export function worstVersion(project: Project | null): number | null {
   let worst: { v: number; pass: number } | null = null;
   for (const v of [...new Set(project.rounds.map((r) => r.version))]) {
     const s = summarize(verdictMap(project, v).values());
-    if (!worst || s.pass < worst.pass) worst = { v, pass: s.pass };
+    // "Before Kane" is the version with the most checks Kane actually failed.
+    const score = s.total - s.fail;
+    if (!worst || score < worst.pass) worst = { v, pass: score };
   }
   return worst?.v ?? null;
 }

@@ -45,7 +45,7 @@ export function AgentChips({ claudeActive, kaneActive }: { claudeActive?: boolea
       <span className={`avatar claude ${claudeActive ? 'active' : ''}`} title={h?.claude.version ?? 'Claude Code not found'}>
         <Face who="claude" />
         Claude Code
-        <em>{h ? (h.claude.installed ? h.claude.model : 'missing') : '…'}</em>
+        <em>{h ? (h.drafting === false ? 'your agent' : h.claude.installed ? h.claude.model : 'missing') : '…'}</em>
       </span>
       <span className={`avatar kane ${kaneActive ? 'active' : ''}`} title={h?.kane.version ? `kane-cli ${h.kane.version} · ${h.kane.user}` : 'Kane CLI'}>
         <Face who="kane" />

@@ -109,9 +109,11 @@ export function corrections(project: Project | null): Correction[] {
       hist.get(k)!.history.push({ round: r.id, version: r.version, kind: r.kind, verdict: res.verdict, reason: res.reason, frames: res.frames });
     }
   }
-  const out = [...hist.values()].filter((h) => h.history.some((x) => x.verdict !== 'pass'));
+  // A correction is a check Kane judged as failing. "unknown" (Kane could not judge,
+  // e.g. an infrastructure error) is not a defect the loop fixed.
+  const out = [...hist.values()].filter((h) => h.history.some((x) => x.verdict === 'fail'));
   for (const h of out) {
-    const lastFail = h.history.map((x) => x.verdict !== 'pass').lastIndexOf(true);
+    const lastFail = h.history.map((x) => x.verdict === 'fail').lastIndexOf(true);
     const after = h.history.slice(lastFail + 1).find((x) => x.verdict === 'pass');
     h.fixedIn = after ? after.version : null;
   }
