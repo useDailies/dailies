@@ -1,0 +1,172 @@
+/* The contact sheet Kane CLI judges. Kept apart from the studio theme on purpose:
+   its look is part of what Kane's conditions and designed tests were written against. */
+.safe-bands {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.safe-bands i {
+  position: absolute;
+  background: repeating-linear-gradient(135deg, rgba(255, 64, 120, 0.32) 0 6px, rgba(255, 64, 120, 0.16) 6px 12px);
+  outline: 1px solid rgba(255, 64, 120, 0.6);
+}
+.sheet-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  height: 116px;
+  border-bottom: 1px solid #333;
+  margin-bottom: 12px;
+}
+.sheet-title {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+.sheet-title strong {
+  font-size: 17px;
+}
+.sheet-title span {
+  font-size: 13px;
+  color: #bbb;
+}
+.sheet-meta {
+  display: flex;
+  gap: 18px;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+.sheet-meta dt {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  color: #999;
+  letter-spacing: 0.05em;
+}
+.sheet-meta dd {
+  margin: 2px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.sheet-shots dd {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  font-weight: 500;
+}
+.sheet-toggle {
+  border: 1px solid #555;
+  background: #26262c;
+  color: #fff;
+  padding: 7px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+}
+.sheet-toggle.on {
+  border-color: #ff4078;
+  color: #ff8fb0;
+}
+.sheet-ready {
+  font-size: 13px;
+  font-weight: 700;
+  color: #aaa;
+}
+.sheet-ready.ok {
+  color: #3ef0a1;
+}
+.sheet-grid {
+  display: grid;
+  gap: 14px;
+  justify-content: center;
+}
+.sheet-frame {
+  margin: 0;
+}
+.sheet-frame figcaption {
+  display: flex;
+  justify-content: space-between;
+  height: 22px;
+  font-size: 13px;
+}
+.sheet-frame figcaption span {
+  color: #888;
+  font-size: 11px;
+}
+.sheet-box {
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  outline: 1px solid #444;
+}
+.sheet-error {
+  color: #ff8fa2;
+  background: #2a1016;
+  padding: 16px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+}
+.sheet-facts {
+  margin-top: 40px;
+}
+.sheet-facts h2 {
+  font-size: 16px;
+}
+.sheet-facts p {
+  color: #aaa;
+  font-size: 13px;
+}
+.sheet-facts table {
+  border-collapse: collapse;
+  font-size: 13px;
+  width: 100%;
+}
+.sheet-facts th,
+.sheet-facts td {
+  border: 1px solid #3a3a40;
+  padding: 4px 8px;
+  text-align: left;
+}
+.sheet-facts td.t {
+  font-weight: 700;
+}
+.sheet-facts td.n {
+  font-family: monospace;
+  color: #aaa;
+}
+.sheet-report {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 22px;
+  font-size: 12.5px;
+  margin: -4px 0 10px;
+  color: #ccc;
+}
+.sheet-report b {
+  width: 100%;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #999;
+}
+.sheet-report em {
+  font-style: normal;
+  font-weight: 700;
+  color: #fff;
+}
+.sheet-flags {
+  font-size: 11px;
+  height: 18px;
+  line-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sheet-flags.ok {
+  color: #6fbf98;
+}
+.sheet-flags.bad {
+  color: #ff7a93;
+  font-weight: 700;
+}

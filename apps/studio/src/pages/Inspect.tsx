@@ -5,6 +5,7 @@ import { CUTS, isCutId, parseStoryboard, sampleFrames, formatTimecode, type CutI
 import { api } from '../lib/api';
 import { useComposition } from '../lib/composition';
 import { measureLayers, type LayerFact } from '../lib/facts';
+import '../sheet.css';
 
 /**
  * The inspection surface Kane CLI looks at. Its contract is written to
